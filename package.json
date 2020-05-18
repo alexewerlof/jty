@@ -1,7 +1,7 @@
 {
   "name": "jty",
   "version": "1.0.0",
-  "description": "",
+  "description": "A minimal type checking library that I need in various projects for safer programming",
   "main": "index.js",
   "type": "commonjs",
   "types": "index.d.ts",
