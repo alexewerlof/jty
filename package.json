@@ -1,6 +1,6 @@
 {
   "name": "jty",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A minimal type checking library that I need in various projects for safer programming",
   "main": "index.js",
   "type": "commonjs",
@@ -13,7 +13,14 @@
     "type": "git",
     "url": "https://github.com/userpixel/jty.git"
   },
-  "keywords": ["javascript", "language", "type check", "defensive programming", "security", "verification"],
+  "keywords": [
+    "javascript",
+    "language",
+    "type check",
+    "defensive programming",
+    "security",
+    "verification"
+  ],
   "author": "",
   "license": "ISC",
   "devDependencies": {
