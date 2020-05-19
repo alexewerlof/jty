@@ -1,4 +1,4 @@
-const { isObj, isFn, isStr, isNum, isBool, isArr, isDef, isUndef } = require('./index');
+const { isObj, isFn, isStr, isNum, isBool, isArr, isDef, isUndef, isProp, isDefProp } = require('./index');
 
 const noop = () => void 0
 
@@ -141,3 +141,40 @@ describe('isUndef', () => {
         expect(isUndef(undefined)).toBe(true)
     })
 });
+
+describe('isProp()', () => {
+    it('returns true if the object has that property', () => {
+        expect(isProp({ foo: 'bar' }, 'foo')).toBe(true)
+    })
+
+    it('returns true if the object has that property and the value is an object', () => {
+        expect(isProp({ foo: { bar: 'qux' } }, 'foo')).toBe(true)
+    })
+
+    it('returns true if the object has that property even if the value is undefined', () => {
+        expect(isProp({ foo: undefined }, 'foo')).toBe(true)
+    })
+
+    it('returns false if the property name is missing', () => {
+        expect(isProp({ foo: 'bar' })).toBe(false)
+    })
+
+    it('works correctly if the object has a key that is "undefined"', () => {
+        expect(isProp({ 'undefined': 'yes' })).toBe(true)
+    })
+
+    it('returns false for "prototype"', () => {
+        expect(isProp({}, 'prototype')).toBe(false)
+        expect(isProp({}, '__proto__')).toBe(false)
+    })
+
+    it('woks for arrays', () => {
+        expect(isProp([1, 2, 3], 1)).toBe(true)
+        expect(isProp([1, 2, 3], -1)).toBe(false)
+        expect(isProp([1, 2, 3], 0)).toBe(true)
+        expect(isProp([1, 2, 3], '0')).toBe(true)
+        expect(isProp([1, 2, 3], '1')).toBe(true)
+        expect(isProp([1, 2, 3], '-1')).toBe(false)
+        expect(isProp([1, 2, 3], 'length')).toBe(true)
+    })
+})

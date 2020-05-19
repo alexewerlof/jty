@@ -30,4 +30,8 @@ function isUndef(x) {
   return x === undefined
 }
 
-module.exports = { isObj, isFn, isStr, isNum, isBool, isArr, isDef, isUndef };
+function isProp(obj, propName) {
+  return isObj(obj) && Object.prototype.hasOwnProperty.call(obj, propName)
+}
+
+module.exports = { isObj, isFn, isStr, isNum, isBool, isArr, isDef, isUndef, isProp };
