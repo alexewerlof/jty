@@ -1,5 +1,5 @@
 function isObj(x) {
-  return Boolean(x) && typeof x === "object";
+  return x !== null && typeof x === "object";
 }
 
 function isFn(x) {
@@ -14,6 +14,10 @@ function isNum(x) {
   return Number.isFinite(x);
 }
 
+function isInt(x) {
+  return Number.isInteger(x);
+}
+
 function isBool(x) {
   return typeof x === "boolean";
 }
@@ -23,15 +27,15 @@ function isArr(x, minLength = 0) {
 }
 
 function isDef(x) {
-  return x !== undefined
+  return x !== undefined;
 }
 
 function isUndef(x) {
-  return x === undefined
+  return x === undefined;
 }
 
-function isProp(obj, propName) {
-  return isObj(obj) && Object.prototype.hasOwnProperty.call(obj, propName)
+function isProp(x, propName) {
+  return isObj(x) && Object.prototype.hasOwnProperty.call(x, propName);
 }
 
-module.exports = { isObj, isFn, isStr, isNum, isBool, isArr, isDef, isUndef, isProp };
+module.exports = { isObj, isFn, isStr, isNum, isInt, isBool, isArr, isDef, isUndef, isProp }
