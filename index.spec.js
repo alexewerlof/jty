@@ -1,4 +1,4 @@
-const { isObj, isFn, isStr, isNum, isBool, isArr, isDef, isUndef, isProp, isOProp } = require('./index')
+const { isObj, isFn, isStr, isNum, isBool, isArr, isDef, isUndef, hasProp, hasOProp } = require('./index')
 
 const noop = () => void 0
 
@@ -142,42 +142,42 @@ describe('isUndef', () => {
     })
 })
 
-describe('isProp()', () => {
+describe('hasProp()', () => {
     it('returns true if the object has that property', () => {
-        expect(isProp({ foo: 'bar' }, 'foo')).toBe(true)
+        expect(hasProp({ foo: 'bar' }, 'foo')).toBe(true)
     })
 
     it('returns true if the object has that property and the value is an object', () => {
-        expect(isProp({ foo: { bar: 'qux' } }, 'foo')).toBe(true)
+        expect(hasProp({ foo: { bar: 'qux' } }, 'foo')).toBe(true)
     })
 
     it('returns true if the object has that property even if the value is undefined', () => {
-        expect(isProp({ foo: undefined }, 'foo')).toBe(true)
+        expect(hasProp({ foo: undefined }, 'foo')).toBe(true)
     })
 
     it('returns false if the property name is missing', () => {
-        expect(isProp({ foo: 'bar' })).toBe(false)
+        expect(hasProp({ foo: 'bar' })).toBe(false)
     })
 
     it('works correctly if the object has a key that is named "undefined"', () => {
-        expect(isProp({ undefined: 'one' })).toBe(false)
-        expect(isProp({ undefined: 'thress' }, undefined)).toBe(false)
-        expect(isProp({ undefined: 'two' }, 'undefined')).toBe(true)
+        expect(hasProp({ undefined: 'one' })).toBe(false)
+        expect(hasProp({ undefined: 'thress' }, undefined)).toBe(false)
+        expect(hasProp({ undefined: 'two' }, 'undefined')).toBe(true)
 
     })
 
     it('returns true for "__proto__"', () => {
-        expect(isProp({}, '__proto__')).toBe(true)
+        expect(hasProp({}, '__proto__')).toBe(true)
     })
 
     it('woks for arrays', () => {
-        expect(isProp([1, 2, 3], 1)).toBe(true)
-        expect(isProp([1, 2, 3], -1)).toBe(false)
-        expect(isProp([1, 2, 3], 0)).toBe(true)
-        expect(isProp([1, 2, 3], '0')).toBe(true)
-        expect(isProp([1, 2, 3], '1')).toBe(true)
-        expect(isProp([1, 2, 3], '-1')).toBe(false)
-        expect(isProp([1, 2, 3], 'length')).toBe(true)
+        expect(hasProp([1, 2, 3], 1)).toBe(true)
+        expect(hasProp([1, 2, 3], -1)).toBe(false)
+        expect(hasProp([1, 2, 3], 0)).toBe(true)
+        expect(hasProp([1, 2, 3], '0')).toBe(true)
+        expect(hasProp([1, 2, 3], '1')).toBe(true)
+        expect(hasProp([1, 2, 3], '-1')).toBe(false)
+        expect(hasProp([1, 2, 3], 'length')).toBe(true)
     })
 
     it('returns true for getter properties', () => {
@@ -188,7 +188,7 @@ describe('isProp()', () => {
         }
 
         const a = new A
-        expect(isProp(a, 'b')).toBe(true)
+        expect(hasProp(a, 'b')).toBe(true)
     })
 
     it('works on property chains', () => {
@@ -204,8 +204,8 @@ describe('isProp()', () => {
                 ]
             }
         }
-        expect(isProp(obj, 'a', 'b', 0, 'c0')).toBe(true)
-        expect(isProp(obj, 'a', 'b', '1', 'c1')).toBe(true)
+        expect(hasProp(obj, 'a', 'b', 0, 'c0')).toBe(true)
+        expect(hasProp(obj, 'a', 'b', '1', 'c1')).toBe(true)
     })
     
     it('works on property chains with prototypes', () => {
@@ -221,45 +221,45 @@ describe('isProp()', () => {
                 ]
             })
         }
-        expect(isProp(obj, 'a', 'b', 0, 'c0')).toBe(true)
-        expect(isProp(obj, 'a', 'b', '1', 'c1')).toBe(true)
+        expect(hasProp(obj, 'a', 'b', 0, 'c0')).toBe(true)
+        expect(hasProp(obj, 'a', 'b', '1', 'c1')).toBe(true)
     })
 })
 
-describe('isOProp()', () => {
+describe('hasOProp()', () => {
     it('returns true if the object has that property', () => {
-        expect(isOProp({ foo: 'bar' }, 'foo')).toBe(true)
+        expect(hasOProp({ foo: 'bar' }, 'foo')).toBe(true)
     })
 
     it('returns true if the object has that property and the value is an object', () => {
-        expect(isOProp({ foo: { bar: 'qux' } }, 'foo')).toBe(true)
+        expect(hasOProp({ foo: { bar: 'qux' } }, 'foo')).toBe(true)
     })
 
     it('returns true if the object has that property even if the value is undefined', () => {
-        expect(isOProp({ foo: undefined }, 'foo')).toBe(true)
+        expect(hasOProp({ foo: undefined }, 'foo')).toBe(true)
     })
 
     it('returns false if the property name is missing', () => {
-        expect(isOProp({ foo: 'bar' })).toBe(false)
+        expect(hasOProp({ foo: 'bar' })).toBe(false)
     })
 
     it('works correctly if the object has a key that is named "undefined"', () => {
-        expect(isOProp({ 'undefined': 'yes' }, 'undefined')).toBe(true)
+        expect(hasOProp({ 'undefined': 'yes' }, 'undefined')).toBe(true)
     })
 
     it('returns false for "prototype"', () => {
-        expect(isOProp({}, 'prototype')).toBe(false)
-        expect(isOProp({}, '__proto__')).toBe(false)
+        expect(hasOProp({}, 'prototype')).toBe(false)
+        expect(hasOProp({}, '__proto__')).toBe(false)
     })
 
     it('woks for arrays', () => {
-        expect(isOProp([1, 2, 3], 1)).toBe(true)
-        expect(isOProp([1, 2, 3], -1)).toBe(false)
-        expect(isOProp([1, 2, 3], 0)).toBe(true)
-        expect(isOProp([1, 2, 3], '0')).toBe(true)
-        expect(isOProp([1, 2, 3], '1')).toBe(true)
-        expect(isOProp([1, 2, 3], '-1')).toBe(false)
-        expect(isOProp([1, 2, 3], 'length')).toBe(true)
+        expect(hasOProp([1, 2, 3], 1)).toBe(true)
+        expect(hasOProp([1, 2, 3], -1)).toBe(false)
+        expect(hasOProp([1, 2, 3], 0)).toBe(true)
+        expect(hasOProp([1, 2, 3], '0')).toBe(true)
+        expect(hasOProp([1, 2, 3], '1')).toBe(true)
+        expect(hasOProp([1, 2, 3], '-1')).toBe(false)
+        expect(hasOProp([1, 2, 3], 'length')).toBe(true)
     })
 
     it('returns false for getter properties because they use prototype inheritence', () => {
@@ -270,7 +270,7 @@ describe('isOProp()', () => {
         }
 
         const a = new A
-        expect(isOProp(a, 'b')).toBe(false)
+        expect(hasOProp(a, 'b')).toBe(false)
     })
 
     it('works on property chains', () => {
@@ -286,8 +286,8 @@ describe('isOProp()', () => {
                 ]
             }
         }
-        expect(isOProp(obj, 'a', 'b', 0, 'c0')).toBe(true)
-        expect(isOProp(obj, 'a', 'b', '1', 'c1')).toBe(true)
+        expect(hasOProp(obj, 'a', 'b', 0, 'c0')).toBe(true)
+        expect(hasOProp(obj, 'a', 'b', '1', 'c1')).toBe(true)
     })
     
     it('does not honor property chains with prototypes', () => {
@@ -303,7 +303,7 @@ describe('isOProp()', () => {
                 ]
             })
         }
-        expect(isOProp(obj, 'a', 'b', 0, 'c0')).toBe(false)
-        expect(isOProp(obj, 'a', 'b', '1', 'c1')).toBe(false)
+        expect(hasOProp(obj, 'a', 'b', 0, 'c0')).toBe(false)
+        expect(hasOProp(obj, 'a', 'b', '1', 'c1')).toBe(false)
     })
 })

@@ -34,7 +34,7 @@ function isUndef(x) {
   return x === undefined;
 }
 
-function isProp(x, ...propNames) {
+function hasProp(x, ...propNames) {
   let scope = x
   if (propNames.length === 0) {
     return false
@@ -49,7 +49,7 @@ function isProp(x, ...propNames) {
   return true
 }
 
-function isOProp(x, ...propNames) {
+function hasOProp(x, ...propNames) {
   let scope = x
   if (propNames.length === 0) {
     return false
@@ -64,4 +64,4 @@ function isOProp(x, ...propNames) {
   return true
 }
 
-module.exports = { isObj, isFn, isStr, isNum, isInt, isBool, isArr, isDef, isUndef, isProp, isOProp }
+module.exports = { isObj, isFn, isStr, isNum, isInt, isBool, isArr, isDef, isUndef, hasProp, hasOProp }

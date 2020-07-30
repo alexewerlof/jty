@@ -7,5 +7,5 @@ export declare function isBool(x: unknown): x is number;
 export declare function isArr<T>(x: unknown, minLength?: number): x is Array<T>[];
 export declare function isDef(x: unknown): boolean;
 export declare function isUndef(x: unknown): x is undefined;
-export declare function isProp(x: unknown, propName: string | number | symbol): x is object;
-export declare function isOProp(x: unknown, propName: string | number | symbol): x is object;
+export declare function hasProp(x: unknown, propName: string | number | symbol): x is object;
+export declare function hasOProp(x: unknown, propName: string | number | symbol): x is object;
