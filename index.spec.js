@@ -61,6 +61,10 @@ describe('isStr', () => {
     })
 
     it('can match length range', () => {
+        expect(isStr('Hello', undefined, 6)).toBe(true)
+        expect(isStr('Hello', 0, 6)).toBe(true)
+        expect(isStr('Hello', -1, 6)).toBe(true)
+        expect(isStr('Hello', -1.1, 5.1)).toBe(true)
         expect(isStr('Hello', 5, 6)).toBe(true)
         expect(isStr('Hello', 4, 6)).toBe(true)
         expect(isStr('Hello', 4, 5)).toBe(false)
@@ -120,6 +124,18 @@ describe('isArr', () => {
 
     it('returns false for a non-array value', () => {
         expect(isArr({})).toBe(false)
+    })
+
+    it('checks the len range', () => {
+        const arr2 = [1, 2]
+        expect(isArr(arr2, undefined)).toBe(true)
+        expect(isArr(arr2, 0)).toBe(false)
+        expect(isArr(arr2, 1)).toBe(false)
+        expect(isArr(arr2, 2)).toBe(true)
+        expect(isArr(arr2, 2, 3)).toBe(true)
+        expect(isArr(arr2, 2, 10)).toBe(true)
+        expect(isArr(arr2, 0, 3)).toBe(true)
+        expect(isArr(arr2, 0, 2)).toBe(false)
     })
 })
 

@@ -1,3 +1,15 @@
+function checkRange(n, min, max) {
+  if (isDef(min)) {
+    if (isDef(max)) {
+      return min <= n && n < max
+    }
+    return n === min
+  } else if (isDef(max)) {
+    return n < max
+  }
+  return true
+}
+
 function isObj(x) {
   return x !== null && typeof x === "object";
 }
@@ -7,17 +19,7 @@ function isFn(x) {
 }
 
 function isStr(x, minLength, maxLength) {
-  if (typeof x !== "string") {
-    return false
-  }
-  const len = x.length
-  if (isDef(minLength)) {
-    if (isDef(maxLength)) {
-      return minLength <= len && len < maxLength
-    }
-    return len === minLength
-  }
-  return true
+  return typeof x === "string" && checkRange(x.length, minLength, maxLength)
 }
 
 function isNum(x) {
@@ -32,8 +34,8 @@ function isBool(x) {
   return typeof x === "boolean";
 }
 
-function isArr(x, minLength = 0) {
-  return Array.isArray(x) && x.length >= minLength;
+function isArr(x, minLength, maxLength) {
+  return Array.isArray(x) && checkRange(x.length, minLength, maxLength)
 }
 
 function isDef(x) {
