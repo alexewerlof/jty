@@ -34,8 +34,34 @@ function isUndef(x) {
   return x === undefined;
 }
 
-function isProp(x, propName) {
-  return isObj(x) && Object.prototype.hasOwnProperty.call(x, propName);
+function isProp(x, ...propNames) {
+  let scope = x
+  if (propNames.length === 0) {
+    return false
+  }
+  for (let propName of propNames) {
+    if (propName !== undefined && isObj(scope) && (propName in scope)) {
+      scope = scope[propName]
+    } else {
+      return false
+    }
+  }
+  return true
 }
 
-module.exports = { isObj, isFn, isStr, isNum, isInt, isBool, isArr, isDef, isUndef, isProp }
+function isOProp(x, ...propNames) {
+  let scope = x
+  if (propNames.length === 0) {
+    return false
+  }
+  for (let propName of propNames) {
+    if (propName !== undefined && isObj(scope) && Object.prototype.hasOwnProperty.call(scope, propName)) {
+      scope = scope[propName]
+    } else {
+      return false
+    }
+  }
+  return true
+}
+
+module.exports = { isObj, isFn, isStr, isNum, isInt, isBool, isArr, isDef, isUndef, isProp, isOProp }

@@ -1,4 +1,4 @@
-const { isObj, isFn, isStr, isNum, isBool, isArr, isDef, isUndef, isProp, isDefProp } = require('./index');
+const { isObj, isFn, isStr, isNum, isBool, isArr, isDef, isUndef, isProp, isOProp } = require('./index')
 
 const noop = () => void 0
 
@@ -14,7 +14,7 @@ describe('isObj', () => {
     it('returns false for null', () => {
         expect(isObj(null)).toBe(false)
     })
-});
+})
 
 describe('isFn', () => {
     it('returns true for a function', () => {
@@ -34,7 +34,7 @@ describe('isFn', () => {
     it('returns false for an object', () => {
         expect(isFn({})).toBe(false)
     })
-});
+})
 
 describe('isStr', () => {
     it('returns true for a string', () => {
@@ -58,7 +58,7 @@ describe('isStr', () => {
         expect(isStr('Hello', 5)).toBe(true)
         expect(isStr('Hello', 6)).toBe(false)
     })
-});
+})
 
 describe('isNum', () => {
     it('returns true when the value is a number', () => {
@@ -79,7 +79,7 @@ describe('isNum', () => {
         expect(isNum(Number.MAX_SAFE_INTEGER)).toBe(true)
         expect(isNum(Number.MIN_SAFE_INTEGER)).toBe(true)
     })
-});
+})
 
 describe('isBool', () => {
     it('returns true if the provided value is boolean', () => {
@@ -93,7 +93,7 @@ describe('isBool', () => {
         expect(isBool(null)).toBe(false)
         expect(isBool()).toBe(false)
     })
-});
+})
 
 describe('isArr', () => {
     it('returns true for an array', () => {
@@ -108,7 +108,7 @@ describe('isArr', () => {
     it('returns false for a non-array value', () => {
         expect(isArr({})).toBe(false)
     })
-});
+})
 
 describe('isDef', () => {
     it('returns true if the provided value is defined', () => {
@@ -124,7 +124,7 @@ describe('isDef', () => {
         expect(isDef()).toBe(false)
         expect(isDef(undefined)).toBe(false)
     })
-});
+})
 
 describe('isUndef', () => {
     it('returns false if the provided value is defined', () => {
@@ -140,7 +140,7 @@ describe('isUndef', () => {
         expect(isUndef()).toBe(true)
         expect(isUndef(undefined)).toBe(true)
     })
-});
+})
 
 describe('isProp()', () => {
     it('returns true if the object has that property', () => {
@@ -159,13 +159,15 @@ describe('isProp()', () => {
         expect(isProp({ foo: 'bar' })).toBe(false)
     })
 
-    it('works correctly if the object has a key that is "undefined"', () => {
-        expect(isProp({ 'undefined': 'yes' })).toBe(true)
+    it('works correctly if the object has a key that is named "undefined"', () => {
+        expect(isProp({ undefined: 'one' })).toBe(false)
+        expect(isProp({ undefined: 'thress' }, undefined)).toBe(false)
+        expect(isProp({ undefined: 'two' }, 'undefined')).toBe(true)
+
     })
 
-    it('returns false for "prototype"', () => {
-        expect(isProp({}, 'prototype')).toBe(false)
-        expect(isProp({}, '__proto__')).toBe(false)
+    it('returns true for "__proto__"', () => {
+        expect(isProp({}, '__proto__')).toBe(true)
     })
 
     it('woks for arrays', () => {
@@ -176,5 +178,132 @@ describe('isProp()', () => {
         expect(isProp([1, 2, 3], '1')).toBe(true)
         expect(isProp([1, 2, 3], '-1')).toBe(false)
         expect(isProp([1, 2, 3], 'length')).toBe(true)
+    })
+
+    it('returns true for getter properties', () => {
+        class A {
+            get b() {
+                return 0
+            }
+        }
+
+        const a = new A
+        expect(isProp(a, 'b')).toBe(true)
+    })
+
+    it('works on property chains', () => {
+        const obj = {
+            a: {
+                b: [
+                    {
+                        c0: 100
+                    },
+                    {
+                        c1: 101
+                    }
+                ]
+            }
+        }
+        expect(isProp(obj, 'a', 'b', 0, 'c0')).toBe(true)
+        expect(isProp(obj, 'a', 'b', '1', 'c1')).toBe(true)
+    })
+    
+    it('works on property chains with prototypes', () => {
+        const obj = {
+            a: Object.create({
+                b: [
+                    {
+                        c0: 100
+                    },
+                    {
+                        c1: 101
+                    }
+                ]
+            })
+        }
+        expect(isProp(obj, 'a', 'b', 0, 'c0')).toBe(true)
+        expect(isProp(obj, 'a', 'b', '1', 'c1')).toBe(true)
+    })
+})
+
+describe('isOProp()', () => {
+    it('returns true if the object has that property', () => {
+        expect(isOProp({ foo: 'bar' }, 'foo')).toBe(true)
+    })
+
+    it('returns true if the object has that property and the value is an object', () => {
+        expect(isOProp({ foo: { bar: 'qux' } }, 'foo')).toBe(true)
+    })
+
+    it('returns true if the object has that property even if the value is undefined', () => {
+        expect(isOProp({ foo: undefined }, 'foo')).toBe(true)
+    })
+
+    it('returns false if the property name is missing', () => {
+        expect(isOProp({ foo: 'bar' })).toBe(false)
+    })
+
+    it('works correctly if the object has a key that is named "undefined"', () => {
+        expect(isOProp({ 'undefined': 'yes' }, 'undefined')).toBe(true)
+    })
+
+    it('returns false for "prototype"', () => {
+        expect(isOProp({}, 'prototype')).toBe(false)
+        expect(isOProp({}, '__proto__')).toBe(false)
+    })
+
+    it('woks for arrays', () => {
+        expect(isOProp([1, 2, 3], 1)).toBe(true)
+        expect(isOProp([1, 2, 3], -1)).toBe(false)
+        expect(isOProp([1, 2, 3], 0)).toBe(true)
+        expect(isOProp([1, 2, 3], '0')).toBe(true)
+        expect(isOProp([1, 2, 3], '1')).toBe(true)
+        expect(isOProp([1, 2, 3], '-1')).toBe(false)
+        expect(isOProp([1, 2, 3], 'length')).toBe(true)
+    })
+
+    it('returns false for getter properties because they use prototype inheritence', () => {
+        class A {
+            get b() {
+                return 0
+            }
+        }
+
+        const a = new A
+        expect(isOProp(a, 'b')).toBe(false)
+    })
+
+    it('works on property chains', () => {
+        const obj = {
+            a: {
+                b: [
+                    {
+                        c0: 100
+                    },
+                    {
+                        c1: 101
+                    }
+                ]
+            }
+        }
+        expect(isOProp(obj, 'a', 'b', 0, 'c0')).toBe(true)
+        expect(isOProp(obj, 'a', 'b', '1', 'c1')).toBe(true)
+    })
+    
+    it('does not honor property chains with prototypes', () => {
+        const obj = {
+            a: Object.create({
+                b: [
+                    {
+                        c0: 100
+                    },
+                    {
+                        c1: 101
+                    }
+                ]
+            })
+        }
+        expect(isOProp(obj, 'a', 'b', 0, 'c0')).toBe(false)
+        expect(isOProp(obj, 'a', 'b', '1', 'c1')).toBe(false)
     })
 })
