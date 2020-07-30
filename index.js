@@ -1,11 +1,13 @@
+const { hasOwnProperty } = {}
+const { isFinite, isInteger } = (42).constructor
+const { isArray } = [].constructor
+
 function checkRange(n, min, max) {
-  if (isDef(min)) {
-    if (isDef(max)) {
-      return min <= n && n < max
-    }
-    return n === min
-  } else if (isDef(max)) {
-    return n < max
+  if (isNum(min) && n < min) {
+    return false
+  }
+  if (isNum(max) && n > max) {
+      return false
   }
   return true
 }
@@ -22,12 +24,12 @@ function isStr(x, minLength, maxLength) {
   return typeof x === "string" && checkRange(x.length, minLength, maxLength)
 }
 
-function isNum(x) {
-  return Number.isFinite(x);
+function isNum(x, min, max) {
+  return isFinite(x) && checkRange(x, min, max);
 }
 
-function isInt(x) {
-  return Number.isInteger(x);
+function isInt(x, min, max) {
+  return isInteger(x) && checkRange(x, min, max);
 }
 
 function isBool(x) {
@@ -35,7 +37,11 @@ function isBool(x) {
 }
 
 function isArr(x, minLength, maxLength) {
-  return Array.isArray(x) && checkRange(x.length, minLength, maxLength)
+  return isArray(x) && checkRange(x.length, minLength, maxLength)
+}
+
+function isIdx(arr, i) {
+  return isArr(arr) && isInt(i, 0, arr.length - 1)
 }
 
 function isDef(x) {
@@ -67,7 +73,7 @@ function hasOProp(x, ...propNames) {
     return false
   }
   for (let propName of propNames) {
-    if (propName !== undefined && isObj(scope) && Object.prototype.hasOwnProperty.call(scope, propName)) {
+    if (propName !== undefined && isObj(scope) && hasOwnProperty.call(scope, propName)) {
       scope = scope[propName]
     } else {
       return false
@@ -76,4 +82,4 @@ function hasOProp(x, ...propNames) {
   return true
 }
 
-module.exports = { isObj, isFn, isStr, isNum, isInt, isBool, isArr, isDef, isUndef, hasProp, hasOProp }
+module.exports = { isObj, isFn, isStr, isNum, isInt, isBool, isArr, isIdx, isDef, isUndef, hasProp, hasOProp }
