@@ -40,8 +40,8 @@ function isArr(x, minLength, maxLength) {
   return isArray(x) && checkRange(x.length, minLength, maxLength)
 }
 
-function isIdx(arr, i) {
-  return isArr(arr) && isInt(i, 0, arr.length - 1)
+function isIdx(x, idx) {
+  return (isArr(x) || isStr(x)) && isInt(idx, 0, x.length - 1)
 }
 
 function isDef(x) {

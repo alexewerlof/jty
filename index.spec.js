@@ -213,6 +213,15 @@ describe('isIdx', () => {
     it('returns false if the actual index is missing', () => {
         expect(isIdx([10, 20, 30])).toBe(false)
     })
+
+    it('works correctly for strings', () => {
+        expect(isIdx('Boy', 0)).toBe(true)
+        expect(isIdx('Boy', 1)).toBe(true)
+        expect(isIdx('Boy', 2)).toBe(true)
+        expect(isIdx('Boy', 3)).toBe(false)
+        expect(isIdx('Boy', -1)).toBe(false)
+        expect(isIdx('Boy', 1.1)).toBe(false)
+    })
 })
 
 describe('isDef', () => {
