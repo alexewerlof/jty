@@ -49,14 +49,27 @@ describe('isStr', () => {
         expect(isStr('')).toBe(true)
     })
 
-    it('returns false for an empty string when the minLength is bigger than 0', () => {
+    it('can match the length', () => {
         expect(isStr('', 0)).toBe(true)
         expect(isStr('', 1)).toBe(false)
+        expect(isStr('H', 0)).toBe(false)
+        expect(isStr('H', 1)).toBe(true)
+        expect(isStr('H', 2)).toBe(false)
+        expect(isStr('Hi', 1)).toBe(false)
+        expect(isStr('Hi', 2)).toBe(true)
+        expect(isStr('Hi', 3)).toBe(false)
     })
 
-    it('returns false when the length is below what is specified (inclusive)', () => {
-        expect(isStr('Hello', 5)).toBe(true)
-        expect(isStr('Hello', 6)).toBe(false)
+    it('can match length range', () => {
+        expect(isStr('Hello', 5, 6)).toBe(true)
+        expect(isStr('Hello', 4, 6)).toBe(true)
+        expect(isStr('Hello', 4, 5)).toBe(false)
+    })
+
+    it('does not choke if the max is less than min', () => {
+        expect(isStr('Hello', 6, 5)).toBe(false)
+        expect(isStr('Hello', 6, 4)).toBe(false)
+        expect(isStr('Hello', 5, 4)).toBe(false)
     })
 })
 

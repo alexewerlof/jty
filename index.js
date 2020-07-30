@@ -6,8 +6,18 @@ function isFn(x) {
   return typeof x === "function";
 }
 
-function isStr(x, minLength = 0) {
-  return typeof x === "string" && x.length >= minLength;
+function isStr(x, minLength, maxLength) {
+  if (typeof x !== "string") {
+    return false
+  }
+  const len = x.length
+  if (isDef(minLength)) {
+    if (isDef(maxLength)) {
+      return minLength <= len && len < maxLength
+    }
+    return len === minLength
+  }
+  return true
 }
 
 function isNum(x) {
