@@ -1,11 +1,13 @@
 # JTY - Javascript typecheck
 
-A minimal type checking library that I need in various projects for safer programming.
+A minimal type checking library that I developed over a few years of programming JavaScript.
+It has a solid and minimalistic API surface that provides useful functions for basic type checking.
 
-It's properly tested for edge cases and the API surface is minimalistic: it doesn't have unnecessary "sugar" syntax for what's achievable using native JavaScript with less code and higher performance.
-
+* All functions return `true` or `false` (no one `throw`s)
 * It is resistent to monkey patching or malicious prototype overriding
 * It comes with TypeScript support out of the box.
+* Thoroughly tested for edge cases
+* Works in Node and Browsers (CommonJS out of the box)
 
 # API
 
@@ -92,4 +94,4 @@ hasOProp(a, 'constructor') // returns false
 
 ---
 
-Made with in Sweden 🇸🇪 by [Alex Ewerlöf](https://twitter.com/alexewerlof)
+Made in Sweden 🇸🇪 by [Alex Ewerlöf](https://twitter.com/alexewerlof)
