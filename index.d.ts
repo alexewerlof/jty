@@ -1,11 +1,12 @@
 export declare function isObj(x: unknown): x is object;
 export declare function isFn(x: unknown): x is Function;
-export declare function isStr(x: unknown, minLength?: number): x is string;
-export declare function isNum(x: unknown): x is number;
-export declare function isInt(x: unknown): x is number;
+export declare function isNum(x: unknown, min?: number, max?: number): x is number;
+export declare function isInt(x: unknown, min?: number, max?: number): x is number;
 export declare function isBool(x: unknown): x is number;
+export declare function isStr(x: unknown, minLength?: number, maxLength?: number): x is string;
 export declare function isArr<T>(x: unknown, minLength?: number): x is Array<T>[];
+export declare function isIdx(x: string | any[], idx: number): x is number;
 export declare function isDef(x: unknown): boolean;
 export declare function isUndef(x: unknown): x is undefined;
-export declare function hasProp(x: unknown, propName: string | number | symbol): x is object;
-export declare function hasOProp(x: unknown, propName: string | number | symbol): x is object;
+export declare function hasProp(x: unknown, ...propNames: string | number | symbol): x is object;
+export declare function hasOProp(x: unknown, ...propNames: string | number | symbol): x is object;

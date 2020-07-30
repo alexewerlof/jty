@@ -34,6 +34,10 @@ describe('isFn', () => {
     it('returns false for an object', () => {
         expect(isFn({})).toBe(false)
     })
+
+    it('returns true for arrow functions', () => {
+        expect(isFn(() => void 0)).toBe(true)
+    })
 })
 
 describe('isStr', () => {
@@ -282,6 +286,20 @@ describe('hasProp()', () => {
 
     it('returns true for "__proto__"', () => {
         expect(hasProp({}, '__proto__')).toBe(true)
+    })
+
+    it('returns true for other standard inherited properties', () => {
+        expect(hasProp({}, 'constructor')).toBe(true)
+        expect(hasProp({}, 'hasOwnProperty')).toBe(true)
+        expect(hasProp({}, 'isPrototypeOf')).toBe(true)
+        expect(hasProp({}, 'propertyIsEnumerable')).toBe(true)
+        expect(hasProp({}, 'toLocaleString')).toBe(true)
+        expect(hasProp({}, 'toString')).toBe(true)
+        expect(hasProp({}, 'valueOf')).toBe(true)
+        expect(hasProp({}, '__defineGetter__')).toBe(true)
+        expect(hasProp({}, '__defineSetter__')).toBe(true)
+        expect(hasProp({}, '__lookupGetter__')).toBe(true)
+        expect(hasProp({}, '__lookupSetter__')).toBe(true)
     })
 
     it('woks for arrays', () => {

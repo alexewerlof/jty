@@ -20,10 +20,6 @@ function isFn(x) {
   return typeof x === "function";
 }
 
-function isStr(x, minLength, maxLength) {
-  return typeof x === "string" && checkRange(x.length, minLength, maxLength)
-}
-
 function isNum(x, min, max) {
   return isFinite(x) && checkRange(x, min, max);
 }
@@ -34,6 +30,10 @@ function isInt(x, min, max) {
 
 function isBool(x) {
   return typeof x === "boolean";
+}
+
+function isStr(x, minLength, maxLength) {
+  return typeof x === "string" && checkRange(x.length, minLength, maxLength)
 }
 
 function isArr(x, minLength, maxLength) {
