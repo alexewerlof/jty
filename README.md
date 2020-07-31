@@ -9,11 +9,82 @@ It has a solid and minimalistic API surface that provides useful functions for b
 * Thoroughly tested for edge cases
 * Works in Node and Browsers (CommonJS out of the box)
 
+# How to use it?
+
+```bash
+$ npm i jty
+```
+
+```js
+// In your JS file
+const { isStr } = require('jty')
+
+if (isStr('Hello world!', 3)) {
+    console.log('Success')
+} else {
+    throw new TypeError('Expected an string with at least 3 characters')
+}
+```
+
+Every value should be validated close to where it is used.
+This usually means at the start of the functions.
+
+Let's say you have a function that is supposed to double a number:
+
+```js
+function double(n) {
+    return n + n
+}
+double(1)  // 2
+double(13) // 26
+```
+
+But this function happily accepts strings which is not desired:
+
+```js
+double('13') // '1313'
+```
+
+Using `jty` we can verify the input before using it:
+
+```js
+const { isNum } = require('jty')
+function double(n) {
+    if (isNum(n)) {
+        return n + n
+    }
+    throw new TypeError(`Expected a number but got ${n}`)
+}
+
+double(13)   // 26
+double('13') // throws 'Expected a number but got 13'
+double(NaN)  // throws 'Expected a number but got NaN'
+```
+
+You can also use the assertion library of your choice to make the code shorter and more readable:
+
+```js
+// Node assert: https://nodejs.org/api/assert.html
+const assert = require('assert')
+const { isNum } = require('jty')
+function double(n) {
+    assert(isNum(n))
+    return n + n
+}
+```
+
 # API
 
 ## `isObj(x)`
 
 Returns true if `x` is a non-null object.
+
+```js
+isObj({})      // true
+isObj(null)    // flase
+isObj([])      // true
+isObj(new URL) // true
+```
 
 ## `isFn(x)`
 
@@ -22,28 +93,46 @@ Returns true if `x` is a function (including class methods, arrow functions, res
 ## `isNum(x, min?, max?)`
 
 Returns true if `x` is a finite number.
-* If `min` is a number, it'll also check that `x.length >= min`
-* If `max` is a number, it'll also check that `x.length <= max` (note that it is an inclusive range)
+* If `min` is a number, it'll also check that `x >= min`
+* If `max` is a number, it'll also check that `x <= max` (note that it is an inclusive range)
+
+```js
+isNum(3)  // true
+isNum(3, 3) // true
+isNum(3, 10)  // false
+isNum(3, 3, 5)  // true
+isNum(3, 10, 15)  // false
+isNum(3, undefined, 5) // true
+isNum('3') // false
+isNum(NaN) // false
+```
 
 ## `isInt(x, min?, max?)`
 
 Returns true if `x` is an integer number.
-* If `min` is a number, it'll also check that `x.length >= min`
-* If `max` is a number, it'll also check that `x.length <= max` (note that it is an inclusive range)
+* If `min` is a number, it'll also check that `x >= min`
+* If `max` is a number, it'll also check that `x <= max` (note that it is an inclusive range)
+
+```js
+isInt(3)    // true
+isInt(3.14) // false
+```
 
 ## `isBool(x)`
 
-Returns true if `x` is a boolean
+Returns true if `x` is a boolean (`x` can only hold the values `true` or `false`)
 
 ## `isStr(x, minLength?, maxLength?)`
 
 Returns true if `x` is a string.
+
 * If `minLength` is a number, it'll also check that `x.length >= minLength`
 * If `maxLength` is a number, it'll also check that `x.length <= maxLength` (note that it is an inclusive range)
 
 ## `isArr(x, minLength?, maxLength?)`
 
 Returns true if `x` is an array (`Array.isArray()`).
+
 * If `minLength` is a number, it'll also check that `x.length >= minLength`
 * If `maxLength` is a number, it'll also check that `x.length <= maxLength` (note that it is an inclusive range)
 
@@ -87,6 +176,7 @@ const users = {
     'alex': '123456'
 }
 const name = 'alex'
+
 hasProp(a, name) // returns true
 hasProp(a, 'constructor') // returns true
 hasOProp(a, 'constructor') // returns false
