@@ -150,7 +150,7 @@ The opposite of `isDef()`. Returns true if `x === undefined`
 
 ## `hasProp(x, ...propNames)`
 
-Reutnrs true if `x` is an object and the property path specified in `propNames` exists.
+Returns true if `x` is an object and the property path specified in `propNames` exists.
 
 ### Examples
 
