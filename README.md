@@ -1,6 +1,10 @@
 # JTY - Javascript typecheck
 
-A minimal type checking library that I developed over a few years of programming JavaScript.
+A minimalistic library for writing safer code. It came out of a few years of programming JavaScript and TypeScript where I wrote these functions over and over to ensure reliable code.
+
+* Allows JavaScript code to verify its contracts and fail early with [good error messages](https://medium.com/hackernoon/what-makes-a-good-error-710d02682a68) instead of continuing on wrong assumption and producing wrong results (which is hard to debug due to [implicit type conversion quirks](https://2ality.com/2013/04/quirk-implicit-conversion.html))
+* Allows TypeScript code to be used safely when called from JavaScript code (also provides reliability against abusing TypeScript's escape hatches like `as` and `any`)
+
 It has a solid and minimalistic API surface that provides useful functions for basic type checking.
 
 * All functions return `true` or `false` (no one `throw`s)
@@ -136,9 +140,9 @@ Returns true if `x` is an array (`Array.isArray()`).
 * If `minLength` is a number, it'll also check that `x.length >= minLength`
 * If `maxLength` is a number, it'll also check that `x.length <= maxLength` (note that it is an inclusive range)
 
-## `isIdx(x, idx)`
+## `isIdx(target, x)`
 
-Returns true if `x` is an array or string and `idx` represents a valid index to it (`0 <= idx && idx < x.length`)
+Returns true if `target` is an array or string and `x` represents a valid index to it (`0 <= x && x < target.length`)
 
 ## `isDef(x)`
 
