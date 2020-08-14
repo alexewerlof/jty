@@ -6,6 +6,7 @@
   "type": "commonjs",
   "types": "index.d.ts",
   "scripts": {
+    "docs": "typedoc --mode file  --includeVersion index.ts",
     "build": "tsc index.ts -m commonjs --declaration --sourceMap --esModuleInterop",
     "pretest": "npm run build",
     "test": "jest",
@@ -29,6 +30,7 @@
   "license": "ISC",
   "devDependencies": {
     "jest": "^26.4.0",
+    "typedoc": "^0.18.0",
     "typescript": "^3.9.7"
   }
 }
