@@ -6,6 +6,8 @@
   "type": "commonjs",
   "types": "index.d.ts",
   "scripts": {
+    "build": "tsc index.ts -m commonjs --declaration --sourceMap --esModuleInterop",
+    "pretest": "npm run build",
     "test": "jest",
     "test:watch": "jest --watch",
     "preversion": "npm t",
@@ -26,6 +28,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "jest": "^26.0.1"
+    "jest": "^26.4.0",
+    "typescript": "^3.9.7"
   }
 }
