@@ -1,17 +1,49 @@
+/**
+ * @internal
+ * A string used to lookup object constructors because it compresses better
+ */
 const CONSTRUCTOR = 'constructor'
-// eslint-disable-next-line @typescript-eslint/unbound-method
-const { hasOwnProperty } = {} as any
-// eslint-disable-next-line @typescript-eslint/unbound-method
-const { isFinite, isInteger } = (0)[CONSTRUCTOR]  as unknown as {
+
+const { 
+  /**
+   * @internal
+   * A reference to the object.hasOwnProperty() avoiding possible monkey-patching
+   */
+  hasOwnProperty
+} = {} as any
+
+const {
+  /**
+   * @internal
+   * A reference to the Number.isFinite() avoiding possible monkey-patching
+   */
+  isFinite, 
+  /**
+   * @internal
+   * A reference to the Number.isInteger() avoiding possible monkey-patching
+   */
+  isInteger
+} = (0)[CONSTRUCTOR]  as unknown as {
   isFinite: (x: unknown) => x is number
   isInteger: (x: unknown) => x is number
 }
 
-// eslint-disable-next-line @typescript-eslint/unbound-method
-const { isArray } = [][CONSTRUCTOR] as unknown as {
+const { 
+  /**
+   * @internal
+   * A reference to the Array.isArray() avoiding possible monkey-patching
+   */
+  isArray
+} = [][CONSTRUCTOR] as unknown as {
   isArray: (x: unknown) => x is Array<unknown>
 }
 
+/**
+ * Checks if a value is a finite number and optionally bound by a min and max
+ * @param x possibly a number
+ * @param min the minimum possible value (inclusive). If this is not a finite number, the lower bound will not be checked
+ * @param max the maximum possible value (inclusive). If this is not a finite number, the upper bound will not be checked
+ */
 export function inRange(x: unknown, min?: number, max?: number): x is number {
   if (!isFinite(x)) {
     return false
@@ -35,10 +67,18 @@ export function inRange(x: unknown, min?: number, max?: number): x is number {
   return isUndef(min) && isUndef(max)
 }
 
+/**
+ * Checks if a value is a non-null object
+ * @param x possibly an object
+ */
 export function isObj(x: unknown): x is object {
   return x !== null && typeof x === 'object'
 }
 
+/**
+ * Checks if a value is a function
+ * @param x possibly a function (including static methods but not getters/setters)
+ */
 export function isFn<T extends Function>(x: unknown): x is T {
   return typeof x === 'function'
 }
@@ -120,7 +160,7 @@ export function hasPath(x: unknown, ...propNames: string[]) {
   }
 
   for (let propName of propNames) {
-    if (propName !== undefined && isObj(scope) && (propName in scope)) {
+    if (hasProp(scope, propName)) {
       scope = scope[propName]
     } else {
       return false
@@ -138,7 +178,7 @@ export function hasOPath(x: unknown, ...propNames: string[]) {
   }
 
   for (let propName of propNames) {
-    if (propName !== undefined && isObj(scope) && hasOwnProperty.call(scope, propName)) {
+    if (hasOProp(scope, propName)) {
       scope = scope[propName]
     } else {
       return false

@@ -1,4 +1,4 @@
-const { inRange, isObj, isFn, isStr, isNum, isInt, isBool, isArr, isIdx, isDef, isUndef, hasProp, hasOProp, hasPath, hasOPath } = require('./index')
+const { inRange, isObj, isFn, isStr, isNum, isInt, isBool, isArr, isIdx, isDef, isUndef, hasProp, hasOProp, hasPath, hasOPath } = require('../lib/')
 
 const noop = () => void 0
 
