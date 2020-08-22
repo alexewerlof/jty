@@ -30,8 +30,17 @@ if (isStr('Hello world!', 3)) {
 }
 ```
 
-Every value should be validated close to where it is used.
-This usually means at the start of the functions.
+### Tips
+
+* Every value should be validated close to where it is used.
+* This usually means that the functions should validate the parameters that the logic in their own body depends on.
+* If a function merely forwards a parameter to an inner function where it's used, it's best for the inner function to validates it.
+* When throwing an error, use an appropriate JavaScript standard `Error` subclass:
+  - `TypeError` when a value has an unexpected type
+  - `ReferenceError` when a property is missing from an object
+  - `RangeError` when a value is outside the expected range
+  - `SyntaxError` when there is a syntax error (usually comes handy when parsing a string, using regular expressions or validating JSON)
+  - [See more Error types on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error)
 
 Let's say you have a function that is supposed to double a number:
 
@@ -79,112 +88,7 @@ function double(n) {
 
 # API
 
-## `isObj(x)`
-
-Returns true if `x` is a non-null object.
-
-```js
-isObj({})      // true
-isObj(null)    // flase
-isObj([])      // true
-isObj(new URL) // true
-```
-
-## `isFn(x)`
-
-Returns true if `x` is a function (including class methods, arrow functions, result of `new Function()`, etc.).
-
-## `isNum(x, min?, max?)`
-
-Returns true if `x` is a finite number.
-* If `min` is a number, it'll also check that `x >= min`
-* If `max` is a number, it'll also check that `x <= max` (note that it is an inclusive range)
-
-```js
-isNum(3)  // true
-isNum(3, 3) // true
-isNum(3, 10)  // false
-isNum(3, 3, 5)  // true
-isNum(3, 10, 15)  // false
-isNum(3, undefined, 5) // true
-isNum('3') // false
-isNum(NaN) // false
-```
-
-## `isInt(x, min?, max?)`
-
-Returns true if `x` is an integer number.
-* If `min` is a number, it'll also check that `x >= min`
-* If `max` is a number, it'll also check that `x <= max` (note that it is an inclusive range)
-
-```js
-isInt(3)    // true
-isInt(3.14) // false
-```
-
-## `isBool(x)`
-
-Returns true if `x` is a boolean (`x` can only hold the values `true` or `false`)
-
-## `isStr(x, minLength?, maxLength?)`
-
-Returns true if `x` is a string.
-
-* If `minLength` is a number, it'll also check that `x.length >= minLength`
-* If `maxLength` is a number, it'll also check that `x.length <= maxLength` (note that it is an inclusive range)
-
-## `isArr(x, minLength?, maxLength?)`
-
-Returns true if `x` is an array (`Array.isArray()`).
-
-* If `minLength` is a number, it'll also check that `x.length >= minLength`
-* If `maxLength` is a number, it'll also check that `x.length <= maxLength` (note that it is an inclusive range)
-
-## `isIdx(target, x)`
-
-Returns true if `target` is an array or string and `x` represents a valid index to it (`0 <= x && x < target.length`)
-
-## `isDef(x)`
-
-Returns true if `x` is defined (`x !== undefined`)
-
-## `isUndef(x)`
-
-The opposite of `isDef()`. Returns true if `x === undefined`
-
-## `hasProp(x, ...propNames)`
-
-Returns true if `x` is an object and the property path specified in `propNames` exists.
-
-### Examples
-
-```js
-const a = {
-    b: {
-        c: [0, 1, 2]
-    }
-}
-hasProp(a, 'b', 'c', 0) // returns true
-hasProp(a, 'b', 'c', '1') // returns true
-hasProp(a, 'b', 'c', 'd') // returns false
-```
-
-## `hasOProp(x, ...propNames)`
-
-Same as `hasProp()` but only returns true if all prop names are own properties (hence the `O` in the name). This is the safer way to check the existence of usernames in an object without mistakenly returning `true` for `constructor` or other prototypically-inherited properties.
-
-### Example
-
-```js
-const users = {
-    'alex': '123456'
-}
-const name = 'alex'
-
-hasProp(a, name) // returns true
-hasProp(a, 'constructor') // returns true
-hasOProp(a, 'constructor') // returns false
-```
+[On Github Pages](https://userpixel.github.io/jty/)
 
 ---
 

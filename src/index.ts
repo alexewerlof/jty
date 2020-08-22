@@ -60,6 +60,12 @@ export function isUndef(x: unknown): x is undefined {
 
 /**
  * Checks if a value is a non-null object
+ * 
+ * @example `isObj({})` => `true`
+ * @example `isObj(null)` => `false`
+ * @example `isObj([])` => `true`
+ * @example `isObj(new URL)` => `true`
+ * 
  * @param x possibly an object
  */
 export function isObj(x: unknown): x is object {
@@ -68,6 +74,7 @@ export function isObj(x: unknown): x is object {
 
 /**
  * Checks if a value is a function
+ * 
  * @param x possibly a function (including static methods but not getters/setters)
  */
 export function isFn<T extends Function>(x: unknown): x is T {
@@ -76,6 +83,15 @@ export function isFn<T extends Function>(x: unknown): x is T {
 
 /**
  * Checks if a value is a finite number and optionally bound by a min and max
+ * 
+ * @example `isNum(3)` => `true`
+ * @example `isNum(3, 3)` => `true`
+ * @example `isNum(3, 10)` => `false`
+ * @example `isNum(3, 3, 5)` => `true`
+ * @example `isNum(3, 10, 15)` => `false`
+ * @example `isNum(3, undefined, 5)` => `true`
+ * @example `isNum('3')` => `false`
+ * @example `isNum(NaN)` => `false`
  * 
  * @param x possibly a number
  * @param min the minimum possible value (inclusive). If this is not a finite number, the lower bound will not be checked
@@ -106,7 +122,9 @@ export function isNum(x: unknown, min?: number, max?: number): x is number {
 
 /**
  * Checks if a value is a finite integer number and optionally bound by a min and max.
- * @example 3.14 is not an integer but 3 is
+ * 
+ * @example `isInt(3.14)` => `false`
+ * @example `isInt(3)` => `true`
  * 
  * @param x possibly an integer number
  * @param min the minimum possible value (inclusive). If this is not a finite number, the lower bound will not be checked
@@ -160,6 +178,11 @@ export function isIdx(x: unknown, target: string | Array<unknown>): x is number 
 
 /**
  * Checks if x is a non-null object that has all the provided properties
+ * 
+ * @example given `a = { b: undefined, c:[0, 1, 2]}`
+ * * `hasProp(a, 'b')` => `true`
+ * * `hasProp(a, 'b', 'c')` => `true` because both `a.b` and `a.c` properties exist
+ * * `hasProp(a.c, '0', 1, 'length')` => `true` because `a.c` is an array that has all those properties
  * 
  * @param x an object
  * @param propNames one or more property names
