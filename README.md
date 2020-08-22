@@ -30,6 +30,15 @@ if (isStr('Hello world!', 3)) {
 }
 ```
 
+If you use TypeScript many of these functions work as guards:
+
+```typescript
+const a = { foo: 13 }
+if (hasPath(a, 'bar', 'baz')) {
+  // a.foo is valid, as well as a.bar and a.baz
+}
+```
+
 ### Tips
 
 * Every value should be validated close to where it is used.
