@@ -35,6 +35,7 @@ if (isStr('Hello world!', 3)) {
 * Every value should be validated close to where it is used.
 * This usually means that the functions should validate the parameters that the logic in their own body depends on.
 * If a function merely forwards a parameter to an inner function where it's used, it's best for the inner function to validates it.
+* A [good error message](https://medium.com/hackernoon/what-makes-a-good-error-710d02682a68) should have enough information to facilitate inspection and troubleshooting.
 * When throwing an error, use an appropriate JavaScript standard `Error` subclass:
   - `TypeError` when a value has an unexpected type
   - `ReferenceError` when a property is missing from an object
