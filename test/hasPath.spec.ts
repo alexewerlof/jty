@@ -64,6 +64,18 @@ describe('hasPath()', () => {
         expect(hasPath(a, 'b')).toBe(true)
     })
 
+    it('returns true for setter properties', () => {
+        class ClassWithSetter {
+            _value:number
+            set b(value: number) {
+                this._value = value
+            }
+        }
+
+        const a = new ClassWithSetter
+        expect(hasPath(a, 'b')).toBe(true)
+    })
+
     it('works on property chains', () => {
         const obj = {
             a: {
