@@ -1,43 +1,43 @@
-const { inRange, isObj, isFn, isStr, isNum, isInt, isBool, isArr, isIdx, isDef, isUndef, hasProp, hasOProp, hasPath, hasOPath } = require('../lib/')
+const { isBound, isObj, isFn, isStr, isNum, isInt, isBool, isArr, isIdx, isDef, isUndef, hasProp, hasOProp, hasPath, hasOPath } = require('../lib/')
 
 const noop = () => void 0
 
-describe('inRange', () => {
+describe('isBound', () => {
     it('returns true if a numerical value is in range', () => {
-        expect(inRange(2, 1, 3)).toBe(true)
+        expect(isBound(2, 1, 3)).toBe(true)
     })
     
     it('returns true if the value is in range (inclusive)', () => {
-        expect(inRange(1, 1, 3)).toBe(true)
-        expect(inRange(3, 1, 3)).toBe(true)
+        expect(isBound(1, 1, 3)).toBe(true)
+        expect(isBound(3, 1, 3)).toBe(true)
     })
 
     it('works when the min === max', () => {
-        expect(inRange(1, 1, 1)).toBe(true)
-        expect(inRange(3, 1, 1)).toBe(false)
+        expect(isBound(1, 1, 1)).toBe(true)
+        expect(isBound(3, 1, 1)).toBe(false)
     })
 
     it('returns false if the value is not numerical', () => {
-        expect(inRange('2', 1, 3)).toBe(false)
+        expect(isBound('2', 1, 3)).toBe(false)
     })
 
     it('works if only min is specified', () => {
-        expect(inRange(2, 1)).toBe(true)
-        expect(inRange(2, 3)).toBe(false)
+        expect(isBound(2, 1)).toBe(true)
+        expect(isBound(2, 3)).toBe(false)
     })
 
     it('works if only min is specified', () => {
-        expect(inRange(2, undefined, 3)).toBe(true)
-        expect(inRange(2, undefined, 1)).toBe(false)
+        expect(isBound(2, undefined, 3)).toBe(true)
+        expect(isBound(2, undefined, 1)).toBe(false)
     })
 
     it('returns true if min and max are missing', () => {
-        expect(inRange(2)).toBe(true)
-        expect(inRange(2)).toBe(true)
+        expect(isBound(2)).toBe(true)
+        expect(isBound(2)).toBe(true)
     })
 
     it('returns false if the min and max are misplaced', () => {
-        expect(inRange(2, 3, 1)).toBe(false)
+        expect(isBound(2, 3, 1)).toBe(false)
     })
 })
 

@@ -44,7 +44,7 @@ const {
  * @param min the minimum possible value (inclusive). If this is not a finite number, the lower bound will not be checked
  * @param max the maximum possible value (inclusive). If this is not a finite number, the upper bound will not be checked
  */
-export function inRange(x: unknown, min?: number, max?: number): x is number {
+export function isBound(x: unknown, min?: number, max?: number): x is number {
   if (!isFinite(x)) {
     return false
   }
@@ -84,11 +84,11 @@ export function isFn<T extends Function>(x: unknown): x is T {
 }
 
 export function isNum(x: unknown, min?: number, max?: number): x is number {
-  return inRange(x, min, max);
+  return isBound(x, min, max);
 }
 
 export function isInt(x: unknown, min?: number, max?: number): x is number {
-  return isInteger(x) && inRange(x, min, max);
+  return isInteger(x) && isBound(x, min, max);
 }
 
 export function isBool(x: unknown): x is boolean {
@@ -96,11 +96,11 @@ export function isBool(x: unknown): x is boolean {
 }
 
 export function isStr(x: unknown, minLen = 0, maxLen?: number): x is string {
-  return typeof x === 'string' && inRange(x.length, minLen, maxLen)
+  return typeof x === 'string' && isBound(x.length, minLen, maxLen)
 }
 
 export function isArr(x: unknown, minLen = 0, maxLen?: number): x is unknown[] {
-  return isArray(x) && inRange(x.length, minLen, maxLen)
+  return isArray(x) && isBound(x.length, minLen, maxLen)
 }
 
 /**
