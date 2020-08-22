@@ -39,6 +39,11 @@ const {
 }
 
 /**
+ * Acceptable types for object property names
+ */
+type ObjectProp = string | number | symbol
+
+/**
  * Checks if the provided value is defined
  * Also see [[isUndef]]
  * 
@@ -56,6 +61,24 @@ export function isDef(x: unknown): boolean {
  */
 export function isUndef(x: unknown): x is undefined {
   return x === undefined;
+}
+
+/**
+ * Checks if the provided value is boolean (basically `true` or `false`)
+ * 
+ * @param x possibly a boolean value
+ */
+export function isBool(x: unknown): x is boolean {
+  return typeof x === "boolean";
+}
+
+/**
+ * Checks if the provided value is a symbol
+ * 
+ * @param x possibly a symbol
+ */
+export function isSym(x: unknown): x is symbol {
+  return typeof x === 'symbol'
 }
 
 /**
@@ -135,15 +158,6 @@ export function isInt(x: unknown, min?: number, max?: number): x is number {
 }
 
 /**
- * Checks if the provided value is boolean (basically `true` or `false`)
- * 
- * @param x possibly a boolean value
- */
-export function isBool(x: unknown): x is boolean {
-  return typeof x === "boolean";
-}
-
-/**
  * Checks if the provided value is a string and optionally checks whether its length is in a boundary
  * 
  * @param x possibly a string
@@ -187,10 +201,10 @@ export function isIdx(x: unknown, target: string | Array<unknown>): x is number 
  * @param x an object
  * @param propNames one or more property names
  */
-export function hasProp<K extends string | number | symbol>(
+export function hasProp<K extends ObjectProp>(
   x: unknown,
-  ...propNames: K[]
-): x is Record<K, any> {
+  ...propNames: readonly K[]
+): x is Record<K, object> {
   if (!isObj(x)) {
     return false
   }
@@ -210,9 +224,9 @@ export function hasProp<K extends string | number | symbol>(
  * @param x an object
  * @param propNames one or more property names
  */
-export function hasOProp<K extends string | number | symbol>(
+export function hasOProp<K extends ObjectProp>(
   x: unknown,
-  ...propNames: K[]
+  ...propNames: readonly K[]
 ): x is Record<K, any> {
   if (!isObj(x)) {
     return false
@@ -240,15 +254,16 @@ export function hasOProp<K extends string | number | symbol>(
  * @param x a value that may possibly have some properties
  * @param propNames one or more property names
  */
-export function hasPath(x: unknown, ...propNames: string[]) {
-  let scope = x
-
+export function hasPath(x: unknown, ...propNames: readonly ObjectProp[]): boolean {
   if (propNames.length === 0) {
     return false
   }
+  
+  let scope = x
 
   for (let propName of propNames) {
     if (hasProp(scope, propName)) {
+      // @ts-ignore
       scope = scope[propName]
     } else {
       return false
@@ -264,15 +279,16 @@ export function hasPath(x: unknown, ...propNames: string[]) {
  * @param x a value that may possibly have some properties
  * @param propNames one or more property names
  */
-export function hasOPath(x: unknown, ...propNames: string[]) {
-  let scope = x
-
+export function hasOPath(x: unknown, ...propNames: readonly ObjectProp[]): boolean {
   if (propNames.length === 0) {
     return false
   }
+  
+  let scope = x
 
   for (let propName of propNames) {
     if (hasOProp(scope, propName)) {
+      // @ts-ignore
       scope = scope[propName]
     } else {
       return false
