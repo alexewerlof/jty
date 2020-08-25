@@ -49,7 +49,7 @@ type ObjectProp = string | number | symbol
  * 
  * @param x any value
  */
-export function isDef(x: unknown): boolean {
+export function isDef(x: unknown): x is Exclude<any, undefined> {
   return x !== undefined;
 }
 
