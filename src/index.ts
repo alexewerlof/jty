@@ -88,17 +88,21 @@ export function isSym(x: unknown): x is symbol {
  * @example `isObj(null)` => `false`
  * @example `isObj([])` => `true`
  * @example `isObj(new URL)` => `true`
+ * @example `isObj(13)` => `false`
+ * @example `isObj(Number(13))` => `false`
  * 
  * @param x possibly an object
+ * @return true if the value is an non-null object, false otherwise
  */
-export function isObj(x: unknown): x is object {
+export function isObj(x: unknown): x is Exclude<object, null> {
   return x !== null && typeof x === 'object'
 }
 
 /**
  * Checks if a value is a function
  * 
- * @param x possibly a function (including static methods but not getters/setters)
+ * @param x possibly a function (including static methods but not getters or setters)
+ * @return true if the value is a function, false otherwise
  */
 export function isFn<T extends Function>(x: unknown): x is T {
   return typeof x === 'function'
@@ -254,7 +258,18 @@ export function hasOProp<K extends ObjectProp>(
  * @param x a value that may possibly have some properties
  * @param propNames one or more property names
  */
-export function hasPath(x: unknown, ...propNames: readonly ObjectProp[]): boolean {
+export function hasPath<K extends ObjectProp[]>(x: unknown, ...propNames: readonly [...K]): x is 
+  Record<K[0], 
+  Record<K[1], 
+  Record<K[2], 
+  Record<K[3], 
+  Record<K[4], 
+  Record<K[5], 
+  Record<K[6], 
+  Record<K[7], 
+  Record<K[8], 
+  Record<K[9], 
+  object>>>>>>>>>> {
   if (propNames.length === 0) {
     return false
   }
@@ -279,7 +294,18 @@ export function hasPath(x: unknown, ...propNames: readonly ObjectProp[]): boolea
  * @param x a value that may possibly have some properties
  * @param propNames one or more property names
  */
-export function hasOPath(x: unknown, ...propNames: readonly ObjectProp[]): boolean {
+export function hasOPath<K extends ObjectProp[]>(x: unknown, ...propNames: readonly [...K]): x is
+  Record<K[0],
+  Record<K[1], 
+  Record<K[2], 
+  Record<K[3], 
+  Record<K[4], 
+  Record<K[5], 
+  Record<K[6], 
+  Record<K[7], 
+  Record<K[8], 
+  Record<K[9], 
+  object>>>>>>>>>> {
   if (propNames.length === 0) {
     return false
   }

@@ -5,6 +5,18 @@ describe('hasPath()', () => {
         expect(hasPath({ foo: 'bar' }, 'foo')).toBe(true)
     })
 
+    it('can dig deep into the object', () => {
+        const obj = {
+            foo: {
+                bar: {
+                    baz: undefined
+                }
+            }
+        }
+
+        expect(hasPath(obj, 'foo', 'bar', 'baz')).toBe(true)
+    })
+
     it('returns true if the object has that property and the value is an object', () => {
         expect(hasPath({ foo: { bar: 'qux' } }, 'foo')).toBe(true)
     })
@@ -20,7 +32,7 @@ describe('hasPath()', () => {
     it('works correctly if the object has a key that is named "undefined"', () => {
         expect(hasPath({ undefined: 'one' })).toBe(false)
         // @ts-ignore
-        expect(hasPath({ undefined: 'thress' }, undefined)).toBe(false)
+        expect(hasPath({ undefined: 'thress' }, undefined)).toBe(true)
         expect(hasPath({ undefined: 'two' }, 'undefined')).toBe(true)
 
     })
