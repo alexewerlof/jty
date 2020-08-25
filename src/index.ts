@@ -184,17 +184,6 @@ export function isArr(x: unknown, minLen = 0, maxLen?: number): x is unknown[] {
 }
 
 /**
- * Checks if x is a positive integer value that is a valid index to the specified array or string (based on their length).
- * Also see [[hasProp]]
- * 
- * @param x possibly a positive integer
- * @param target the target string or array
- */
-export function isIdx(x: unknown, target: string | Array<unknown>): x is number {
-  return isInt(x, 0) && (isArr(target, x + 1) || isStr(target, x + 1))
-}
-
-/**
  * Checks if x is a non-null object that has all the provided properties
  * 
  * @example given `a = { b: undefined, c:[0, 1, 2]}`
