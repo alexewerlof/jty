@@ -1,6 +1,6 @@
 import { isArr } from "../src"
 
-describe('isArr', () => {
+describe('isArr()', () => {
     it('returns true for an array', () => {
         expect(isArr([])).toBe(true)
     })

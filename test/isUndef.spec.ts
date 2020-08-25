@@ -1,6 +1,6 @@
 import { isUndef } from "../src"
 
-describe('isUndef', () => {
+describe('isUndef()', () => {
     it('returns false if the provided value is defined', () => {
         expect(isUndef('Hej')).toBe(false)
         expect(isUndef(13)).toBe(false)

@@ -1,6 +1,6 @@
 import { isObj } from '../src'
 
-describe('isObj', () => {
+describe('isObj()', () => {
     it('returns true for an object', () => {
         expect(isObj({})).toBe(true)
     })

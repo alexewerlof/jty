@@ -1,6 +1,6 @@
 import { isStr } from "../src"
 
-describe('isStr', () => {
+describe('isStr()', () => {
     it('returns true for a string', () => {
         expect(isStr('Hello')).toBe(true)
     })

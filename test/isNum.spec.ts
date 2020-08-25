@@ -1,6 +1,6 @@
 import { isNum } from '../src'
 
-describe('isNum', () => {
+describe('isNum()', () => {
     it('returns true when the value is a number', () => {
         expect(isNum(17)).toBe(true)
         expect(isNum(Math.PI)).toBe(true)

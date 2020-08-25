@@ -2,7 +2,7 @@ import { isFn } from '../src'
 
 const noop = () => void 0
 
-describe('isFn', () => {
+describe('isFn()', () => {
     it('returns true for a function', () => {
         expect(isFn(noop)).toBe(true)
     })

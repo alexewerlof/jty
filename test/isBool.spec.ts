@@ -1,6 +1,6 @@
 import { isBool } from "../src"
 
-describe('isBool', () => {
+describe('isBool()', () => {
     it('returns true if the provided value is boolean', () => {
         expect(isBool(true)).toBe(true)
         expect(isBool(false)).toBe(true)
@@ -12,5 +12,6 @@ describe('isBool', () => {
         expect(isBool(null)).toBe(false)
         // @ts-expect-error
         expect(isBool()).toBe(false)
+        expect(isBool(undefined)).toBe(false)
     })
 })
