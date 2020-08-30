@@ -83,6 +83,8 @@ export function isBool(x: unknown): x is boolean {
 /**
  * Checks if the provided value is a symbol
  * 
+ * This is exactly `x === "symbol"` but a bit shorter
+ * 
  * @param x possibly a symbol
  */
 export function isSym(x: unknown): x is symbol {
