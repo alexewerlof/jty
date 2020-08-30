@@ -73,4 +73,19 @@ describe('hasOProp()', () => {
 
         expect(hasOProp(obj, 'foo')).toBe(false)
     })
+
+    it('returns true if no prop is provided', () => {
+        expect(hasOProp({})).toBe(true)
+    })
+
+
+    it('returns true if no prop is provided', () => {
+        expect(hasOProp({})).toBe(true)
+    })
+
+    it('returns true if there is actually a property called undefined', () => {
+        expect(hasOProp({
+            undefined: undefined
+        }, 'undefined')).toBe(true)
+    })
 })
