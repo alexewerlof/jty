@@ -11,10 +11,10 @@
   "scripts": {
     "docs": "typedoc src/index.ts --stripInternal",
     "build": "tsc",
-    "pretest": "npm run build",
     "test": "jest",
     "test:watch": "jest --watch",
     "preversion": "npm t",
+    "prepublishOnly": "npm run build",
     "postversion": "git push && git push --tags"
   },
   "repository": {
