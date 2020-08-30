@@ -57,6 +57,28 @@ export function isDef(x: unknown): x is Exclude<any, undefined> {
 }
 
 /**
+ * Checks if a provided value is an instance of the provided class
+ * 
+ * This does not throw for some cases where JavaScript chokes ()
+ * 
+ * @example `isA({}, Object) => true`
+ * @example `isA(/hello/i, RegExp) => true`
+ * @example `isA(Promise.resolve, Promise) => true`
+ * @example `isA('plain str', String) => false`
+ * @example `isA(new String('str obj'), String) => true`
+ * @example `isA(22, Number) => false`
+ * @example `isA(new Number(33), Number) => true`
+ * @example
+ * `2 instanceof NaN` throws a `TypeError` but `isA(2, NaN)` returns `false`
+ * 
+ * @param x possibly an instance of a class
+ * @param classConstructor a class constructor (usually starts with big letter!)
+ */
+export function isA<T extends new (...args: any) => any>(x: unknown, classConstructor: T): x is InstanceType<T> {
+  return isFn(classConstructor) && x instanceof classConstructor;
+}
+
+/**
  * Checks if the provided value is defined
  * 
  * This is exactly `x === undefined` but a bit shorter

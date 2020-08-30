@@ -1,9 +1,6 @@
 # JTY - JavaScript typecheck
 
-A minimalistic library for writing safer code. It came out of a few years of programming JavaScript and TypeScript where I wrote these functions over and over to ensure reliable code.
-
-* Helps JavaScript code to verify its contracts and fail early with [good error messages](https://medium.com/hackernoon/what-makes-a-good-error-710d02682a68) instead of continuing on wrong assumption and producing wrong results (which is hard to debug due to [implicit type conversion quirks](https://2ality.com/2013/04/quirk-implicit-conversion.html))
-* Helps TypeScript code to be used safely when called from JavaScript code (also provides reliability against abusing TypeScript's escape hatches like `as` and `any`)
+A minimalistic library for writing safer code. It came out of a few years of programming JavaScript and TypeScript where I wrote these functions over and over to ensure code reliability.
 
 It has a solid and minimalistic API surface that provides useful functions for basic type checking.
 
@@ -15,6 +12,13 @@ It has a solid and minimalistic API surface that provides useful functions for b
 * Thoroughly tested for edge cases
 * Works in Node and Browsers (CommonJS out of the box)
 * High performance
+
+## Why?
+
+* For **JavaScript**, `jty` helps verify function/method contracts and fail early with [good error messages](https://medium.com/hackernoon/what-makes-a-good-error-710d02682a68) instead of continuing on wrong assumption and producing wrong results (which is hard to debug due to [implicit type conversion quirks](https://2ality.com/2013/04/quirk-implicit-conversion.html))
+* For **TypeScript**, `jty` helps guarantee type safely when called from JavaScript code (also provides reliability against abusing TypeScript's escape hatches like `as` and `any`)
+* For **JSON**, `jty` helps verify the shape of the object inside the code without having to write a schema.
+
 
 # How to use it?
 
