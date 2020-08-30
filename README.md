@@ -7,12 +7,14 @@ A minimalistic library for writing safer code. It came out of a few years of pro
 
 It has a solid and minimalistic API surface that provides useful functions for basic type checking.
 
+* No dependencies
 * Complements what's available in JavaScript
 * All functions return `true` or `false` (none of them `throw`s in any condition)
 * It is resistent to monkey patching or malicious prototype overriding
 * It comes with TypeScript support out of the box.
 * Thoroughly tested for edge cases
 * Works in Node and Browsers (CommonJS out of the box)
+* High performance
 
 # How to use it?
 

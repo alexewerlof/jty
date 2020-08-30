@@ -45,7 +45,10 @@ type ObjectProp = string | number | symbol
 
 /**
  * Checks if the provided value is defined
- * Also see [[isUndef]]
+ * This is exactly `x !== undefined` but a bit shorter
+ * 
+ * Also 
+ * @see [[isUndef]]
  * 
  * @param x any value
  */
@@ -55,6 +58,9 @@ export function isDef(x: unknown): x is Exclude<any, undefined> {
 
 /**
  * Checks if the provided value is defined
+ * 
+ * This is exactly `x === undefined` but a bit shorter
+ * 
  * Also see [[isDef]]
  * 
  * @param x any value
@@ -65,6 +71,8 @@ export function isUndef(x: unknown): x is undefined {
 
 /**
  * Checks if the provided value is boolean (basically `true` or `false`)
+ * 
+ * This is exactly `typeof x === "boolean"` but a bit shorter
  * 
  * @param x possibly a boolean value
  */
@@ -101,6 +109,9 @@ export function isObj(x: unknown): x is Exclude<object, null> {
 /**
  * Checks if a value is a function
  * 
+ * This is exactly `typeof x === "function"` but a bit shorter
+ * 
+ * If you are using TypeScript and you know the function signature, you can provide the generic `T` for your guard.
  * @param x possibly a function (including static methods but not getters or setters)
  * @return true if the value is a function, false otherwise
  */
