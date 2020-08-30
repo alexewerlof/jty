@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "module": "CommonJS",
+    "esModuleInterop": true,
+    "declaration": true,
+    "noImplicitAny": true,
+    "sourceMap": true,
+    "strictNullChecks": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "newLine": "LF",
+    "listEmittedFiles": true,
+    "target": "es5",
+    "outDir": "lib"
+  },
+  "files": [
+    "src/index.ts"
+  ],
+  "exclude": [
+    "lib/**/*.js"
+  ]
+}

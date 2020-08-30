@@ -2,10 +2,16 @@
   "name": "jty",
   "version": "2.1.1",
   "description": "A minimal type checking library that I need in various projects for safer programming",
-  "main": "index.js",
   "type": "commonjs",
-  "types": "index.d.ts",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "directories": {
+    "lib": "lib"
+  },
   "scripts": {
+    "docs": "typedoc src/index.ts --stripInternal",
+    "build": "tsc",
+    "pretest": "npm run build",
     "test": "jest",
     "test:watch": "jest --watch",
     "preversion": "npm t",
@@ -18,7 +24,8 @@
   "keywords": [
     "javascript",
     "language",
-    "type check",
+    "manual type check",
+    "type safety",
     "defensive programming",
     "security",
     "verification"
@@ -26,6 +33,9 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "jest": "^26.0.1"
+    "jest": "^26.4.2",
+    "ts-jest": "^26.2.0",
+    "typedoc": "^0.18.0",
+    "typescript": "^4.0.2"
   }
 }
