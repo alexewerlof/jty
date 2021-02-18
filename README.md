@@ -8,27 +8,31 @@
 [![Vulnerabilities](https://snyk.io/test/github/userpixel/jty/badge.svg)](https://snyk.io/test/github/userpixel/jty)
 [![Downloads](https://img.shields.io/npm/dm/jty.svg?style=flat-square)](http://npm-stat.com/charts.html?package=jty&from=2020-01-01)
 
-# JTY - JavaScript typecheck
+# jyy - the tiny JavaScript type checker
 
 A minimalistic library for writing safer code. It came out of a few years of programming JavaScript and TypeScript where I wrote these functions over and over to ensure code reliability.
 
-It has a solid and minimalistic API surface that provides useful functions for basic type checking.
+> The key reason is to fail early with a good error rather than continue with the wrong assumption
+
+`jty` has a solid and minimalistic API surface that provides useful functions for basic type checking.
 
 * No dependencies
 * Complements what's available in JavaScript
 * All functions return `true` or `false` (none of them `throw`s in any condition)
-* It is resistent to monkey patching or malicious prototype overriding
-* It comes with TypeScript support out of the box.
+* Resistent to monkey patching or malicious [prototype pollution](https://medium.com/node-modules/what-is-prototype-pollution-and-why-is-it-such-a-big-deal-2dd8d89a93c)
+* Comes with TypeScript support out of the box
 * Thoroughly tested for edge cases
 * Works in Node and Browsers (CommonJS out of the box)
 * High performance
 
+
+`jty` makes no assumption about how you handle anomalies. You throw an error or use it in conditional statements. This is the bare minimum for type detection, not an assertion library.
+
 ## Why?
 
 * For **JavaScript**, `jty` helps verify function/method contracts and fail early with [good error messages](https://medium.com/hackernoon/what-makes-a-good-error-710d02682a68) instead of continuing on wrong assumption and producing wrong results (which is hard to debug due to [implicit type conversion quirks](https://2ality.com/2013/04/quirk-implicit-conversion.html))
-* For **TypeScript**, `jty` helps guarantee type safely when called from JavaScript code (also provides reliability against abusing TypeScript's escape hatches like `as` and `any`)
+* For **TypeScript**, `jty` helps guarantee type safely when called from JavaScript code (also provides reliability against abusing TypeScript's escape hatches like `as` and `any`). _TypeScript may create a false sense of type safety, specially when interoperating with external systems that are not in TypeScript like APIs or other JavaScript code._
 * For **JSON**, `jty` helps verify the shape of the object inside the code without having to write a schema.
-
 
 # How to use it?
 
@@ -47,12 +51,13 @@ if (isStr('Hello world!', 3)) {
 }
 ```
 
-If you use TypeScript, many of these functions work as guards:
+If you use TypeScript, many of these functions work as [type guards](https://www.typescriptlang.org/docs/handbook/advanced-types.html#user-defined-type-guards):
 
 ```TypeScript
 const a = { foo: 13 }
+
 if (hasPath(a, 'bar', 'baz')) {
-  // `a.foo` is valid, as well as `a.bar` and `a.baz`
+  // `a.foo` is valid, as well as `a.bar` and `a.bar.baz`
 }
 ```
 
@@ -97,7 +102,7 @@ const assert = require('assert')
 const { isNum } = require('jty')
 
 function double(n) {
-    assert(isNum(n))
+    assert(isNum(n), 'double() number input')
     return n + n
 }
 ```
@@ -127,6 +132,7 @@ function double(n) {
   - `ReferenceError` when a property is missing from an object
   - `RangeError` when a value is outside the expected range
   - `SyntaxError` when there is a syntax error (usually comes handy when parsing a string, using regular expressions or validating JSON)
+  - You can also extend the relevant error class to create your own error: `class MyDomainSpecificError extends SyntaxError { /* ... */ }`
   - [See more Error types on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error)
 
 ---
