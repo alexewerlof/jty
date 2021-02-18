@@ -49,11 +49,55 @@ type ObjectProp = string | number | symbol
  * 
  * Also 
  * @see [[isUndef]]
+ * @see [[isUnsh]]
  * 
  * @param x any value
  */
 export function isDef(x: unknown): x is Exclude<any, undefined> {
   return x !== undefined;
+}
+
+/**
+ * Checks if the provided value is defined
+ * 
+ * This is exactly `x === undefined` but a bit shorter
+ * 
+ * Also 
+ * @see [[isDef]]
+ * @see [[isNsh]]
+ * 
+ * @param x any value
+ */
+export function isUndef(x: unknown): x is undefined {
+  return x === undefined;
+}
+
+/**
+ * Checks if the provided value is "nullish" (`null` or `undefined`)
+ * 
+ * This is similar to how the nullish coalescing operator (`??`) works
+ * 
+ * Also
+ * @see [[isUnsh]]
+ * @see [[isUndef]]
+ * 
+ * @param x any value
+ */
+export function isNsh(x: unknown): x is (null | undefined) {
+  return x === undefined || x === null;
+}
+
+/**
+ * Checks if the provided value is not "nullish" (`null` or `undefined`)
+ * 
+ * This is similar to how the nullish coalescing operator (`??`) works
+ * 
+ * Also see [[isNsh]], [[isUndef]]
+ * 
+ * @param x any value
+ */
+export function isUnsh(x: unknown): x is NonNullable<any> {
+  return x !== undefined && x !== null;
 }
 
 /**
@@ -78,17 +122,17 @@ export function isA<T extends new (...args: any) => any>(x: unknown, classConstr
   return isFn(classConstructor) && x instanceof classConstructor;
 }
 
-/**
- * Checks if the provided value is defined
- * 
- * This is exactly `x === undefined` but a bit shorter
- * 
- * Also see [[isDef]]
- * 
- * @param x any value
- */
-export function isUndef(x: unknown): x is undefined {
-  return x === undefined;
+class Moon {
+  constructor(public x: string, public y: number) {}
+}
+
+const m = {
+  x: 'hi',
+  y: 2,
+}
+
+if (isA(m, Moon)) {
+  
 }
 
 /**
