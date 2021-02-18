@@ -75,8 +75,8 @@ export function isUndef(x: unknown): x is undefined {
  * 
  * This is similar to how the nullish coalescing operator (`??`) works
  * 
- * @see [[isUnsh]]
  * @see [[isUndef]]
+ * @see [[isUnsh]]
  * 
  * @param x any value
  */
@@ -89,8 +89,8 @@ export function isNsh(x: unknown): x is (null | undefined) {
  * 
  * This is similar to how the nullish coalescing operator (`??`) works
  * 
+ * @see [[isDef]]
  * @see [[isNsh]]
- * @see [[isUndef]]
  * 
  * @param x any value
  */
@@ -279,10 +279,7 @@ export function isArr(x: unknown, minLen = 0, maxLen?: number): x is unknown[] {
  * @param x an object
  * @param propNames one or more property names
  */
-export function hasProp<K extends ObjectProp>(
-  x: unknown,
-  ...propNames: readonly K[]
-): x is Record<K, object> {
+export function hasProp<K extends ObjectProp>(x: unknown, ...propNames: readonly K[]): x is Record<K, object> {
   if (!isObj(x)) {
     return false
   }

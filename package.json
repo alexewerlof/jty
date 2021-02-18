@@ -9,7 +9,7 @@
     "lib": "lib"
   },
   "scripts": {
-    "docs": "typedoc src/index.ts --stripInternal",
+    "docs": "typedoc src/index.ts",
     "build": "tsc",
     "test": "jest",
     "test:watch": "jest --watch",
