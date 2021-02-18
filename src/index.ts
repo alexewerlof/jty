@@ -47,7 +47,6 @@ type ObjectProp = string | number | symbol
  * Checks if the provided value is defined
  * This is exactly `x !== undefined` but a bit shorter
  * 
- * Also 
  * @see [[isUndef]]
  * @see [[isUnsh]]
  * 
@@ -62,7 +61,6 @@ export function isDef(x: unknown): x is Exclude<any, undefined> {
  * 
  * This is exactly `x === undefined` but a bit shorter
  * 
- * Also 
  * @see [[isDef]]
  * @see [[isNsh]]
  * 
@@ -77,7 +75,6 @@ export function isUndef(x: unknown): x is undefined {
  * 
  * This is similar to how the nullish coalescing operator (`??`) works
  * 
- * Also
  * @see [[isUnsh]]
  * @see [[isUndef]]
  * 
@@ -92,7 +89,8 @@ export function isNsh(x: unknown): x is (null | undefined) {
  * 
  * This is similar to how the nullish coalescing operator (`??`) works
  * 
- * Also see [[isNsh]], [[isUndef]]
+ * @see [[isNsh]]
+ * @see [[isUndef]]
  * 
  * @param x any value
  */
@@ -122,19 +120,6 @@ export function isA<T extends new (...args: any) => any>(x: unknown, classConstr
   return isFn(classConstructor) && x instanceof classConstructor;
 }
 
-class Moon {
-  constructor(public x: string, public y: number) {}
-}
-
-const m = {
-  x: 'hi',
-  y: 2,
-}
-
-if (isA(m, Moon)) {
-  
-}
-
 /**
  * Checks if the provided value is boolean (basically `true` or `false`)
  * 
@@ -160,6 +145,13 @@ export function isSym(x: unknown): x is symbol {
 /**
  * Checks if a value is a non-null object
  * 
+ * @see [[isA]]
+ * @see [[hasPath]]
+ * @see [[hasOPath]]
+ * @see [[hasProp]]
+ * @see [[hasOProp]]
+ * @see [[isArr]]
+ * 
  * @example `isObj({})` => `true`
  * @example `isObj(null)` => `false`
  * @example `isObj([])` => `true`
@@ -177,7 +169,7 @@ export function isObj(x: unknown): x is Exclude<object, null> {
 /**
  * Checks if a value is a function
  * 
- * This is exactly `typeof x === "function"` but a bit shorter
+ * This is exactly liker `typeof x === "function"` but a bit shorter
  * 
  * If you are using TypeScript and you know the function signature, you can provide the generic `T` for your guard.
  * @param x possibly a function (including static methods but not getters or setters)
@@ -189,6 +181,8 @@ export function isFn<T extends Function>(x: unknown): x is T {
 
 /**
  * Checks if a value is a finite number and optionally bound by a min and max
+ * 
+ * @see [[isInt]]
  * 
  * @example `isNum(3)` => `true`
  * @example `isNum(3, 3)` => `true`
@@ -229,6 +223,8 @@ export function isNum(x: unknown, min?: number, max?: number): x is number {
 /**
  * Checks if a value is a finite integer number and optionally bound by a min and max.
  * 
+ * @see [[isNum]]
+ * 
  * @example `isInt(3.14)` => `false`
  * @example `isInt(3)` => `true`
  * 
@@ -243,6 +239,9 @@ export function isInt(x: unknown, min?: number, max?: number): x is number {
 /**
  * Checks if the provided value is a string and optionally checks whether its length is in a boundary
  * 
+ * @see [[isSym]]
+ * @see [[isUnsh]]
+ * 
  * @param x possibly a string
  * @param minLen minimum possible length (inclusive)
  * @param maxLen maximum possible length (inclusive)
@@ -254,6 +253,8 @@ export function isStr(x: unknown, minLen = 0, maxLen?: number): x is string {
 /**
  * Checks if the provided value is an array and optionally checks whether its length is in a boundary
  * 
+ * @see [[isObj]]
+ *
  * @param x possibly a string
  * @param minLen minimum possible length (inclusive)
  * @param maxLen maximum possible length (inclusive)
@@ -264,6 +265,11 @@ export function isArr(x: unknown, minLen = 0, maxLen?: number): x is unknown[] {
 
 /**
  * Checks if x is a non-null object that has all the provided properties
+ * 
+ * @see [[isObj]]
+ * @see [[hasOProp]]
+ * @see [[hasPath]]
+ * @see [[hasOPath]]
  * 
  * @example given `a = { b: undefined, c:[0, 1, 2]}`
  * * `hasProp(a, 'b')` => `true`
@@ -293,6 +299,11 @@ export function hasProp<K extends ObjectProp>(
 /**
  * Same as [[hasProp]] but checks for own properties (not inherited properties)
  * 
+ * @see [[isObj]]
+ * @see [[hasProp]]
+ * @see [[hasPath]]
+ * @see [[hasOPath]]
+
  * @param x an object
  * @param propNames one or more property names
  */
@@ -316,6 +327,11 @@ export function hasOProp<K extends ObjectProp>(
 /**
  * Checks if the provided value has the a path of properties
  * 
+ * @see [[isObj]]
+ * @see [[hasProp]]
+ * @see [[hasOProp]]
+ * @see [[hasOPath]]
+ *
  * @example given `x = { foo: { bar: { baz: undefined }}}`
  * 
  * * `hasPath(x, 'foo', 'bar')` returns `true`
@@ -359,6 +375,11 @@ export function hasPath<K extends ObjectProp[]>(x: unknown, ...propNames: readon
 /**
  * Similar to [[hasPath]] but only works for own properties (not inherited properties)
  *
+ * @see [[isObj]]
+ * @see [[hasProp]]
+ * @see [[hasOProp]]
+ * @see [[hasPath]]
+ * 
  * @param x a value that may possibly have some properties
  * @param propNames one or more property names
  */
