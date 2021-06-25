@@ -180,6 +180,18 @@ export function isFn<T extends Function>(x: unknown): x is T {
 }
 
 /**
+ * Checks if a value is a Promise
+ * 
+ * Similar to Node's [`isPromise()`](https://nodejs.org/api/util.html#util_util_types_ispromise_value) 
+ * but returns true even for non-native promises that match a promise signature.
+ * @param x possibly a promise
+ * @returns true if the value is an instance of `Promise` or an object with a `then()` method, false otherwise
+ */
+export function isPrm<T extends any>(x: unknown): x is Promise<T> {
+  return isA(x, Promise) || (isObj(x) && isFn((x as Promise<any>).then))
+}
+
+/**
  * Checks if a value is a finite number and optionally bound by a min and max
  * 
  * @see [[isInt]]
