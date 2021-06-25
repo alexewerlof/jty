@@ -16,7 +16,12 @@ A minimalistic library for writing safer code. It came out of a few years of pro
 
 * Minimalistic: complements what's available in JavaScript
 * No dependencies
-* Solid: All functions return `true` or `false` (none of them `throw`s in any condition)
+* Unified, solid and predictable behavior for all functions:
+  - All functions return `true` or `false` (none of them `throw`s in any condition)
+  - Never mutates any parameter
+  - Never throws exceptions
+  - Short expressive names to minify better
+  - Has short code that's easy to understand and audit
 * Resistent to monkey patching or malicious [prototype pollution](https://medium.com/node-modules/what-is-prototype-pollution-and-why-is-it-such-a-big-deal-2dd8d89a93c)
 * Comes with TypeScript support out of the box
 * Thoroughly tested for edge cases
@@ -24,6 +29,8 @@ A minimalistic library for writing safer code. It came out of a few years of pro
 * High performance
 
 `jty` makes no assumption about how you handle anomalies. You throw an error or use it in conditional statements. This is the bare minimum for type detection, not an assertion library.
+
+👉 [**See API docs**](https://userpixel.github.io/jty/)
 
 ## Why?
 
@@ -34,8 +41,8 @@ A minimalistic library for writing safer code. It came out of a few years of pro
 
 `§` Technically you can solve these problems with [JSON Schema validators](https://json-schema.org/implementations.html#validator-javascript), but:
 
-* It requires learning a DSL
-* The DSL is parsed at runtime (or compiled to JS beforehand to avoid the performance penalty)
+* It requires learning a DSL instead of using play JavaScript
+* The DSL is parsed at runtime (or compiled to generated JS code beforehand to avoid the performance penalty)
 * Usually relies on externalized specifications as opposed to failing at the location where the data is used (see "Best Practices")
 
 # How to use it?
@@ -117,27 +124,8 @@ function double(n) {
 
 # Best practices
 
-* Every value should be validated **close to where it is used**. This usually means that the functions should validate the parameters that the logic in their own body depends on. This means the errors are going to have a better stack trace but also isolates the knowledge about the type requirements to the implementation that depends on it which makes refactoring easier.
-* **ALWAYS** validate the shape and values of any input from external systems (users, other servers, even local JSON files that are not validated against a schema and/or don't live in the same repo as your code)
-* If you're using TypeScript, use [type guards](https://www.typescriptlang.org/docs/handbook/advanced-types.html#user-defined-type-guards) to programmatically ensure the shape of a value (particularly objects)
-* If you are writing TypeScript code that is going to be called from JavaScript, always verify the input of the user-facing APIs
-* Use JavaScript's own language constructs whenever it makes sense
-  - `['possibleValue1', 'possibleValue2'].includes(x)` to check if `x` is any of the possible values (kinda like TypeScript's [union types](https://www.typescriptlang.org/docs/handbook/advanced-types.html))
-  - [`someArray.every(item => checkItemFormat(item))`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every) to check that all elements of an array have a certain shape
-  - `isStr(x) || isInt(x)` check OR to ensure that a value is of either types
-  - [`a instanceOf A`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/instanceof) ensure that `a` is an instance of the class `A`
-  - Use the [`in`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/in) operator with caution: `user in objectWithOneKeyPerUser` returns `true` if the `user` is `'constructor'` (use `hasOProp()` instead)
-  - Use `console.assert()` in the browser or `assert()` in Node. (note that [`console.assert()`](https://console.spec.whatwg.org/#assert) **does not** terminate the code execution)
-* Don't check the shape of objects that are guaranteed to have a certain form. For example in `function f(...props) { if (Array.isArr(props)) ... }`, `props` is guaranteed to be an array per JavaScript language specification.
-* If a function merely forwards a parameter to an inner function where it's used, it's best to validate the parameter in the inner function.
-* A [good error message](https://medium.com/hackernoon/what-makes-a-good-error-710d02682a68) should have enough information to facilitate inspection and troubleshooting.
-* When throwing an error, use an appropriate JavaScript standard `Error` subclass:
-  - `TypeError` when a value has an unexpected type
-  - `ReferenceError` when a property is missing from an object
-  - `RangeError` when a value is outside the expected range
-  - `SyntaxError` when there is a syntax error (usually comes handy when parsing a string, using regular expressions or validating JSON)
-  - You can also extend the relevant error class to create your own error: `class MyDomainSpecificError extends SyntaxError { constructor(...params) { super(...params) } /* ... */ }`
-  - [See more Error types on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error)
+[On the wiki](https://github.com/userpixel/jty/wiki/Best-Practices)
+
 
 ---
 
