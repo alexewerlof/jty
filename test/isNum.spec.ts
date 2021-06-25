@@ -7,6 +7,11 @@ describe('isNum()', () => {
         expect(isNum(0)).toBe(true)
     })
 
+    it('returns false when the value is a BigInt', () => {
+        expect(isNum(17n)).toBe(false)
+        expect(isNum(0n)).toBe(false)
+    })
+
     it('returns false for NaN', () => {
         expect(isNum(NaN)).toBe(false)
     })

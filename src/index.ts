@@ -44,6 +44,11 @@ const {
 type ObjectProp = string | number | symbol
 
 /**
+ * Number or BigInt
+ */
+type FiniteNumber = number | BigInt
+
+/**
  * Checks if the provided value is defined
  * This is exactly `x !== undefined` but a bit shorter
  * 
@@ -192,14 +197,70 @@ export function isPrm<T extends any>(x: unknown): x is Promise<T> {
 }
 
 /**
- * Checks if a value is a finite number and optionally bound by a min and max
+ * This is an internal function that checks if a value is a number or BigInt.
+ * The end-user API is isFin()
+ * 
+ * @param x a value
+ * @returns true if the value is a number or BigInt
+ */
+function isN(x: unknown): x is FiniteNumber {
+  return isFinite(x) || typeof x === 'bigint'
+}
+
+/**
+ * Checks if a value is a number or BigInt and optionally bound by a min and max (inclusive)
+ * 
+ * @see [[isInt]]
+ * @see [[isNum]]
+ * @see [[isBInt]]
+ * 
+ * @example `isFin(1)` => `true`
+ * @example `isFin(1n)` => `true`
+ * @example `isFin('1')` => `false`
+ * @example `isFin('1n')` => `false`
+ * @example `isFin(NaN)` => `false`
+ * @example `isFin(null)` => `false`
+ * @example `isFin(Infinity)` => `false`
+ * @example `isFin(-Infinity)` => `false`
+ * @example `isFin(-0)` => `true`
+ * @example `isFin(+0)` => `true`
+ * 
+ * @param x possibly a number or BigInt
+ * 
+ * @returns true if the value is either a number or a BigInt
+ */
+export function isFin(x: unknown, min?: FiniteNumber, max?: FiniteNumber): x is FiniteNumber {
+  if (!isN(x)) {
+    return false
+  }
+
+  if (isN(min)) {
+
+    if (isN(max)) {
+      // Both min and max are set
+      return min <= x && x <= max
+    } else {
+      // only min is set
+      return min <= x
+    }
+
+  } else if (isN(max)) {
+    // only max is set
+    return x <= max
+  }
+  
+  return isUndef(min) && isUndef(max)
+}
+
+/**
+ * Checks if a value is a finite number and optionally bound by a min and max (inclusive)
  * 
  * @see [[isInt]]
  * 
  * @example `isNum(3)` => `true`
  * @example `isNum(3, 3)` => `true`
  * @example `isNum(3, 10)` => `false`
- * @example `isNum(3, 3, 5)` => `true`
+ * @example `isNum(3, 3, 3)` => `true`
  * @example `isNum(3, 10, 15)` => `false`
  * @example `isNum(3, undefined, 5)` => `true`
  * @example `isNum('3')` => `false`
@@ -209,31 +270,12 @@ export function isPrm<T extends any>(x: unknown): x is Promise<T> {
  * @param min the minimum possible value (inclusive). If this is not a finite number, the lower bound will not be checked
  * @param max the maximum possible value (inclusive). If this is not a finite number, the upper bound will not be checked
  */
-export function isNum(x: unknown, min?: number, max?: number): x is number {
-  if (!isFinite(x)) {
-    return false
-  }
-
-  if (isFinite(min)) {
-
-    if (isFinite(max)) {
-      // Both min and max are set
-      return min <= x && x <= max
-    } else {
-      // only min is set
-      return min <= x
-    }
-
-  } else if (isFinite(max)) {
-    // only max is set
-    return x <= max
-  }
-  
-  return isUndef(min) && isUndef(max)
+export function isNum(x: unknown, min?: number, max?: number): x is FiniteNumber {
+  return typeof x === 'number' && isFin(x, min, max)
 }
 
 /**
- * Checks if a value is a finite integer number and optionally bound by a min and max.
+ * Checks if a value is a finite integer number and optionally bound by a min and max (inclusive)
  * 
  * @see [[isNum]]
  * 
@@ -249,7 +291,24 @@ export function isInt(x: unknown, min?: number, max?: number): x is number {
 }
 
 /**
- * Checks if the provided value is a string and optionally checks whether its length is in a boundary
+ * Checks if a value is a finite big integer number (`BigInt`) and optionally bound by a min and max (inclusive)
+ * 
+ * @see [[isInt]]
+ * @see [[isNum]]
+ * 
+ * @example `isBInt(43567877)` => `false`
+ * @example `isBInt(43567877n)` => `true`
+ * 
+ * @param x possibly a big integer number
+ * @param min the minimum possible value (inclusive). If this is not a finite number, the lower bound will not be checked
+ * @param max the maximum possible value (inclusive). If this is not a finite number, the upper bound will not be checked
+ */
+export function isBInt(x: unknown, min?: FiniteNumber, max?: FiniteNumber): x is BigInt {
+  return typeof x === 'bigint' && isFin(x, min, max)
+}
+
+/**
+ * Checks if the provided value is a string and optionally checks whether its length is in a boundary (inclusive)
  * 
  * @see [[isSym]]
  * @see [[isUnsh]]
@@ -263,7 +322,7 @@ export function isStr(x: unknown, minLen = 0, maxLen?: number): x is string {
 }
 
 /**
- * Checks if the provided value is an array and optionally checks whether its length is in a boundary
+ * Checks if the provided value is an array and optionally checks whether its length is in a boundary (inclusive)
  * 
  * @see [[isObj]]
  *
