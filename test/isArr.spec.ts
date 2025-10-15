@@ -1,28 +1,30 @@
-import { isArr } from "../src"
+import { describe, it } from 'node:test'
+import assert from 'node:assert'
+import { isArr } from "../src/index.ts"
 
 describe('isArr()', () => {
     it('returns true for an array', () => {
-        expect(isArr([])).toBe(true)
+        assert.strictEqual(isArr([]), true)
     })
 
     it('can check the minimum acceptable length', () => {
-        expect(isArr(['a', 'b', 'c'], 3)).toBe(true)
-        expect(isArr(['a', 'b', 'c'], 4)).toBe(false)
+        assert.strictEqual(isArr(['a', 'b', 'c'], 3), true)
+        assert.strictEqual(isArr(['a', 'b', 'c'], 4), false)
     })
 
     it('returns false for a non-array value', () => {
-        expect(isArr({})).toBe(false)
+        assert.strictEqual(isArr({}), false)
     })
 
     it('checks the len range', () => {
         const arr2 = [1, 2]
-        expect(isArr(arr2, undefined)).toBe(true)
-        expect(isArr(arr2, 0)).toBe(true)
-        expect(isArr(arr2, 1)).toBe(true)
-        expect(isArr(arr2, 2)).toBe(true)
-        expect(isArr(arr2, 2, 3)).toBe(true)
-        expect(isArr(arr2, 2, 10)).toBe(true)
-        expect(isArr(arr2, 0, 3)).toBe(true)
-        expect(isArr(arr2, 0, 2)).toBe(true)
+        assert.strictEqual(isArr(arr2, undefined), true)
+        assert.strictEqual(isArr(arr2, 0), true)
+        assert.strictEqual(isArr(arr2, 1), true)
+        assert.strictEqual(isArr(arr2, 2), true)
+        assert.strictEqual(isArr(arr2, 2, 3), true)
+        assert.strictEqual(isArr(arr2, 2, 10), true)
+        assert.strictEqual(isArr(arr2, 0, 3), true)
+        assert.strictEqual(isArr(arr2, 0, 2), true)
     })
 })

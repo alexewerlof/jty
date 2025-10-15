@@ -1,45 +1,47 @@
-import { isStr } from "../src"
+import { describe, it } from 'node:test'
+import assert from 'node:assert'
+import { isStr } from "../src/index.ts"
 
 describe('isStr()', () => {
     it('returns true for a string', () => {
-        expect(isStr('Hello')).toBe(true)
+        assert.strictEqual(isStr('Hello'), true)
     })
 
     it('returns false for a non-string value', () => {
-        expect(isStr(null)).toBe(false)
+        assert.strictEqual(isStr(null), false)
     })
 
     it('returns true for an empty string when no minimum length is specified', () => {
-        expect(isStr('')).toBe(true)
+        assert.strictEqual(isStr(''), true)
     })
 
     it('can match the length', () => {
-        expect(isStr('', 0)).toBe(true)
-        expect(isStr('', 1)).toBe(false)
-        expect(isStr('H', 0, 1)).toBe(true)
-        expect(isStr('H', 1)).toBe(true)
-        expect(isStr('H', 2)).toBe(false)
-        expect(isStr('Hi', 1)).toBe(true)
-        expect(isStr('Hi', 2)).toBe(true)
-        expect(isStr('Hi', 3)).toBe(false)
+        assert.strictEqual(isStr('', 0), true)
+        assert.strictEqual(isStr('', 1), false)
+        assert.strictEqual(isStr('H', 0, 1), true)
+        assert.strictEqual(isStr('H', 1), true)
+        assert.strictEqual(isStr('H', 2), false)
+        assert.strictEqual(isStr('Hi', 1), true)
+        assert.strictEqual(isStr('Hi', 2), true)
+        assert.strictEqual(isStr('Hi', 3), false)
     })
 
     it('can match length range', () => {
         const str = 'Hello'
-        expect(isStr(str, undefined, 6)).toBe(true)
-        expect(isStr(str, 0, 6)).toBe(true)
-        expect(isStr(str, -1, 6)).toBe(true)
-        expect(isStr(str, -1.1, 5.1)).toBe(true)
-        expect(isStr(str, 5, 6)).toBe(true)
-        expect(isStr(str, 4, 6)).toBe(true)
-        expect(isStr(str, 4, 5)).toBe(true)
-        expect(isStr(str, undefined, 5)).toBe(true)
+        assert.strictEqual(isStr(str, undefined, 6), true)
+        assert.strictEqual(isStr(str, 0, 6), true)
+        assert.strictEqual(isStr(str, -1, 6), true)
+        assert.strictEqual(isStr(str, -1.1, 5.1), true)
+        assert.strictEqual(isStr(str, 5, 6), true)
+        assert.strictEqual(isStr(str, 4, 6), true)
+        assert.strictEqual(isStr(str, 4, 5), true)
+        assert.strictEqual(isStr(str, undefined, 5), true)
     })
 
     it('does not choke if the max is less than min', () => {
         const str = 'Hello'
-        expect(isStr(str, 6, 5)).toBe(false)
-        expect(isStr(str, 6, 4)).toBe(false)
-        expect(isStr(str, 5, 4)).toBe(false)
+        assert.strictEqual(isStr(str, 6, 5), false)
+        assert.strictEqual(isStr(str, 6, 4), false)
+        assert.strictEqual(isStr(str, 5, 4), false)
     })
 })

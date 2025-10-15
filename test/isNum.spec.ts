@@ -1,60 +1,62 @@
-import { isNum } from '../src'
+import { describe, it } from 'node:test'
+import assert from 'node:assert'
+import { isNum } from "../src/index.ts"
 
 describe('isNum()', () => {
     it('returns true when the value is a number', () => {
-        expect(isNum(17)).toBe(true)
-        expect(isNum(Math.PI)).toBe(true)
-        expect(isNum(0)).toBe(true)
+        assert.strictEqual(isNum(17), true)
+        assert.strictEqual(isNum(Math.PI), true)
+        assert.strictEqual(isNum(0), true)
     })
 
     it('returns false when the value is a BigInt', () => {
-        expect(isNum(17n)).toBe(false)
-        expect(isNum(0n)).toBe(false)
+        assert.strictEqual(isNum(17n), false)
+        assert.strictEqual(isNum(0n), false)
     })
 
     it('returns false for NaN', () => {
-        expect(isNum(NaN)).toBe(false)
+        assert.strictEqual(isNum(NaN), false)
     })
 
     it('returns false for string numbers', () => {
-        expect(isNum('13')).toBe(false)
-        expect(isNum('2', 1, 3)).toBe(false)
+        assert.strictEqual(isNum('13'), false)
+        assert.strictEqual(isNum('2', 1, 3), false)
     })
 
     it('returns false for non-numerical values', () => {
-        expect(isNum('Hi')).toBe(false)
+        assert.strictEqual(isNum('Hi'), false)
     })
 
     it('returns true for extreme numbers', () => {
-        expect(isNum(Number.MAX_SAFE_INTEGER)).toBe(true)
-        expect(isNum(Number.MIN_SAFE_INTEGER)).toBe(true)
+        assert.strictEqual(isNum(Number.MAX_SAFE_INTEGER), true)
+        assert.strictEqual(isNum(Number.MIN_SAFE_INTEGER), true)
     })
 
     it('works if only min is specified', () => {
-        expect(isNum(2, 1)).toBe(true)
-        expect(isNum(2, 3)).toBe(false)
-        expect(isNum(19, 19)).toBe(true)
-        expect(isNum(19.1, 19)).toBe(true)
+        assert.strictEqual(isNum(2, 1), true)
+        assert.strictEqual(isNum(2, 3), false)
+        assert.strictEqual(isNum(19, 19), true)
+        assert.strictEqual(isNum(19.1, 19), true)
     })
 
     it('works if only min is specified', () => {
-        expect(isNum(2, undefined, 3)).toBe(true)
-        expect(isNum(2, undefined, 1)).toBe(false)
-        expect(isNum(19.1, undefined, 19)).toBe(false)
+        assert.strictEqual(isNum(2, undefined, 3), true)
+        assert.strictEqual(isNum(2, undefined, 1), false)
+        assert.strictEqual(isNum(19.1, undefined, 19), false)
     })
 
     it('works when both min and max are specified', () => {
-        expect(isNum(19, 17, 20)).toBe(true)
-        expect(isNum(19, 17, 19)).toBe(true)
-        expect(isNum(19, 19, 20)).toBe(true)
+        assert.strictEqual(isNum(19, 17, 20), true)
+        assert.strictEqual(isNum(19, 17, 19), true)
+        assert.strictEqual(isNum(19, 19, 20), true)
     })
 
     it('works when the min === max', () => {
-        expect(isNum(1, 1, 1)).toBe(true)
-        expect(isNum(3, 1, 1)).toBe(false)
+        assert.strictEqual(isNum(1, 1, 1), true)
+        assert.strictEqual(isNum(3, 1, 1), false)
     })
 
     it('returns false if the min and max are misplaced', () => {
-        expect(isNum(2, 3, 1)).toBe(false)
+        assert.strictEqual(isNum(2, 3, 1), false)
     })
 })

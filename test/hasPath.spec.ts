@@ -1,8 +1,10 @@
-import { hasPath } from "../src"
+import { describe, it } from 'node:test'
+import assert from 'node:assert'
+import { hasPath } from "../src/index.ts"
 
 describe('hasPath()', () => {
     it('returns true if the object has that property', () => {
-        expect(hasPath({ foo: 'bar' }, 'foo')).toBe(true)
+        assert.strictEqual(hasPath({ foo: 'bar' }, 'foo'), true)
     })
 
     it('can dig deep into the object', () => {
@@ -14,55 +16,55 @@ describe('hasPath()', () => {
             }
         }
 
-        expect(hasPath(obj, 'foo', 'bar', 'baz')).toBe(true)
+        assert.strictEqual(hasPath(obj, 'foo', 'bar', 'baz'), true)
     })
 
     it('returns true if the object has that property and the value is an object', () => {
-        expect(hasPath({ foo: { bar: 'qux' } }, 'foo')).toBe(true)
+        assert.strictEqual(hasPath({ foo: { bar: 'qux' } }, 'foo'), true)
     })
 
     it('returns true if the object has that property even if the value is undefined', () => {
-        expect(hasPath({ foo: undefined }, 'foo')).toBe(true)
+        assert.strictEqual(hasPath({ foo: undefined }, 'foo'), true)
     })
 
     it('returns false if the property name is missing', () => {
-        expect(hasPath({ foo: 'bar' })).toBe(false)
+        assert.strictEqual(hasPath({ foo: 'bar' }), false)
     })
 
     it('works correctly if the object has a key that is named "undefined"', () => {
-        expect(hasPath({ undefined: 'one' })).toBe(false)
+        assert.strictEqual(hasPath({ undefined: 'one' }), false)
         // @ts-ignore
-        expect(hasPath({ undefined: 'thress' }, undefined)).toBe(true)
-        expect(hasPath({ undefined: 'two' }, 'undefined')).toBe(true)
+        assert.strictEqual(hasPath({ undefined: 'thress' }, undefined), true)
+        assert.strictEqual(hasPath({ undefined: 'two' }, 'undefined'), true)
 
     })
 
     it('returns true for "__proto__"', () => {
-        expect(hasPath({}, '__proto__')).toBe(true)
+        assert.strictEqual(hasPath({}, '__proto__'), true)
     })
 
     it('returns true for other standard inherited properties', () => {
-        expect(hasPath({}, 'constructor')).toBe(true)
-        expect(hasPath({}, 'hasOwnProperty')).toBe(true)
-        expect(hasPath({}, 'isPrototypeOf')).toBe(true)
-        expect(hasPath({}, 'propertyIsEnumerable')).toBe(true)
-        expect(hasPath({}, 'toLocaleString')).toBe(true)
-        expect(hasPath({}, 'toString')).toBe(true)
-        expect(hasPath({}, 'valueOf')).toBe(true)
-        expect(hasPath({}, '__defineGetter__')).toBe(true)
-        expect(hasPath({}, '__defineSetter__')).toBe(true)
-        expect(hasPath({}, '__lookupGetter__')).toBe(true)
-        expect(hasPath({}, '__lookupSetter__')).toBe(true)
+        assert.strictEqual(hasPath({}, 'constructor'), true)
+        assert.strictEqual(hasPath({}, 'hasOwnProperty'), true)
+        assert.strictEqual(hasPath({}, 'isPrototypeOf'), true)
+        assert.strictEqual(hasPath({}, 'propertyIsEnumerable'), true)
+        assert.strictEqual(hasPath({}, 'toLocaleString'), true)
+        assert.strictEqual(hasPath({}, 'toString'), true)
+        assert.strictEqual(hasPath({}, 'valueOf'), true)
+        assert.strictEqual(hasPath({}, '__defineGetter__'), true)
+        assert.strictEqual(hasPath({}, '__defineSetter__'), true)
+        assert.strictEqual(hasPath({}, '__lookupGetter__'), true)
+        assert.strictEqual(hasPath({}, '__lookupSetter__'), true)
     })
 
     it('woks for arrays', () => {
-        expect(hasPath([1, 2, 3], 1)).toBe(true)
-        expect(hasPath([1, 2, 3], -1)).toBe(false)
-        expect(hasPath([1, 2, 3], 0)).toBe(true)
-        expect(hasPath([1, 2, 3], '0')).toBe(true)
-        expect(hasPath([1, 2, 3], '1')).toBe(true)
-        expect(hasPath([1, 2, 3], '-1')).toBe(false)
-        expect(hasPath([1, 2, 3], 'length')).toBe(true)
+        assert.strictEqual(hasPath([1, 2, 3], 1), true)
+        assert.strictEqual(hasPath([1, 2, 3], -1), false)
+        assert.strictEqual(hasPath([1, 2, 3], 0), true)
+        assert.strictEqual(hasPath([1, 2, 3], '0'), true)
+        assert.strictEqual(hasPath([1, 2, 3], '1'), true)
+        assert.strictEqual(hasPath([1, 2, 3], '-1'), false)
+        assert.strictEqual(hasPath([1, 2, 3], 'length'), true)
     })
 
     it('returns true for getter properties', () => {
@@ -73,7 +75,7 @@ describe('hasPath()', () => {
         }
 
         const a = new A
-        expect(hasPath(a, 'b')).toBe(true)
+        assert.strictEqual(hasPath(a, 'b'), true)
     })
 
     it('returns true for setter properties', () => {
@@ -85,7 +87,7 @@ describe('hasPath()', () => {
         }
 
         const a = new ClassWithSetter
-        expect(hasPath(a, 'b')).toBe(true)
+        assert.strictEqual(hasPath(a, 'b'), true)
     })
 
     it('works on property chains', () => {
@@ -101,8 +103,8 @@ describe('hasPath()', () => {
                 ]
             }
         }
-        expect(hasPath(obj, 'a', 'b', 0, 'c0')).toBe(true)
-        expect(hasPath(obj, 'a', 'b', '1', 'c1')).toBe(true)
+        assert.strictEqual(hasPath(obj, 'a', 'b', 0, 'c0'), true)
+        assert.strictEqual(hasPath(obj, 'a', 'b', '1', 'c1'), true)
     })
     
     it('works on property chains with prototypes', () => {
@@ -118,7 +120,7 @@ describe('hasPath()', () => {
                 ]
             })
         }
-        expect(hasPath(obj, 'a', 'b', 0, 'c0')).toBe(true)
-        expect(hasPath(obj, 'a', 'b', '1', 'c1')).toBe(true)
+        assert.strictEqual(hasPath(obj, 'a', 'b', 0, 'c0'), true)
+        assert.strictEqual(hasPath(obj, 'a', 'b', '1', 'c1'), true)
     })
 })

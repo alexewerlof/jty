@@ -1,10 +1,12 @@
-import { isFn } from '../src'
+import { describe, it } from 'node:test'
+import assert from 'node:assert'
+import { isFn } from '../src/index.ts'
 
 const noop = () => void 0
 
 describe('isFn()', () => {
     it('returns true for a function', () => {
-        expect(isFn(noop)).toBe(true)
+        assert.strictEqual(isFn(noop), true)
     })
     
     it('returns true for a method', () => {
@@ -14,14 +16,14 @@ describe('isFn()', () => {
             }
         }
         const dog = new Dog
-        expect(isFn(dog.bark)).toBe(true)
+        assert.strictEqual(isFn(dog.bark), true)
     })
 
     it('returns false for an object', () => {
-        expect(isFn({})).toBe(false)
+        assert.strictEqual(isFn({}), false)
     })
 
     it('returns true for arrow functions', () => {
-        expect(isFn(() => void 0)).toBe(true)
+        assert.strictEqual(isFn(() => void 0), true)
     })
 })

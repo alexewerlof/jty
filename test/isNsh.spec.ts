@@ -1,21 +1,23 @@
-import { isNsh } from "../src"
+import { describe, it } from 'node:test'
+import assert from 'node:assert'
+import { isNsh } from "../src/index.ts"
 
 describe('isNsh()', () => {
     it('returns false if the provided value is not undefined or null', () => {
-        expect(isNsh('Good morning')).toBe(false)
-        expect(isNsh('')).toBe(false)
-        expect(isNsh(13)).toBe(false)
-        expect(isNsh(0)).toBe(false)
-        expect(isNsh(false)).toBe(false)
-        expect(isNsh(NaN)).toBe(false)
-        expect(isNsh({})).toBe(false)
-        expect(isNsh([])).toBe(false)
+        assert.strictEqual(isNsh('Good morning'), false)
+        assert.strictEqual(isNsh(''), false)
+        assert.strictEqual(isNsh(13), false)
+        assert.strictEqual(isNsh(0), false)
+        assert.strictEqual(isNsh(false), false)
+        assert.strictEqual(isNsh(NaN), false)
+        assert.strictEqual(isNsh({}), false)
+        assert.strictEqual(isNsh([]), false)
     })
 
     it('returns true if the provided value is undefined or null', () => {
         // @ts-expect-error
-        expect(isNsh()).toBe(true)
-        expect(isNsh(undefined)).toBe(true)
-        expect(isNsh(null)).toBe(true)
+        assert.strictEqual(isNsh(), true)
+        assert.strictEqual(isNsh(undefined), true)
+        assert.strictEqual(isNsh(null), true)
     })
 })

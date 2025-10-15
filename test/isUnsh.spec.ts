@@ -1,22 +1,24 @@
-import { isUnsh } from "../src"
+import { describe, it } from 'node:test'
+import assert from 'node:assert'
+import { isUnsh } from "../src/index.ts"
 
 describe('isUnsh()', () => {
     it('returns true if the provided value is not undefined or null', () => {
-        expect(isUnsh('Good morning')).toBe(true)
-        expect(isUnsh('')).toBe(true)
-        expect(isUnsh(13)).toBe(true)
-        expect(isUnsh(0)).toBe(true)
-        expect(isUnsh(true)).toBe(true)
-        expect(isUnsh(false)).toBe(true)
-        expect(isUnsh(NaN)).toBe(true)
-        expect(isUnsh({})).toBe(true)
-        expect(isUnsh([])).toBe(true)
+        assert.strictEqual(isUnsh('Good morning'), true)
+        assert.strictEqual(isUnsh(''), true)
+        assert.strictEqual(isUnsh(13), true)
+        assert.strictEqual(isUnsh(0), true)
+        assert.strictEqual(isUnsh(true), true)
+        assert.strictEqual(isUnsh(false), true)
+        assert.strictEqual(isUnsh(NaN), true)
+        assert.strictEqual(isUnsh({}), true)
+        assert.strictEqual(isUnsh([]), true)
     })
 
     it('returns false if the provided value is undefined or null', () => {
         // @ts-expect-error
-        expect(isUnsh()).toBe(false)
-        expect(isUnsh(undefined)).toBe(false)
-        expect(isUnsh(null)).toBe(false)
+        assert.strictEqual(isUnsh(), false)
+        assert.strictEqual(isUnsh(undefined), false)
+        assert.strictEqual(isUnsh(null), false)
     })
 })

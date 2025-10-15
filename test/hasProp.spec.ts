@@ -1,23 +1,25 @@
-import { hasProp } from "../src"
+import { describe, it } from 'node:test'
+import assert from 'node:assert'
+import { hasProp } from "../src/index.ts"
 
 describe('hasProp()', () => {
     it('returns true only if the property exist on the target', () => {
         const target = { foo: 'bar'}
 
-        expect(hasProp(target, 'foo')).toBe(true)
-        expect(hasProp(target, 'baz')).toBe(false)
+        assert.strictEqual(hasProp(target, 'foo'), true)
+        assert.strictEqual(hasProp(target, 'baz'), false)
     })
 
     it('does not care about the value of the property', () => {
-        expect(hasProp({ u: undefined }, 'u')).toBe(true)
+        assert.strictEqual(hasProp({ u: undefined }, 'u'), true)
     })
 
     it('returns false if the target is not an object', () => {
-        expect(hasProp('Hello', 'length')).toBe(false)
-        expect(hasProp(3, 'toFixed')).toBe(false)
-        expect(hasProp(true, 'valueOf')).toBe(false)
-        expect(hasProp(undefined, 'basically')).toBe(false)
-        expect(hasProp(null, 'yes')).toBe(false)
+        assert.strictEqual(hasProp('Hello', 'length'), false)
+        assert.strictEqual(hasProp(3, 'toFixed'), false)
+        assert.strictEqual(hasProp(true, 'valueOf'), false)
+        assert.strictEqual(hasProp(undefined, 'basically'), false)
+        assert.strictEqual(hasProp(null, 'yes'), false)
     })
 
     it('returns true for the getter or setter properties', () => {
@@ -27,66 +29,66 @@ describe('hasProp()', () => {
             set s(val: number) { this._s = val }
         }
 
-        expect(hasProp(new A, 'g')).toBe(true)
-        expect(hasProp(new A, 's')).toBe(true)
+        assert.strictEqual(hasProp(new A, 'g'), true)
+        assert.strictEqual(hasProp(new A, 's'), true)
     })
 
     it('can check existence of multiple properties', () => {
         const target = { foo: 'bar', baz: 'cux'}
 
-        expect(hasProp(target, 'foo', 'baz')).toBe(true)
+        assert.strictEqual(hasProp(target, 'foo', 'baz'), true)
         // returns false if any of the properties is missing
-        expect(hasProp(target, 'foo', 'what')).toBe(false)
+        assert.strictEqual(hasProp(target, 'foo', 'what'), false)
     })
 
     it('supports arrays', () => {
         const target = [10, 20, 30]
 
-        expect(hasProp(target, 0, 1)).toBe(true)
-        expect(hasProp(target, 10, 11)).toBe(false)
+        assert.strictEqual(hasProp(target, 0, 1), true)
+        assert.strictEqual(hasProp(target, 10, 11), false)
     })
 
     it('supports the length property of arrays', () => {
-        expect(hasProp([], 'length')).toBe(true)
+        assert.strictEqual(hasProp([], 'length'), true)
     })
 
     it('returns true for "__proto__"', () => {
-        expect(hasProp({}, '__proto__')).toBe(true)
+        assert.strictEqual(hasProp({}, '__proto__'), true)
     })
 
     it('returns true for other standard inherited properties', () => {
-        expect(hasProp({}, 'constructor')).toBe(true)
-        expect(hasProp({}, 'hasOwnProperty')).toBe(true)
-        expect(hasProp({}, 'isPrototypeOf')).toBe(true)
-        expect(hasProp({}, 'propertyIsEnumerable')).toBe(true)
-        expect(hasProp({}, 'toLocaleString')).toBe(true)
-        expect(hasProp({}, 'toString')).toBe(true)
-        expect(hasProp({}, 'valueOf')).toBe(true)
-        expect(hasProp({}, '__defineGetter__')).toBe(true)
-        expect(hasProp({}, '__defineSetter__')).toBe(true)
-        expect(hasProp({}, '__lookupGetter__')).toBe(true)
-        expect(hasProp({}, '__lookupSetter__')).toBe(true)
+        assert.strictEqual(hasProp({}, 'constructor'), true)
+        assert.strictEqual(hasProp({}, 'hasOwnProperty'), true)
+        assert.strictEqual(hasProp({}, 'isPrototypeOf'), true)
+        assert.strictEqual(hasProp({}, 'propertyIsEnumerable'), true)
+        assert.strictEqual(hasProp({}, 'toLocaleString'), true)
+        assert.strictEqual(hasProp({}, 'toString'), true)
+        assert.strictEqual(hasProp({}, 'valueOf'), true)
+        assert.strictEqual(hasProp({}, '__defineGetter__'), true)
+        assert.strictEqual(hasProp({}, '__defineSetter__'), true)
+        assert.strictEqual(hasProp({}, '__lookupGetter__'), true)
+        assert.strictEqual(hasProp({}, '__lookupSetter__'), true)
     })
 
     it('supports prototypically inherited properties', () => {
         const obj = Object.create({ foo: 'bar' })
 
-        expect(hasProp(obj, 'foo')).toBe(true)
+        assert.strictEqual(hasProp(obj, 'foo'), true)
     })
 
     it('returns true if no prop is provided', () => {
-        expect(hasProp({})).toBe(true)
+        assert.strictEqual(hasProp({}), true)
     })
 
 
     it('returns true if no prop is provided', () => {
-        expect(hasProp({})).toBe(true)
+        assert.strictEqual(hasProp({}), true)
     })
 
     it('returns true if there is actually a property called undefined', () => {
-        expect(hasProp({
+        assert.strictEqual(hasProp({
             undefined: undefined
-        }, 'undefined')).toBe(true)
+        }, 'undefined'), true)
     })
 
 })

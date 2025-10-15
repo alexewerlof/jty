@@ -1,17 +1,19 @@
-import { isBool } from "../src"
+import { describe, it } from 'node:test'
+import assert from 'node:assert'
+import { isBool } from "../src/index.ts"
 
 describe('isBool()', () => {
     it('returns true if the provided value is boolean', () => {
-        expect(isBool(true)).toBe(true)
-        expect(isBool(false)).toBe(true)
+        assert.strictEqual(isBool(true), true)
+        assert.strictEqual(isBool(false), true)
     })
 
     it('returns false for any non-boolean value', () => {
-        expect(isBool('')).toBe(false)
-        expect(isBool(0)).toBe(false)
-        expect(isBool(null)).toBe(false)
+        assert.strictEqual(isBool(''), false)
+        assert.strictEqual(isBool(0), false)
+        assert.strictEqual(isBool(null), false)
         // @ts-expect-error
-        expect(isBool()).toBe(false)
-        expect(isBool(undefined)).toBe(false)
+        assert.strictEqual(isBool(), false)
+        assert.strictEqual(isBool(undefined), false)
     })
 })

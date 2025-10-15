@@ -1,39 +1,41 @@
-import { hasOPath } from "../src"
+import { describe, it } from 'node:test'
+import assert from 'node:assert'
+import { hasOPath } from "../src/index.ts"
 
 describe('hasOPath()', () => {
     it('returns true if the object has that property', () => {
-        expect(hasOPath({ foo: 'bar' }, 'foo')).toBe(true)
+        assert.strictEqual(hasOPath({ foo: 'bar' }, 'foo'), true)
     })
 
     it('returns true if the object has that property and the value is an object', () => {
-        expect(hasOPath({ foo: { bar: 'qux' } }, 'foo')).toBe(true)
+        assert.strictEqual(hasOPath({ foo: { bar: 'qux' } }, 'foo'), true)
     })
 
     it('returns true if the object has that property even if the value is undefined', () => {
-        expect(hasOPath({ foo: undefined }, 'foo')).toBe(true)
+        assert.strictEqual(hasOPath({ foo: undefined }, 'foo'), true)
     })
 
     it('returns false if the property name is missing', () => {
-        expect(hasOPath({ foo: 'bar' })).toBe(false)
+        assert.strictEqual(hasOPath({ foo: 'bar' }), false)
     })
 
     it('works correctly if the object has a key that is named "undefined"', () => {
-        expect(hasOPath({ 'undefined': 'yes' }, 'undefined')).toBe(true)
+        assert.strictEqual(hasOPath({ 'undefined': 'yes' }, 'undefined'), true)
     })
 
     it('returns false for "prototype"', () => {
-        expect(hasOPath({}, 'prototype')).toBe(false)
-        expect(hasOPath({}, '__proto__')).toBe(false)
+        assert.strictEqual(hasOPath({}, 'prototype'), false)
+        assert.strictEqual(hasOPath({}, '__proto__'), false)
     })
 
     it('woks for arrays', () => {
-        expect(hasOPath([1, 2, 3], 1)).toBe(true)
-        expect(hasOPath([1, 2, 3], -1)).toBe(false)
-        expect(hasOPath([1, 2, 3], 0)).toBe(true)
-        expect(hasOPath([1, 2, 3], '0')).toBe(true)
-        expect(hasOPath([1, 2, 3], '1')).toBe(true)
-        expect(hasOPath([1, 2, 3], '-1')).toBe(false)
-        expect(hasOPath([1, 2, 3], 'length')).toBe(true)
+        assert.strictEqual(hasOPath([1, 2, 3], 1), true)
+        assert.strictEqual(hasOPath([1, 2, 3], -1), false)
+        assert.strictEqual(hasOPath([1, 2, 3], 0), true)
+        assert.strictEqual(hasOPath([1, 2, 3], '0'), true)
+        assert.strictEqual(hasOPath([1, 2, 3], '1'), true)
+        assert.strictEqual(hasOPath([1, 2, 3], '-1'), false)
+        assert.strictEqual(hasOPath([1, 2, 3], 'length'), true)
     })
 
     it('returns false for getter properties because they use prototype inheritance', () => {
@@ -44,7 +46,7 @@ describe('hasOPath()', () => {
         }
 
         const a = new A
-        expect(hasOPath(a, 'b')).toBe(false)
+        assert.strictEqual(hasOPath(a, 'b'), false)
     })
 
     it('works on property chains', () => {
@@ -60,8 +62,8 @@ describe('hasOPath()', () => {
                 ]
             }
         }
-        expect(hasOPath(obj, 'a', 'b', 0, 'c0')).toBe(true)
-        expect(hasOPath(obj, 'a', 'b', '1', 'c1')).toBe(true)
+        assert.strictEqual(hasOPath(obj, 'a', 'b', 0, 'c0'), true)
+        assert.strictEqual(hasOPath(obj, 'a', 'b', '1', 'c1'), true)
     })
     
     it('does not honor property chains with prototypes', () => {
@@ -77,7 +79,7 @@ describe('hasOPath()', () => {
                 ]
             })
         }
-        expect(hasOPath(obj, 'a', 'b', 0, 'c0')).toBe(false)
-        expect(hasOPath(obj, 'a', 'b', '1', 'c1')).toBe(false)
+        assert.strictEqual(hasOPath(obj, 'a', 'b', 0, 'c0'), false)
+        assert.strictEqual(hasOPath(obj, 'a', 'b', '1', 'c1'), false)
     })
 })

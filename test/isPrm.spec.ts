@@ -1,31 +1,35 @@
-import { isPrm } from '../src'
+import { describe, it } from 'node:test'
+import assert from 'node:assert'
+import { isPrm } from "../src/index.ts"
 
 const noop = () => 0
 
 describe('isPrm()', () => {
     it('returns true for an object with a then() method', () => {
-        expect(isPrm({
+        assert.strictEqual(isPrm({
             then() {}
-        })).toBe(true)
+        }), true)
     })
 
-    it('returns true for a native promise', () => {
-        expect(isPrm(Promise.resolve())).toBe(true)
-        expect(isPrm(Promise.reject())).toBe(true)
-        expect(isPrm(new Promise(noop))).toBe(true)
+    it('returns true for a native promise', async () => {
+        assert.strictEqual(isPrm(Promise.resolve()), true)
+        const rejected = Promise.reject()
+        assert.strictEqual(isPrm(rejected), true)
+        assert.strictEqual(isPrm(new Promise(noop)), true)
+        rejected.catch(noop) // prevent unhandled rejection
     })
 
     it('returns false for null', () => {
-        expect(isPrm(null)).toBe(false)
+        assert.strictEqual(isPrm(null), false)
     })
 
     it('returns false for an object without then()', () => {
-        expect(isPrm({
+        assert.strictEqual(isPrm({
             catch() {}
-        })).toBe(false)
+        }), false)
     })
 
     it('return false for a function', () => {
-        expect(isPrm(noop)).toBe(false)
+        assert.strictEqual(isPrm(noop), false)
     })
 })

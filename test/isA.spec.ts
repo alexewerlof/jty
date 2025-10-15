@@ -1,51 +1,56 @@
-import { isA } from "../src"
+import { describe, it } from 'node:test'
+import assert from 'node:assert'
+import { isA } from "../src/index.ts"
 
 describe('isA()', () => {
     it('returns true if an object is an instance of the provided class', () => {
-        expect(isA({}, Object)).toBe(true)
+        assert.strictEqual(isA({}, Object), true)
 
         class A {}
         const a = new A
 
-        expect(isA(a, A)).toBe(true)
-        expect(isA(a, Object)).toBe(true)
+        assert.strictEqual(isA(a, A), true)
+        assert.strictEqual(isA(a, Object), true)
     })
 
     it('returns false if the provided "class" is not a function', () => {
         // @ts-expect-error
-        expect(isA({}, null)).toBe(false)
+        assert.strictEqual(isA({}, null), false)
         // @ts-expect-error
-        expect(isA({}, undefined)).toBe(false)
+        assert.strictEqual(isA({}, undefined), false)
         // @ts-expect-error
-        expect(isA({}, 'lamborghini')).toBe(false)
+        assert.strictEqual(isA({}, 'lamborghini'), false)
         // @ts-expect-error
-        expect(isA({}, NaN)).toBe(false)
+        assert.strictEqual(isA({}, NaN), false)
         // @ts-expect-error
-        expect(isA({}, false)).toBe(false)
+        assert.strictEqual(isA({}, false), false)
         // @ts-expect-error
-        expect(isA({}, 1)).toBe(false)
+        assert.strictEqual(isA({}, 1), false)
         // @ts-expect-error
-        expect(isA({}, [])).toBe(false)
+        assert.strictEqual(isA({}, []), false)
         // @ts-expect-error
-        expect(isA({}, {})).toBe(false)
+        assert.strictEqual(isA({}, {}), false)
     })
 
     it('works for regular expressions', () => {
-        expect(isA(/hello/i, RegExp)).toBe(true)
+        assert.strictEqual(isA(/hello/i, RegExp), true)
     })
     
-    it('works for promises', () => {
-        expect(isA(Promise.resolve(), Promise)).toBe(true)
-        expect(isA(Promise.reject(), Promise)).toBe(true)
+    it('works for promises', async () => {
+        const resolve = Promise.resolve()
+        const reject = Promise.reject()
+        assert.strictEqual(isA(resolve, Promise), true)
+        assert.strictEqual(isA(reject, Promise), true)
+        await Promise.allSettled([resolve, reject])
     })
 
     it('works for strings', () => {
-        expect(isA('plain str', String)).toBe(false)
-        expect(isA(new String('str obj'), String)).toBe(true)
+        assert.strictEqual(isA('plain str', String), false)
+        assert.strictEqual(isA(new String('str obj'), String), true)
     })
 
     it('works for numbers', () => {
-        expect(isA(22, Number)).toBe(false)
-        expect(isA(new Number(33), Number)).toBe(true)
+        assert.strictEqual(isA(22, Number), false)
+        assert.strictEqual(isA(new Number(33), Number), true)
     })
 })

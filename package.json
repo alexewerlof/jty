@@ -2,24 +2,24 @@
   "name": "jty",
   "version": "3.2.0",
   "description": "A minimal type checking library that I need in various projects for safer programming",
-  "type": "commonjs",
+  "type": "module",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "directories": {
     "lib": "lib"
   },
   "scripts": {
-    "docs": "typedoc src/index.ts",
+    "docs": "typedoc",
     "build": "tsc",
-    "test": "jest",
-    "test:watch": "jest --watch",
+    "test": "node --test",
+    "test:watch": "node --test --watch",
     "preversion": "npm t",
     "prepublishOnly": "npm run build",
     "postversion": "git push && git push --tags"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/userpixel/jty.git"
+    "url": "https://github.com/alexewerlof/jty.git"
   },
   "keywords": [
     "javascript",
@@ -33,10 +33,7 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "@types/jest": "^26.0.22",
-    "jest": "^26.6.3",
-    "ts-jest": "^26.5.4",
-    "typedoc": "^0.20.34",
+    "typedoc": "^0.28.14",
     "typescript": "^4.2.3"
   }
 }
