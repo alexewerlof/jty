@@ -1,10 +1,10 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert'
-import { hasProp } from "../src/index.ts"
+import { hasProp } from '../src/index.ts'
 
 describe('hasProp()', () => {
     it('returns true only if the property exist on the target', () => {
-        const target = { foo: 'bar'}
+        const target = { foo: 'bar' }
 
         assert.strictEqual(hasProp(target, 'foo'), true)
         assert.strictEqual(hasProp(target, 'baz'), false)
@@ -24,17 +24,21 @@ describe('hasProp()', () => {
 
     it('returns true for the getter or setter properties', () => {
         class A {
-            _s: number
-            get g() { return true }
-            set s(val: number) { this._s = val }
+            _s = 5
+            get g() {
+                return true
+            }
+            set s(val: number) {
+                this._s = val
+            }
         }
 
-        assert.strictEqual(hasProp(new A, 'g'), true)
-        assert.strictEqual(hasProp(new A, 's'), true)
+        assert.strictEqual(hasProp(new A(), 'g'), true)
+        assert.strictEqual(hasProp(new A(), 's'), true)
     })
 
     it('can check existence of multiple properties', () => {
-        const target = { foo: 'bar', baz: 'cux'}
+        const target = { foo: 'bar', baz: 'cux' }
 
         assert.strictEqual(hasProp(target, 'foo', 'baz'), true)
         // returns false if any of the properties is missing
@@ -80,15 +84,19 @@ describe('hasProp()', () => {
         assert.strictEqual(hasProp({}), true)
     })
 
-
     it('returns true if no prop is provided', () => {
         assert.strictEqual(hasProp({}), true)
     })
 
     it('returns true if there is actually a property called undefined', () => {
-        assert.strictEqual(hasProp({
-            undefined: undefined
-        }, 'undefined'), true)
+        assert.strictEqual(
+            hasProp(
+                {
+                    undefined: undefined,
+                },
+                'undefined',
+            ),
+            true,
+        )
     })
-
 })

@@ -8,14 +8,14 @@ describe('isFn()', () => {
     it('returns true for a function', () => {
         assert.strictEqual(isFn(noop), true)
     })
-    
+
     it('returns true for a method', () => {
         class Dog {
             bark() {
                 return 'woof'
             }
         }
-        const dog = new Dog
+        const dog = new Dog()
         assert.strictEqual(isFn(dog.bark), true)
     })
 
@@ -24,6 +24,9 @@ describe('isFn()', () => {
     })
 
     it('returns true for arrow functions', () => {
-        assert.strictEqual(isFn(() => void 0), true)
+        assert.strictEqual(
+            isFn(() => void 0),
+            true,
+        )
     })
 })

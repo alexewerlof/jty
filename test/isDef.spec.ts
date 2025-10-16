@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert'
-import { isDef } from "../src/index.ts"
+import { isDef } from '../src/index.ts'
 
 describe('isDef()', () => {
     it('returns true if the provided value is defined', () => {

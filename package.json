@@ -1,40 +1,42 @@
 {
-  "name": "jty",
-  "version": "3.2.0",
-  "description": "A minimal type checking library that I need in various projects for safer programming",
-  "type": "module",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
-  "directories": {
-    "lib": "lib"
-  },
-  "scripts": {
-    "docs": "typedoc",
-    "build": "tsc",
-    "test": "node --test",
-    "test:watch": "node --test --watch",
-    "preversion": "npm t",
-    "prepublishOnly": "npm run build",
-    "postversion": "git push && git push --tags"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/alexewerlof/jty.git"
-  },
-  "keywords": [
-    "javascript",
-    "language",
-    "manual type check",
-    "type safety",
-    "defensive programming",
-    "security",
-    "verification"
-  ],
-  "author": "",
-  "license": "MIT",
-  "devDependencies": {
-    "@types/node": "^24.7.2",
-    "typedoc": "^0.28.14",
-    "typescript": "^5.9.3"
-  }
+    "name": "jty",
+    "version": "3.2.0",
+    "description": "A minimal type checking library that I need in various projects for safer programming",
+    "type": "module",
+    "main": "lib/index.js",
+    "types": "lib/index.d.ts",
+    "directories": {
+        "lib": "lib"
+    },
+    "scripts": {
+        "docs": "typedoc",
+        "build": "tsc",
+        "format": "prettier --write .",
+        "test": "node --import tsx --test test/**/*.spec.ts",
+        "preversion": "npm t",
+        "prepublishOnly": "npm run build",
+        "postversion": "git push && git push --tags"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/alexewerlof/jty.git"
+    },
+    "keywords": [
+        "javascript",
+        "language",
+        "manual type check",
+        "type safety",
+        "defensive programming",
+        "security",
+        "verification"
+    ],
+    "author": "",
+    "license": "MIT",
+    "devDependencies": {
+        "@types/node": "^24.7.2",
+        "prettier": "^3.6.2",
+        "tsx": "^4.20.6",
+        "typedoc": "^0.28.14",
+        "typescript": "^5.9.3"
+    }
 }

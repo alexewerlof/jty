@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert'
-import { isBool } from "../src/index.ts"
+import { isBool } from '../src/index.ts'
 
 describe('isBool()', () => {
     it('returns true if the provided value is boolean', () => {

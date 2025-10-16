@@ -14,19 +14,19 @@ A minimalistic library for writing safer code. It came out of a few years of pro
 
 **Fail early with a good error rather than continue with the wrong assumption**
 
-* Minimalistic: complements what's available in JavaScript
-* No dependencies
-* Unified, solid and predictable behavior for all functions:
-  - All functions return `true` or `false` (none of them `throw`s in any condition)
-  - Never mutates any parameter
-  - Never throws exceptions
-  - Short expressive names to minify better
-  - Has short code that's easy to understand and audit
-* Resistent to monkey patching or malicious [prototype pollution](https://medium.com/node-modules/what-is-prototype-pollution-and-why-is-it-such-a-big-deal-2dd8d89a93c)
-* Comes with TypeScript support out of the box
-* Thoroughly tested for edge cases
-* Works in Node and Browsers (CommonJS out of the box)
-* High performance
+- Minimalistic: complements what's available in JavaScript
+- No dependencies
+- Unified, solid and predictable behavior for all functions:
+    - All functions return `true` or `false` (none of them `throw`s in any condition)
+    - Never mutates any parameter
+    - Never throws exceptions
+    - Short expressive names to minify better
+    - Has short code that's easy to understand and audit
+- Resistent to monkey patching or malicious [prototype pollution](https://medium.com/node-modules/what-is-prototype-pollution-and-why-is-it-such-a-big-deal-2dd8d89a93c)
+- Comes with TypeScript support out of the box
+- Thoroughly tested for edge cases
+- Works in Node and Browsers (CommonJS out of the box)
+- High performance
 
 `jty` makes no assumption about how you handle anomalies. You throw an error or use it in conditional statements. This is the bare minimum for type detection, not an assertion library.
 
@@ -34,16 +34,16 @@ A minimalistic library for writing safer code. It came out of a few years of pro
 
 ## Why?
 
-* For **JavaScript**, `jty` helps verify function/method contracts and fail early with [good error messages](https://medium.com/hackernoon/what-makes-a-good-error-710d02682a68) instead of continuing on wrong assumption and producing wrong results (which is hard to debug due to [implicit type conversion quirks](https://2ality.com/2013/04/quirk-implicit-conversion.html))
-* For **TypeScript**, `jty` helps guarantee type safely when called from JavaScript code (also provides reliability against abusing TypeScript's escape hatches like `as` and `any`). _TypeScript may create a false sense of type safety, specially when interoperating with external systems that are not in TypeScript like APIs or other JavaScript code._
-* For **REST APIs**, `jty` helps verify the shape of the API response at response reception `§`
-* For **JSON/YML**, `jty` helps verify the shape of the objects (like configs or `manifest.json`) inside the code `§`
+- For **JavaScript**, `jty` helps verify function/method contracts and fail early with [good error messages](https://medium.com/hackernoon/what-makes-a-good-error-710d02682a68) instead of continuing on wrong assumption and producing wrong results (which is hard to debug due to [implicit type conversion quirks](https://2ality.com/2013/04/quirk-implicit-conversion.html))
+- For **TypeScript**, `jty` helps guarantee type safely when called from JavaScript code (also provides reliability against abusing TypeScript's escape hatches like `as` and `any`). _TypeScript may create a false sense of type safety, specially when interoperating with external systems that are not in TypeScript like APIs or other JavaScript code._
+- For **REST APIs**, `jty` helps verify the shape of the API response at response reception `§`
+- For **JSON/YML**, `jty` helps verify the shape of the objects (like configs or `manifest.json`) inside the code `§`
 
 `§` Technically you can solve these problems with [JSON Schema validators](https://json-schema.org/implementations.html#validator-javascript), but:
 
-* It requires learning a DSL instead of using play JavaScript
-* The DSL is parsed at runtime (or compiled to generated JS code beforehand to avoid the performance penalty)
-* Usually relies on externalized specifications as opposed to failing at the location where the data is used (see "Best Practices")
+- It requires learning a DSL instead of using play JavaScript
+- The DSL is parsed at runtime (or compiled to generated JS code beforehand to avoid the performance penalty)
+- Usually relies on externalized specifications as opposed to failing at the location where the data is used (see "Best Practices")
 
 # How to use it?
 
@@ -78,7 +78,7 @@ Let's say you have a function that is supposed to double a number:
 function double(n) {
     return n + n
 }
-double(1)  // 2
+double(1) // 2
 double(13) // 26
 ```
 
@@ -100,9 +100,9 @@ function double(n) {
     throw new TypeError(`Expected a number but got ${n}`)
 }
 
-double(13)   // 26
+double(13) // 26
 double('13') // throws 'Expected a number but got 13'
-double(NaN)  // throws 'Expected a number but got NaN'
+double(NaN) // throws 'Expected a number but got NaN'
 ```
 
 You can also use the assertion library of your choice to make the code shorter and more readable:
@@ -125,7 +125,6 @@ function double(n) {
 # Best practices
 
 [On the wiki](https://github.com/userpixel/jty/wiki/Best-Practices)
-
 
 ---
 

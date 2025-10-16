@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert'
-import { hasPath } from "../src/index.ts"
+import { hasPath } from '../src/index.ts'
 
 describe('hasPath()', () => {
     it('returns true if the object has that property', () => {
@@ -11,9 +11,9 @@ describe('hasPath()', () => {
         const obj = {
             foo: {
                 bar: {
-                    baz: undefined
-                }
-            }
+                    baz: undefined,
+                },
+            },
         }
 
         assert.strictEqual(hasPath(obj, 'foo', 'bar', 'baz'), true)
@@ -36,7 +36,6 @@ describe('hasPath()', () => {
         // @ts-ignore
         assert.strictEqual(hasPath({ undefined: 'thress' }, undefined), true)
         assert.strictEqual(hasPath({ undefined: 'two' }, 'undefined'), true)
-
     })
 
     it('returns true for "__proto__"', () => {
@@ -74,19 +73,19 @@ describe('hasPath()', () => {
             }
         }
 
-        const a = new A
+        const a = new A()
         assert.strictEqual(hasPath(a, 'b'), true)
     })
 
     it('returns true for setter properties', () => {
         class ClassWithSetter {
-            _value:number
+            _value: number
             set b(value: number) {
                 this._value = value
             }
         }
 
-        const a = new ClassWithSetter
+        const a = new ClassWithSetter()
         assert.strictEqual(hasPath(a, 'b'), true)
     })
 
@@ -95,30 +94,30 @@ describe('hasPath()', () => {
             a: {
                 b: [
                     {
-                        c0: 100
+                        c0: 100,
                     },
                     {
-                        c1: 101
-                    }
-                ]
-            }
+                        c1: 101,
+                    },
+                ],
+            },
         }
         assert.strictEqual(hasPath(obj, 'a', 'b', 0, 'c0'), true)
         assert.strictEqual(hasPath(obj, 'a', 'b', '1', 'c1'), true)
     })
-    
+
     it('works on property chains with prototypes', () => {
         const obj = {
             a: Object.create({
                 b: [
                     {
-                        c0: 100
+                        c0: 100,
                     },
                     {
-                        c1: 101
-                    }
-                ]
-            })
+                        c1: 101,
+                    },
+                ],
+            }),
         }
         assert.strictEqual(hasPath(obj, 'a', 'b', 0, 'c0'), true)
         assert.strictEqual(hasPath(obj, 'a', 'b', '1', 'c1'), true)

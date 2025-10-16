@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert'
-import { isArr } from "../src/index.ts"
+import { isArr } from '../src/index.ts'
 
 describe('isArr()', () => {
     it('returns true for an array', () => {

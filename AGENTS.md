@@ -8,6 +8,7 @@ This repo contains a Javascript type checking library.
 # Formatting
 
 Formatting uses the following rules:
+
 - Indentation: 4 spaces
 - No semicolon
 - Use single quote `'` for strings
@@ -17,7 +18,7 @@ Formatting uses the following rules:
 
 # Your suggestion
 
-- Skip flattery and praising my question with sentences like "That's a very insightful question" or "What an excellent observation". - Get to the point as quick as possible with as few words as possible. 
+- Skip flattery and praising my question with sentences like "That's a very insightful question" or "What an excellent observation". - Get to the point as quick as possible with as few words as possible.
 - Be honest and challenge my assumptions. Be frank and to the point.
 - Please don't modify the code directly unless explicitly instructed to.
 - Teach me the concepts and let me figure out how to use them in the code as I see fit.

@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert'
-import { isInt } from "../src/index.ts"
+import { isInt } from '../src/index.ts'
 
 describe('isInt()', () => {
     it('returns true when the value is an integer', () => {

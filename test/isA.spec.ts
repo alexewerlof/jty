@@ -1,13 +1,13 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert'
-import { isA } from "../src/index.ts"
+import { isA } from '../src/index.ts'
 
 describe('isA()', () => {
     it('returns true if an object is an instance of the provided class', () => {
         assert.strictEqual(isA({}, Object), true)
 
         class A {}
-        const a = new A
+        const a = new A()
 
         assert.strictEqual(isA(a, A), true)
         assert.strictEqual(isA(a, Object), true)
@@ -35,7 +35,7 @@ describe('isA()', () => {
     it('works for regular expressions', () => {
         assert.strictEqual(isA(/hello/i, RegExp), true)
     })
-    
+
     it('works for promises', async () => {
         const resolve = Promise.resolve()
         const reject = Promise.reject()
