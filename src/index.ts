@@ -51,9 +51,8 @@ type FiniteNumber = number | BigInt
 /**
  * Checks if the provided value is defined
  * This is exactly `x !== undefined` but a bit shorter
- * 
- * @see [[isUndef]]
- * @see [[isUnsh]]
+ *
+ * @see {@link isNsh}
  * 
  * @param x any value
  */
@@ -62,45 +61,16 @@ export function isDef(x: unknown): x is Exclude<any, undefined> {
 }
 
 /**
- * Checks if the provided value is defined
- * 
- * This is exactly `x === undefined` but a bit shorter
- * 
- * @see [[isDef]]
- * @see [[isNsh]]
- * 
- * @param x any value
- */
-export function isUndef(x: unknown): x is undefined {
-  return x === undefined;
-}
-
-/**
  * Checks if the provided value is "nullish" (`null` or `undefined`)
  * 
  * This is similar to how the nullish coalescing operator (`??`) works
  * 
- * @see [[isUndef]]
- * @see [[isUnsh]]
- * 
+ * @see {@link isDef}
+ *
  * @param x any value
  */
 export function isNsh(x: unknown): x is (null | undefined) {
   return x === undefined || x === null;
-}
-
-/**
- * Checks if the provided value is not "nullish" (`null` or `undefined`)
- * 
- * This is similar to how the nullish coalescing operator (`??`) works
- * 
- * @see [[isDef]]
- * @see [[isNsh]]
- * 
- * @param x any value
- */
-export function isUnsh(x: unknown): x is NonNullable<any> {
-  return x !== undefined && x !== null;
 }
 
 /**
@@ -150,13 +120,13 @@ export function isSym(x: unknown): x is symbol {
 /**
  * Checks if a value is a non-null object
  * 
- * @see [[isA]]
- * @see [[hasPath]]
- * @see [[hasOPath]]
- * @see [[hasProp]]
- * @see [[hasOProp]]
- * @see [[isArr]]
- * 
+ * @see {@link isA}
+ * @see {@link hasPath}
+ * @see {@link hasOPath}
+ * @see {@link hasProp}
+ * @see {@link hasOProp}
+ * @see {@link isArr}
+ *
  * @example `isObj({})` => `true`
  * @example `isObj(null)` => `false`
  * @example `isObj([])` => `true`
@@ -168,7 +138,7 @@ export function isSym(x: unknown): x is symbol {
  * @return true if the value is an non-null object, false otherwise
  */
 export function isObj(x: unknown): x is Exclude<object, null> {
-  return x !== null && typeof x === 'object'
+  return Boolean(x) && typeof x === 'object'
 }
 
 /**
@@ -203,17 +173,17 @@ export function isPrm<T extends any>(x: unknown): x is Promise<T> {
  * @param x a value
  * @returns true if the value is a number or BigInt
  */
-function isN(x: unknown): x is FiniteNumber {
+function isBigInt(x: unknown): x is FiniteNumber {
   return isFinite(x) || typeof x === 'bigint'
 }
 
 /**
  * Checks if a value is a number or BigInt and optionally bound by a min and max (inclusive)
  * 
- * @see [[isInt]]
- * @see [[isNum]]
- * @see [[isBInt]]
- * 
+ * @see {@link isInt}
+ * @see {@link isNum}
+ * @see {@link isBInt}
+ *
  * @example `isFin(1)` => `true`
  * @example `isFin(1n)` => `true`
  * @example `isFin('1')` => `false`
@@ -230,13 +200,13 @@ function isN(x: unknown): x is FiniteNumber {
  * @returns true if the value is either a number or a BigInt
  */
 export function isFin(x: unknown, min?: FiniteNumber, max?: FiniteNumber): x is FiniteNumber {
-  if (!isN(x)) {
+  if (!isBigInt(x)) {
     return false
   }
 
-  if (isN(min)) {
+  if (isBigInt(min)) {
 
-    if (isN(max)) {
+    if (isBigInt(max)) {
       // Both min and max are set
       return min <= x && x <= max
     } else {
@@ -244,7 +214,7 @@ export function isFin(x: unknown, min?: FiniteNumber, max?: FiniteNumber): x is 
       return min <= x
     }
 
-  } else if (isN(max)) {
+  } else if (isBigInt(max)) {
     // only max is set
     return x <= max
   }
@@ -255,8 +225,8 @@ export function isFin(x: unknown, min?: FiniteNumber, max?: FiniteNumber): x is 
 /**
  * Checks if a value is a finite number and optionally bound by a min and max (inclusive)
  * 
- * @see [[isInt]]
- * 
+ * @see {@link isInt}
+ *
  * @example `isNum(3)` => `true`
  * @example `isNum(3, 3)` => `true`
  * @example `isNum(3, 10)` => `false`
@@ -277,8 +247,8 @@ export function isNum(x: unknown, min?: number, max?: number): x is FiniteNumber
 /**
  * Checks if a value is a finite integer number and optionally bound by a min and max (inclusive)
  * 
- * @see [[isNum]]
- * 
+ * @see {@link isNum}
+ *
  * @example `isInt(3.14)` => `false`
  * @example `isInt(3)` => `true`
  * 
@@ -293,9 +263,9 @@ export function isInt(x: unknown, min?: number, max?: number): x is number {
 /**
  * Checks if a value is a finite big integer number (`BigInt`) and optionally bound by a min and max (inclusive)
  * 
- * @see [[isInt]]
- * @see [[isNum]]
- * 
+ * @see {@link isInt}
+ * @see {@link isNum}
+ *
  * @example `isBInt(43567877)` => `false`
  * @example `isBInt(43567877n)` => `true`
  * 
@@ -310,9 +280,8 @@ export function isBInt(x: unknown, min?: FiniteNumber, max?: FiniteNumber): x is
 /**
  * Checks if the provided value is a string and optionally checks whether its length is in a boundary (inclusive)
  * 
- * @see [[isSym]]
- * @see [[isUnsh]]
- * 
+ * @see {@link isSym}
+ *
  * @param x possibly a string
  * @param minLen minimum possible length (inclusive)
  * @param maxLen maximum possible length (inclusive)
@@ -324,7 +293,7 @@ export function isStr(x: unknown, minLen = 0, maxLen?: number): x is string {
 /**
  * Checks if the provided value is an array and optionally checks whether its length is in a boundary (inclusive)
  * 
- * @see [[isObj]]
+ * @see {@link isObj}
  *
  * @param x possibly a string
  * @param minLen minimum possible length (inclusive)
@@ -337,11 +306,11 @@ export function isArr(x: unknown, minLen = 0, maxLen?: number): x is unknown[] {
 /**
  * Checks if x is a non-null object that has all the provided properties
  * 
- * @see [[isObj]]
- * @see [[hasOProp]]
- * @see [[hasPath]]
- * @see [[hasOPath]]
- * 
+ * @see {@link isObj}
+ * @see {@link hasOProp}
+ * @see {@link hasPath}
+ * @see {@link hasOPath}
+ *
  * @example given `a = { b: undefined, c:[0, 1, 2]}`
  * * `hasProp(a, 'b')` => `true`
  * * `hasProp(a, 'b', 'c')` => `true` because both `a.b` and `a.c` properties exist
@@ -365,13 +334,13 @@ export function hasProp<K extends ObjectProp>(x: unknown, ...propNames: readonly
 }
 
 /**
- * Same as [[hasProp]] but checks for own properties (not inherited properties)
+ * Same as {@link hasProp} but checks for own properties (not inherited properties)
  * 
- * @see [[isObj]]
- * @see [[hasProp]]
- * @see [[hasPath]]
- * @see [[hasOPath]]
-
+ * @see {@link isObj}
+ * @see {@link hasProp}
+ * @see {@link hasPath}
+ * @see {@link hasOPath}
+ *
  * @param x an object
  * @param propNames one or more property names
  */
@@ -393,12 +362,27 @@ export function hasOProp<K extends ObjectProp>(
 }
 
 /**
+ * @internal
+ * Creates a deeply nested record type from a tuple of property keys.
+ */
+type DeepRecord<K extends readonly ObjectProp[], V = object> = K extends readonly [
+  infer Head,
+  ...infer Tail
+]
+  ? Head extends ObjectProp
+    ? Tail extends readonly ObjectProp[]
+      ? { [P in Head]: DeepRecord<Tail, V> }
+      : V
+    : V
+  : V;
+
+/**
  * Checks if the provided value has the a path of properties
  * 
- * @see [[isObj]]
- * @see [[hasProp]]
- * @see [[hasOProp]]
- * @see [[hasOPath]]
+ * @see {@link isObj}
+ * @see {@link hasProp}
+ * @see {@link hasOProp}
+ * @see {@link hasOPath}
  *
  * @example given `x = { foo: { bar: { baz: undefined }}}`
  * 
@@ -410,18 +394,7 @@ export function hasOProp<K extends ObjectProp>(
  * @param x a value that may possibly have some properties
  * @param propNames one or more property names
  */
-export function hasPath<K extends ObjectProp[]>(x: unknown, ...propNames: readonly [...K]): x is 
-  Record<K[0], 
-  Record<K[1], 
-  Record<K[2], 
-  Record<K[3], 
-  Record<K[4], 
-  Record<K[5], 
-  Record<K[6], 
-  Record<K[7], 
-  Record<K[8], 
-  Record<K[9], 
-  object>>>>>>>>>> {
+export function hasPath<K extends readonly ObjectProp[]>(x: unknown, ...propNames: readonly [...K]): x is DeepRecord<K> {
   if (propNames.length === 0) {
     return false
   }
@@ -441,28 +414,17 @@ export function hasPath<K extends ObjectProp[]>(x: unknown, ...propNames: readon
 }
 
 /**
- * Similar to [[hasPath]] but only works for own properties (not inherited properties)
+ * Similar to {@link hasPath} but only works for own properties (not inherited properties)
  *
- * @see [[isObj]]
- * @see [[hasProp]]
- * @see [[hasOProp]]
- * @see [[hasPath]]
- * 
+ * @see {@link isObj}
+ * @see {@link hasProp}
+ * @see {@link hasOProp}
+ * @see {@link hasPath}
+ *
  * @param x a value that may possibly have some properties
  * @param propNames one or more property names
  */
-export function hasOPath<K extends ObjectProp[]>(x: unknown, ...propNames: readonly [...K]): x is
-  Record<K[0],
-  Record<K[1], 
-  Record<K[2], 
-  Record<K[3], 
-  Record<K[4], 
-  Record<K[5], 
-  Record<K[6], 
-  Record<K[7], 
-  Record<K[8], 
-  Record<K[9], 
-  object>>>>>>>>>> {
+export function hasOPath<K extends readonly ObjectProp[]>(x: unknown, ...propNames: readonly [...K]): x is DeepRecord<K> {
   if (propNames.length === 0) {
     return false
   }
