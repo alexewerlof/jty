@@ -6,17 +6,23 @@
     "main": "lib/index.js",
     "types": "lib/index.d.ts",
     "directories": {
-        "lib": "lib"
+        "lib": "lib",
+        "doc": "docs",
+        "test": "test"
     },
     "scripts": {
-        "docs": "typedoc",
+        "doc": "typedoc",
         "build": "tsc",
-        "format": "prettier --write .",
-        "test": "node --import tsx --test test/**/*.spec.ts",
+        "typecheck": "tsc --noEmit",
+        "fmt": "prettier --write .",
+        "test": "npm run typecheck && node --import tsx --test test/**/*.spec.ts",
         "preversion": "npm t",
         "prepublishOnly": "npm run build",
         "postversion": "git push && git push --tags"
     },
+    "files": [
+        "lib"
+    ],
     "repository": {
         "type": "git",
         "url": "https://github.com/alexewerlof/jty.git"

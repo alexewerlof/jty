@@ -5,5 +5,5 @@
     "customCss": "typedoc.css",
     "hostedBaseUrl": "https://alexewerlof.github.io/jty/",
     "customFooterHtml": "Made with ❤️ by <a href='https://alexewerlof.com/'>Alex Ewerlöf</a>",
-    "out": "./docs"
+    "out": "./doc"
 }
