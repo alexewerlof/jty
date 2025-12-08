@@ -29,7 +29,7 @@
     ],
     "repository": {
         "type": "git",
-        "url": "https://github.com/alexewerlof/jty.git"
+        "url": "git+https://github.com/alexewerlof/jty.git"
     },
     "keywords": [
         "javascript",
