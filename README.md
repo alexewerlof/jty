@@ -1,11 +1,11 @@
 ![JTY Logo](https://docs.google.com/drawings/d/e/2PACX-1vQIhQsuZNdChXABMD7m3Iq2GMc38tQ4ILQObLcrIBEkH5oZmV07lf9j1uxtNz6dN6wwZonAZMAGO3zn/pub?w=200)
 
-[![Build Status](https://travis-ci.org/userpixel/jty.svg?branch=master)](https://travis-ci.org/userpixel/jty)
-[![GitHub issues](https://img.shields.io/github/issues/userpixel/jty)](https://github.com/userpixel/jty/issues)
-[![GitHub forks](https://img.shields.io/github/forks/userpixel/jty)](https://github.com/userpixel/jty/network)
-[![GitHub stars](https://img.shields.io/github/stars/userpixel/jty)](https://github.com/userpixel/jty/stargazers)
-[![GitHub license](https://img.shields.io/github/license/userpixel/jty)](https://github.com/userpixel/jty/blob/master/LICENSE.md)
-[![Vulnerabilities](https://snyk.io/test/github/userpixel/jty/badge.svg)](https://snyk.io/test/github/userpixel/jty)
+[![Build Status](https://travis-ci.org/alexewerlof/jty.svg?branch=master)](https://travis-ci.org/alexewerlof/jty)
+[![GitHub issues](https://img.shields.io/github/issues/alexewerlof/jty)](https://github.com/alexewerlof/jty/issues)
+[![GitHub forks](https://img.shields.io/github/forks/alexewerlof/jty)](https://github.com/alexewerlof/jty/network)
+[![GitHub stars](https://img.shields.io/github/stars/alexewerlof/jty)](https://github.com/alexewerlof/jty/stargazers)
+[![GitHub license](https://img.shields.io/github/license/alexewerlof/jty)](https://github.com/alexewerlof/jty/blob/master/LICENSE.md)
+[![Vulnerabilities](https://snyk.io/test/github/alexewerlof/jty/badge.svg)](https://snyk.io/test/github/alexewerlof/jty)
 [![Downloads](https://img.shields.io/npm/dm/jty.svg?style=flat-square)](http://npm-stat.com/charts.html?package=jty&from=2020-01-01)
 
 # jty - the tiny JavaScript type checker
@@ -30,7 +30,9 @@ A minimalistic library for writing safer code. It came out of a few years of pro
 
 `jty` makes no assumption about how you handle anomalies. You throw an error or use it in conditional statements. This is the bare minimum for type detection, not an assertion library.
 
-👉 [**See API docs**](https://userpixel.github.io/jty/)
+# API docs
+
+https://alexewerlof.github.io/jty/
 
 ## Why?
 
@@ -118,14 +120,10 @@ function double(n) {
 }
 ```
 
-# API
-
-[On Github Pages](https://userpixel.github.io/jty/)
-
 # Best practices
 
-[On the wiki](https://github.com/userpixel/jty/wiki/Best-Practices)
+[On the wiki](https://github.com/alexewerlof/jty/wiki/Best-Practices)
 
 ---
 
-Made in Sweden 🇸🇪 by [Alex Ewerlöf](https://twitter.com/alexewerlof)
+Made in Sweden 🇸🇪 by [Alex Ewerlöf](https://www.alexewerlof.com)
