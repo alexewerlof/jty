@@ -107,6 +107,41 @@ double('13') // throws 'Expected a number but got 13'
 double(NaN) // throws 'Expected a number but got NaN'
 ```
 
+## More advanced case
+
+Let's say you're using an API that returns an array (e.g. https://jsonplaceholder.typicode.com/posts).
+You can verify that the API response is what you expect using a simple piece of code:
+
+```js
+import { isArr, hasProp, isInt, isStr, isStrLen } from './index'
+
+function verifyResponseShape(responseJson: unknown) {
+    if (!isArr(responseJson)) {
+        throw new TypeError(`Expected the response to be an array. Got ${responseJson} (${typeof responseJson})`)
+    }
+    for (let i = 0; i < responseJson.length; i++) {
+        const post = post[i]
+        if (!hasProp(post, 'userId', 'id', 'title', 'body')) {
+            throw new Error(`Post ${i} is missing a required property`)
+        }
+        // Now Typescript knows that your code has these properties
+        if (!isInt(post.userId)) {
+            throw new Error(`Post ${i} does not have a positive integer userId`)
+        }
+        if (!isInt(post.id) || post.id < 0) {
+            throw new Error(`Post ${i} does not have a positive integer id`)
+        }
+        if (!isStr(post.title)) {
+            throw new TypeError(`Post ${i} misses a title string`)
+        }
+        if (!isStrLen(post.body, 10, 200)) {
+            throw new RangeError(`Post ${i} has an invalid body: ${post.body}`)
+        }
+    }
+    return responseJson
+}
+```
+
 # Best practices
 
 [On the wiki](https://github.com/alexewerlof/jty/wiki/Best-Practices)
