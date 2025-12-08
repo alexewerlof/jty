@@ -9,6 +9,7 @@ import { inRange } from './number'
  * @example
  * isStr('hello') => true
  * isStr('') => true
+ * isStr(123) => false
  *
  * @category String
  */
@@ -27,21 +28,21 @@ export function isStr(x: unknown): x is string {
  * @param minLen minimum possible length (inclusive)
  * @param maxLen maximum possible length (inclusive)
  *
- * @throws {TypeError} any of `min` or `max` are defined but are not numbers.
- * @throws {TypeError} if neither `min` nor `max` are provided.
- * @throws {RangeError} if both `min` and `max` are provided and `min > max`.
+ * @throws This function delegates the length check to `inRange`, which may throw if `minLen` or `maxLen` are invalid.
  *
  * @example
  * isStrLen('Hello', 2, 10) => true
  * isStrLen('Hello', 5, 10) => true // 'Hello'.length is 5
- * isStrLen('Hello', 10, 10) => true
+ * isStrLen('Exact', 5, 5) => true
  * isStrLen('Hello', 5) => true // The length is at least 5
- * isStrLen('Hello', undefined, 5) => true // The length is at most 10
+ * isStrLen('Hello', undefined, 5) => true // The length is at most 5
+ * isStrLen('Too long', 1, 4) => false
+ * isStrLen(null, 1, 4) => false
  *
  * @category String
  */
 export function isStrLen(x: unknown, minLen = 0, maxLen?: number): x is string {
-    if (typeof x !== 'string') {
+    if (!isStr(x)) {
         return false
     }
 

@@ -1,13 +1,6 @@
-import { isFn } from './function'
-import { inRange } from './number'
-
-/**
- * Acceptable types for object property names
- */
-type ObjectProp = string | number | symbol
+import { isFn } from './misc'
 
 const { hasOwnProperty } = Object
-const { isArray } = Array
 
 /**
  * Checks if a value is a non-null object
@@ -21,14 +14,16 @@ const { isArray } = Array
  *
  * @example
  * isObj({}) => true
+ * isObj(Object.create(null)) => true
  * isObj(null) => false
  * isObj([]) => true
  * isObj(new URL) => true
  * isObj(13) => false
  * isObj(Number(13)) => false
+ * isObj(new Number(14)) => true
  *
  * @param x possibly an object
- * @return true if the value is an non-null object, false otherwise
+ * @returns true if the value is an non-null object, false otherwise
  *
  * @category Object
  */
@@ -53,41 +48,24 @@ export function isObj(x: unknown): x is Exclude<object, null> {
  *
  * @param x possibly an instance of a class
  * @param classConstructor a class constructor (usually starts with big letter!)
+ * @throws {TypeError} if `classConstructor` is not a function.
  *
  * @category Object
  */
-export function isA<T extends new (...args: any) => any>(
-    x: unknown,
-    classConstructor: T,
-): x is InstanceType<T> {
-    return isFn(classConstructor) && x instanceof classConstructor
-}
-
-/**
- * Checks if the provided value is an array
- *
- * @see {@link isObj}
- *
- * @param x possibly a string
- * @param minLen minimum possible length (inclusive)
- * @param maxLen maximum possible length (inclusive)
- *
- * @category Object
- */
-export function isArr(x: unknown, minLen = 0, maxLen?: number): x is unknown[] {
-    return isArray(x) && inRange(x.length, minLen, maxLen)
+export function isA<T extends new (...args: any) => any>(x: unknown, classConstructor: T): x is InstanceType<T> {
+    if (!isFn(classConstructor)) {
+        throw new TypeError(`Expected a constructor function. Got ${classConstructor} (${typeof classConstructor})`)
+    }
+    return x instanceof classConstructor
 }
 
 /**
  * @internal
  * Creates a deeply nested record type from a tuple of property keys.
  */
-type DeepRecord<
-    K extends readonly ObjectProp[],
-    V = object,
-> = K extends readonly [infer Head, ...infer Tail]
-    ? Head extends ObjectProp
-        ? Tail extends readonly ObjectProp[]
+type DeepRecord<K extends readonly PropertyKey[], V = object> = K extends readonly [infer Head, ...infer Tail]
+    ? Head extends PropertyKey
+        ? Tail extends readonly PropertyKey[]
             ? { [P in Head]: DeepRecord<Tail, V> }
             : V
         : V
@@ -103,17 +81,17 @@ type DeepRecord<
  *
  * @example
  * const x = { foo: { bar: { baz: undefined }}}
- * hasPath(x, 'foo', 'bar') returns true
- * hasPath(x, 'foo', 'bar', 'baz') returns true because x.foo.bar.baz property exists
- * hasPath(x, 'foo', 'hello', 'baz') returns false because x.foo.hello property does not exist
- * hasPath(x, 'foo', 'bar', 'hello') returns false`
+ * hasPath(x, 'foo', 'bar') => true
+ * hasPath(x, 'foo', 'bar', 'baz') => true
+ * hasPath(x, 'foo', 'hello', 'baz') => false
+ * hasPath(x, 'foo', 'bar', 'hello') => false
  *
  * @param x a value that may possibly have some properties
  * @param propNames one or more property names
  *
  * @category Object
  */
-export function hasPath<K extends readonly ObjectProp[]>(
+export function hasPath<K extends readonly PropertyKey[]>(
     x: unknown,
     ...propNames: readonly [...K]
 ): x is DeepRecord<K> {
@@ -121,11 +99,10 @@ export function hasPath<K extends readonly ObjectProp[]>(
         return false
     }
 
-    let scope = x
+    let scope: unknown = x
 
-    for (let propName of propNames) {
-        if (hasProp(scope, propName)) {
-            // @ts-ignore
+    for (const propName of propNames) {
+        if (isObj(scope) && hasProp(scope, propName)) {
             scope = scope[propName]
         } else {
             return false
@@ -148,7 +125,7 @@ export function hasPath<K extends readonly ObjectProp[]>(
  *
  * @category Object
  */
-export function hasOwnPath<K extends readonly ObjectProp[]>(
+export function hasOwnPath<K extends readonly PropertyKey[]>(
     x: unknown,
     ...propNames: readonly [...K]
 ): x is DeepRecord<K> {
@@ -156,11 +133,10 @@ export function hasOwnPath<K extends readonly ObjectProp[]>(
         return false
     }
 
-    let scope = x
+    let scope: unknown = x
 
-    for (let propName of propNames) {
-        if (hasOwnProp(scope, propName)) {
-            // @ts-ignore
+    for (const propName of propNames) {
+        if (isObj(scope) && hasOwnProp(scope, propName)) {
             scope = scope[propName]
         } else {
             return false
@@ -189,10 +165,7 @@ export function hasOwnPath<K extends readonly ObjectProp[]>(
  *
  * @category Object
  */
-export function hasProp<K extends ObjectProp>(
-    x: unknown,
-    ...propNames: readonly K[]
-): x is Record<K, object> {
+export function hasProp<K extends PropertyKey>(x: unknown, ...propNames: readonly K[]): x is Record<K, unknown> {
     if (!isObj(x)) {
         return false
     }
@@ -219,10 +192,7 @@ export function hasProp<K extends ObjectProp>(
  *
  * @category Object
  */
-export function hasOwnProp<K extends ObjectProp>(
-    x: unknown,
-    ...propNames: readonly K[]
-): x is Record<K, any> {
+export function hasOwnProp<K extends PropertyKey>(x: unknown, ...propNames: readonly K[]): x is Record<K, any> {
     if (!isObj(x)) {
         return false
     }
@@ -234,4 +204,76 @@ export function hasOwnProp<K extends ObjectProp>(
     }
 
     return true
+}
+
+/**
+ * Checks if a value is a Set.
+ *
+ * @example
+ * isSet(new Set()) => true
+ * isSet(new Map()) => false
+ * isSet([1, 2, 3]) => false
+ *
+ * @category Object
+ */
+export function isSet(x: unknown) {
+    return isA(x, Set)
+}
+
+/**
+ * Checks if a value is a Map.
+ *
+ * @example
+ * isMap(new Map()) => true
+ * isMap(new Set()) => false
+ * isMap({}) => false
+ *
+ * @category Object
+ */
+export function isMap(x: unknown) {
+    return isA(x, Map)
+}
+
+/**
+ * Checks if a value is a RegExp.
+ *
+ * @example
+ * isRegExp(/a/) => true
+ * isRegExp(new RegExp('a')) => true
+ * isRegExp('/a/') => false
+ *
+ * @category Object
+ */
+export function isRegExp(x: unknown): x is RegExp {
+    return isA(x, RegExp)
+}
+
+/**
+ * Checks if a value is a Date.
+ *
+ * @example
+ * isDate(new Date()) => true
+ * isDate(Date.now()) => false
+ * isDate('2022-01-01') => false
+ *
+ * @category Object
+ */
+export function isDate(x: unknown): x is Date {
+    return isA(x, Date)
+}
+
+/**
+ * Checks if a value is an Error or a descendant of it.
+ *
+ * @example
+ * class MyError extends Error {}
+ * isErr(new MyError()) => true
+ * isErr(new Error()) => true
+ * isErr(new TypeError()) => true
+ * isErr({ message: 'error' }) => false
+ *
+ * @category Object
+ */
+export function isErr(x: unknown): x is Error {
+    return isA(x, Error)
 }

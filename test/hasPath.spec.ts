@@ -79,13 +79,14 @@ describe('hasPath()', () => {
 
     it('returns true for setter properties', () => {
         class ClassWithSetter {
-            _value: number
+            constructor(private _value: number) {}
+
             set b(value: number) {
                 this._value = value
             }
         }
 
-        const a = new ClassWithSetter()
+        const a = new ClassWithSetter(4)
         assert.strictEqual(hasPath(a, 'b'), true)
     })
 

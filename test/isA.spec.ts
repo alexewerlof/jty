@@ -13,23 +13,23 @@ describe('isA()', () => {
         assert.strictEqual(isA(a, Object), true)
     })
 
-    it('returns false if the provided "class" is not a function', () => {
+    it('throws if the provided "class" is not a function', () => {
         // @ts-expect-error
-        assert.strictEqual(isA({}, null), false)
+        assert.throws(() => isA({}, null), TypeError)
         // @ts-expect-error
-        assert.strictEqual(isA({}, undefined), false)
+        assert.throws(() => isA({}, undefined), TypeError)
         // @ts-expect-error
-        assert.strictEqual(isA({}, 'lamborghini'), false)
+        assert.throws(() => isA({}, 'lamborghini'), TypeError)
         // @ts-expect-error
-        assert.strictEqual(isA({}, NaN), false)
+        assert.throws(() => isA({}, NaN), TypeError)
         // @ts-expect-error
-        assert.strictEqual(isA({}, false), false)
+        assert.throws(() => isA({}, false), TypeError)
         // @ts-expect-error
-        assert.strictEqual(isA({}, 1), false)
+        assert.throws(() => isA({}, 1), TypeError)
         // @ts-expect-error
-        assert.strictEqual(isA({}, []), false)
+        assert.throws(() => isA({}, []), TypeError)
         // @ts-expect-error
-        assert.strictEqual(isA({}, {}), false)
+        assert.throws(() => isA({}, {}), TypeError)
     })
 
     it('works for regular expressions', () => {

@@ -27,8 +27,16 @@ describe('isStrLen()', () => {
         assert.strictEqual(isStrLen(str, undefined, 5), true)
     })
 
-    it('throws if the max is less than min', () => {
+    it('returns false for non-string values', () => {
+        assert.strictEqual(isStrLen(null, 0), false)
+        assert.strictEqual(isStrLen(undefined, 0), false)
+        assert.strictEqual(isStrLen(123, 0), false)
+        assert.strictEqual(isStrLen(true, 0), false)
+    })
+
+    it('can handle the case where the max is less than min', () => {
         const str = 'Hello'
-        assert.throws(() => isStrLen(str, 6, 3))
+        assert.strictEqual(isStrLen(str, 6, 3), true)
+        assert.strictEqual(isStrLen(str, 16, 14), false)
     })
 })

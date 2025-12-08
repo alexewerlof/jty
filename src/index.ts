@@ -3,11 +3,9 @@
  * @module
  */
 
-export * from './boolean'
-export * from './bigint'
-export * from './function'
+export * from './array'
 export * from './number'
 export * from './object'
 export * from './string'
-export * from './symbol'
-export * from './undefined'
+export * from './misc'
+export * from './same'

@@ -3,7 +3,22 @@ This repo contains a Javascript type checking library.
 # Development
 
 - The code is in the latest version of Typescript
-- We use the native test framework that exits in Node.js
+- The code should run in both modern browsers, and backend runtimes like Node.js, Deno.js, and Bun.js
+
+# Structure
+
+- The API surface is implemented in ./src as TypeScript files
+- Each function is elaborately tested in a dedicated test file named `./test/FUNC_NAME.spec.ts
+- Use only the Node.js native test framework
+
+# Documentation
+
+We use TypeDoc for documentation.
+The documentation audience is JavaScript/TypeScript front-end or backend developers who may use this library from NPM or Github.
+
+- Make sure that the documentation is accurately reflecting the implementation
+- Make sure that the examples represent all important and interesting use cases
+- Ensure that the cases where the function may throw are documented.
 
 # Formatting
 
