@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert'
-import { isNullish } from '../src/misc'
+import { isNullish } from '../src/index.ts'
 
 describe('isNullish()', () => {
     it('returns true for null', () => {

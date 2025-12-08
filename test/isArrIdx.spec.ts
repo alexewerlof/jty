@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert'
-import { isArrIdx } from '../src/array'
+import { isArrIdx } from '../src/index.ts'
 
 describe('inRange()', () => {
     it('returns true if the index is in range', () => {

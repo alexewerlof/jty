@@ -1,4 +1,4 @@
-import { inRange } from './number'
+import { inRange } from './number.js'
 
 /**
  * Checks if the provided value is a string

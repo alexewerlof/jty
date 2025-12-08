@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert'
-import { isSameErr } from '../src/index'
+import { isSameErr } from '../src/index.ts'
 
 describe('isSameErr()', () => {
     it('returns true for the same Error object instance', () => {

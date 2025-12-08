@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert'
-import { isSameRegExp } from '../src/index'
+import { isSameRegExp } from '../src/index.ts'
 
 describe('isSameRegExp()', () => {
     it('returns true for two RegExp objects with the same pattern and flags', () => {

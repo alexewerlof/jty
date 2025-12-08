@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert'
-import { isMap } from '../src/object'
+import { isMap } from '../src/index.ts'
 
 describe('isMap', () => {
     it('should return true for Map instances', () => {

@@ -1,4 +1,4 @@
-import { inRange, isInt } from './number'
+import { inRange, isInt } from './number.js'
 
 const { isArray } = Array
 

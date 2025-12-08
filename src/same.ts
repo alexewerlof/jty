@@ -1,4 +1,4 @@
-import { isDate, isErr, isMap, isObj, isRegExp, isSet } from './object'
+import { isDate, isErr, isMap, isObj, isRegExp, isSet } from './object.js'
 
 const { hasOwnProperty } = Object
 const { isArray } = Array

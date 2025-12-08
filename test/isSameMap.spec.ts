@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert'
-import { isSameMap } from '../src/index'
+import { isSameMap } from '../src/index.ts'
 
 describe('isSameMap()', () => {
     it('returns true for the same Map instance', () => {

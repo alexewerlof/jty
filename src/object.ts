@@ -1,4 +1,4 @@
-import { isFn } from './misc'
+import { isFn } from './misc.js'
 
 const { hasOwnProperty } = Object
 

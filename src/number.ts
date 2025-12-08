@@ -1,4 +1,4 @@
-import { isDef } from './misc'
+import { isDef } from './misc.js'
 
 const { isNaN, isFinite, isInteger } = Number
 
@@ -48,7 +48,7 @@ export function isInt(x: unknown): x is number {
 }
 
 /**
- * Checks if a value is a finite number
+ * Checks if a value is a finite number (float or integer but not big int)
  *
  * @see {@link isInt}
  * @see {@link isNum}
@@ -58,6 +58,7 @@ export function isInt(x: unknown): x is number {
  *
  * @example
  * isFin(1) => true
+ * isFin(1.1) => true
  * isFin(1n) => false
  * isFin('1') => false
  * isFin(NaN) => false

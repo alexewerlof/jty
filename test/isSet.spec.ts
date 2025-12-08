@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert'
-import { isSet } from '../src/index'
+import { isSet } from '../src/index.ts'
 
 describe('isSet()', () => {
     it('returns true for a Set object', () => {

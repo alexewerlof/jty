@@ -3,9 +3,9 @@
  * @module
  */
 
-export * from './array'
-export * from './number'
-export * from './object'
-export * from './string'
-export * from './misc'
-export * from './same'
+export * from './array.js'
+export * from './number.js'
+export * from './object.js'
+export * from './string.js'
+export * from './misc.js'
+export * from './same.js'

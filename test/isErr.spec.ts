@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert'
-import { isErr } from '../src/index'
+import { isErr } from '../src/index.ts'
 
 describe('isErr()', () => {
     it('returns true for an Error object', () => {
