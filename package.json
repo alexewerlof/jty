@@ -15,7 +15,9 @@
         "build": "tsc",
         "typecheck": "tsc --noEmit",
         "fmt": "prettier --write .",
-        "test": "npm run typecheck && node --import tsx --test test/**/*.spec.ts",
+        "test": "npm run typecheck && node --import tsx --test",
+        "test:watch": "npm run typecheck && node --import tsx --test --watch",
+        "test:coverage": "npm run typecheck && node --import tsx --test --experimental-test-coverage",
         "preversion": "npm t",
         "prepublishOnly": "npm run build",
         "postversion": "git push && git push --tags"
