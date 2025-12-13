@@ -2,6 +2,15 @@
     "name": "jty",
     "version": "4.0.0",
     "description": "A minimal type checking library that I need in various projects for safer programming",
+    "keywords": [
+        "javascript",
+        "language",
+        "manual type check",
+        "type safety",
+        "defensive programming",
+        "security",
+        "verification"
+    ],
     "type": "module",
     "exports": {
         "import": "./lib/index.js",
@@ -12,6 +21,9 @@
         "doc": "docs",
         "test": "test"
     },
+    "files": [
+        "lib"
+    ],
     "scripts": {
         "doc": "typedoc src/index.ts",
         "build": "tsc",
@@ -24,22 +36,10 @@
         "prepublishOnly": "npm run build",
         "postversion": "git push && git push --tags"
     },
-    "files": [
-        "lib"
-    ],
     "repository": {
         "type": "git",
         "url": "git+https://github.com/alexewerlof/jty.git"
     },
-    "keywords": [
-        "javascript",
-        "language",
-        "manual type check",
-        "type safety",
-        "defensive programming",
-        "security",
-        "verification"
-    ],
     "author": "Alex Ewerlöf",
     "license": "MIT",
     "devDependencies": {
