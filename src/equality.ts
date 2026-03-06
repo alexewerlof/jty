@@ -175,9 +175,9 @@ export function isEqualRegExp(x: unknown, ref: RegExp): x is RegExp {
  * @see {@link isEqualObj}
  *
  * @param x The first value to compare.
- * @param ref The reference Date.
+ * @param ref The reference Date. Must be a valid Date (invalid Dates are rejected by {@link isDate}).
  * @returns `true` if the dates are the same, `false` otherwise.
- * @throws {TypeError} if `ref` is not a Date.
+ * @throws {TypeError} if `ref` is not a valid Date.
  *
  * @example
  * isEqualDate(new Date(2020, 0, 1), new Date(2020, 0, 1)) => true
@@ -187,7 +187,7 @@ export function isEqualRegExp(x: unknown, ref: RegExp): x is RegExp {
  */
 export function isEqualDate(x: unknown, ref: Date): x is Date {
     if (!isDate(ref)) {
-        throw new TypeError(`isEqualDate(): "ref" must be a Date. Got ${ref} (${typeof ref})`)
+        throw new TypeError(`isEqualDate(): "ref" must be a valid Date. Got ${ref} (${typeof ref})`)
     }
 
     if (x === ref) {

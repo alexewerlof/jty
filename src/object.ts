@@ -1,4 +1,5 @@
 import { isFn } from './misc.js'
+import { isNum } from './number.js'
 
 const { hasOwnProperty } = Object
 
@@ -80,7 +81,9 @@ export function isPOJO(x: unknown): x is Record<PropertyKey, unknown> {
  */
 export function isA<T extends new (...args: any) => any>(x: unknown, classConstructor: T): x is InstanceType<T> {
     if (!isFn(classConstructor)) {
-        throw new TypeError(`isA(): Expected a constructor function. Got ${classConstructor} (${typeof classConstructor})`)
+        throw new TypeError(
+            `isA(): Expected a constructor function. Got ${classConstructor} (${typeof classConstructor})`,
+        )
     }
     return x instanceof classConstructor
 }
@@ -303,20 +306,26 @@ export function isRegExp(x: unknown): x is RegExp {
 }
 
 /**
- * Checks if a value is a Date.
+ * Checks if a value is a valid Date.
+ *
+ * Returns `false` for invalid Date objects (e.g. `new Date('not a date')`) because
+ * their time value is `NaN`, making them unusable for date arithmetic and formatting.
  *
  * @see {@link isA}
  * @see {@link isEqualDate}
  *
  * @example
  * isDate(new Date()) => true
+ * isDate(new Date('2024-01-01')) => true
+ * isDate(new Date(0)) => true
+ * isDate(new Date('not a date')) => false
  * isDate(Date.now()) => false
  * isDate('2022-01-01') => false
  *
  * @category Object
  */
 export function isDate(x: unknown): x is Date {
-    return isA(x, Date)
+    return isA(x, Date) && isNum(x.getTime())
 }
 
 /**

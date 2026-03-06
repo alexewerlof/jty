@@ -20,15 +20,6 @@ describe('isEqualDate()', () => {
         assert.strictEqual(isEqualDate(date1, date2), false)
     })
 
-    it('returns false for two different invalid Date objects', () => {
-        // new Date('invalid').getTime() is NaN, and NaN !== NaN
-        assert.strictEqual(isEqualDate(new Date('invalid1'), new Date('invalid2')), false)
-    })
-
-    it('returns false when comparing a valid and an invalid Date object', () => {
-        assert.strictEqual(isEqualDate(new Date(), new Date('invalid')), false)
-    })
-
     it('returns false for non-Date values', () => {
         const date = new Date()
         assert.strictEqual(isEqualDate('2024-01-01T12:00:00.000Z', date), false)
@@ -37,8 +28,15 @@ describe('isEqualDate()', () => {
         assert.strictEqual(isEqualDate({}, date), false)
     })
 
-    it('throws a TypeError if the reference value is not a Date', () => {
+    it('throws a TypeError if the reference value is not a valid Date', () => {
         assert.throws(() => isEqualDate(new Date(), null as unknown as Date), TypeError)
         assert.throws(() => isEqualDate(new Date(), '2024-01-01' as unknown as Date), TypeError)
+        // Invalid Date objects are not considered valid Dates
+        assert.throws(() => isEqualDate(new Date(), new Date('invalid')), TypeError)
+    })
+
+    it('returns false when x is an invalid Date object', () => {
+        const validDate = new Date()
+        assert.strictEqual(isEqualDate(new Date('invalid'), validDate), false)
     })
 })
