@@ -2,7 +2,7 @@ import { describe, it } from 'node:test'
 import assert from 'node:assert'
 import { isArrIdx } from '../src/index.ts'
 
-describe('inRange()', () => {
+describe('isArrIdx()', () => {
     it('returns true if the index is in range', () => {
         assert.strictEqual(isArrIdx(0, [10, 20, 30]), true)
         assert.strictEqual(isArrIdx(1, [10, 20, 30]), true)

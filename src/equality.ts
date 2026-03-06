@@ -8,17 +8,18 @@ const { isArray } = Array
  * Two arrays are considered the same if they have the same length and their elements are strictly equal at each index.
  * This function acts as a type guard, narrowing the type of `b` to be the same as `a` if it returns `true`.
  *
+ * @see {@link isArr}
+ * @see {@link isEqualObj}
+ *
  * @param x The first value to compare.
  * @param ref The reference array.
  * @returns `true` if the arrays are the same, `false` otherwise.
  *
  * @example
- * const refArr = [1, 2, 3];
- * const unknownArr: unknown = [1, 2, 3];
  * isEqualArr([1, 2, 3], [1, 2, 3]) => true
  * isEqualArr([1, 2, 3], [1, 2, 3, 4]) => false
  * isEqualArr([1, 2, 3, 4], [1, 2, 3]) => false
- * isEqualArr([1, 2, 3], []) => true
+ * isEqualArr([], []) => true
  * isEqualArr([], [1, 2, 3]) => false
  * isEqualArr({}, [1, 2, 3]) => false
  * isEqualArr([1, 2, 3], [3, 2, 1]) => false
@@ -44,6 +45,10 @@ export function isEqualArr<T>(x: unknown, ref: T[]): x is typeof ref {
 
 /**
  * Checks if two `Set` objects are the same.
+ *
+ * @see {@link isSet}
+ * @see {@link isEqualObj}
+ *
  * @param x The first value to compare.
  * @param ref The reference Set.
  * @returns `true` if the sets are the same, `false` otherwise.
@@ -85,6 +90,10 @@ export function isEqualSet<T>(x: unknown, ref: Set<T>): x is Set<T> {
 
 /**
  * Checks if two `Map` objects are the same.
+ *
+ * @see {@link isMap}
+ * @see {@link isEqualObj}
+ *
  * @param x The first value to compare.
  * @param ref The reference Map.
  * @returns `true` if the maps are the same, `false` otherwise.
@@ -126,6 +135,10 @@ export function isEqualMap<T, U>(x: unknown, ref: Map<T, U>): x is Map<T, U> {
 
 /**
  * Checks if two `RegExp` objects are the same.
+ *
+ * @see {@link isRegExp}
+ * @see {@link isEqualObj}
+ *
  * @param x The first value to compare.
  * @param ref The reference RegExp.
  * @returns `true` if the regular expressions are the same, `false` otherwise.
@@ -157,6 +170,10 @@ export function isEqualRegExp(x: unknown, ref: RegExp): x is RegExp {
 
 /**
  * Checks if two `Date` objects are the same.
+ *
+ * @see {@link isDate}
+ * @see {@link isEqualObj}
+ *
  * @param x The first value to compare.
  * @param ref The reference Date.
  * @returns `true` if the dates are the same, `false` otherwise.
@@ -186,6 +203,10 @@ export function isEqualDate(x: unknown, ref: Date): x is Date {
 
 /**
  * Checks if two `Error` objects are the same.
+ *
+ * @see {@link isErr}
+ * @see {@link isEqualObj}
+ *
  * @param x The first value to compare.
  * @param ref The reference Error.
  * @returns `true` if the errors are the same, `false` otherwise.

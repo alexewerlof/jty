@@ -56,7 +56,7 @@ describe('hasPath()', () => {
         assert.strictEqual(hasPath({}, '__lookupSetter__'), true)
     })
 
-    it('woks for arrays', () => {
+    it('works for arrays', () => {
         assert.strictEqual(hasPath([1, 2, 3], 1), true)
         assert.strictEqual(hasPath([1, 2, 3], -1), false)
         assert.strictEqual(hasPath([1, 2, 3], 0), true)

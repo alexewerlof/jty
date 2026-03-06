@@ -45,7 +45,7 @@ describe('hasOwnProp()', () => {
         assert.strictEqual(hasOwnProp(target, 'foo', 'what'), false)
     })
 
-    it('supports arrays', () => {
+    it('works for arrays', () => {
         const target = [10, 20, 30]
 
         assert.strictEqual(hasOwnProp(target, 0, 1), true)
@@ -78,10 +78,6 @@ describe('hasOwnProp()', () => {
         const obj = Object.create({ foo: 'bar' })
 
         assert.strictEqual(hasOwnProp(obj, 'foo'), false)
-    })
-
-    it('returns true if no prop is provided', () => {
-        assert.strictEqual(hasOwnProp({}), true)
     })
 
     it('returns true if no prop is provided', () => {

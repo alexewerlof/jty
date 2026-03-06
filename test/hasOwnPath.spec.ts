@@ -28,7 +28,7 @@ describe('hasOwnPath()', () => {
         assert.strictEqual(hasOwnPath({}, '__proto__'), false)
     })
 
-    it('woks for arrays', () => {
+    it('works for arrays', () => {
         assert.strictEqual(hasOwnPath([1, 2, 3], 1), true)
         assert.strictEqual(hasOwnPath([1, 2, 3], -1), false)
         assert.strictEqual(hasOwnPath([1, 2, 3], 0), true)

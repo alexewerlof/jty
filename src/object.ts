@@ -149,6 +149,16 @@ export function hasPath<K extends readonly PropertyKey[]>(
  * @param x a value that may possibly have some properties
  * @param propNames one or more property names
  *
+ * @example
+ * const x = { foo: { bar: { baz: undefined }}}
+ * hasOwnPath(x, 'foo', 'bar') => true
+ * hasOwnPath(x, 'foo', 'bar', 'baz') => true
+ * hasOwnPath(x, 'foo', 'hello', 'baz') => false
+ *
+ * // Unlike hasPath, it does not follow inherited properties
+ * const obj = { a: Object.create({ b: 1 }) }
+ * hasOwnPath(obj, 'a', 'b') => false
+ *
  * @category Object
  */
 export function hasOwnPath<K extends readonly PropertyKey[]>(
@@ -216,6 +226,15 @@ export function hasProp<K extends PropertyKey>(x: unknown, ...propNames: readonl
  * @param x an object
  * @param propNames one or more property names
  *
+ * @example
+ * hasOwnProp({ foo: 'bar' }, 'foo') => true
+ * hasOwnProp({ foo: 'bar' }, 'baz') => false
+ * hasOwnProp({ foo: 'bar', baz: 'cux' }, 'foo', 'baz') => true
+ *
+ * // Unlike hasProp, it does not find inherited properties
+ * hasOwnProp({}, '__proto__') => false
+ * hasOwnProp({}, 'constructor') => false
+ *
  * @category Object
  */
 export function hasOwnProp<K extends PropertyKey>(x: unknown, ...propNames: readonly K[]): x is Record<K, any> {
@@ -235,6 +254,9 @@ export function hasOwnProp<K extends PropertyKey>(x: unknown, ...propNames: read
 /**
  * Checks if a value is a Set.
  *
+ * @see {@link isA}
+ * @see {@link isEqualSet}
+ *
  * @example
  * isSet(new Set()) => true
  * isSet(new Map()) => false
@@ -242,12 +264,15 @@ export function hasOwnProp<K extends PropertyKey>(x: unknown, ...propNames: read
  *
  * @category Object
  */
-export function isSet(x: unknown) {
+export function isSet(x: unknown): x is Set<unknown> {
     return isA(x, Set)
 }
 
 /**
  * Checks if a value is a Map.
+ *
+ * @see {@link isA}
+ * @see {@link isEqualMap}
  *
  * @example
  * isMap(new Map()) => true
@@ -256,12 +281,15 @@ export function isSet(x: unknown) {
  *
  * @category Object
  */
-export function isMap(x: unknown) {
+export function isMap(x: unknown): x is Map<unknown, unknown> {
     return isA(x, Map)
 }
 
 /**
  * Checks if a value is a RegExp.
+ *
+ * @see {@link isA}
+ * @see {@link isEqualRegExp}
  *
  * @example
  * isRegExp(/a/) => true
@@ -277,6 +305,9 @@ export function isRegExp(x: unknown): x is RegExp {
 /**
  * Checks if a value is a Date.
  *
+ * @see {@link isA}
+ * @see {@link isEqualDate}
+ *
  * @example
  * isDate(new Date()) => true
  * isDate(Date.now()) => false
@@ -290,6 +321,9 @@ export function isDate(x: unknown): x is Date {
 
 /**
  * Checks if a value is an Error or a descendant of it.
+ *
+ * @see {@link isA}
+ * @see {@link isEqualErr}
  *
  * @example
  * class MyError extends Error {}

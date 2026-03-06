@@ -84,10 +84,6 @@ describe('hasProp()', () => {
         assert.strictEqual(hasProp({}), true)
     })
 
-    it('returns true if no prop is provided', () => {
-        assert.strictEqual(hasProp({}), true)
-    })
-
     it('returns true if there is actually a property called undefined', () => {
         assert.strictEqual(
             hasProp(

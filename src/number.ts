@@ -155,7 +155,7 @@ export function inRange(x: unknown, min?: number, max?: number): x is number {
  * inRangeInt(5, 0, 10) => true
  * inRangeInt(5, 5, 10) => true
  * inRangeInt(5, 0, 5) => true
- * inRangeInt(5.5, 0, 10) // throws TypeError
+ * inRangeInt(5.5, 0, 10) => false
  *
  * @category Number
  */
