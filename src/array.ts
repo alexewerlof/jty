@@ -59,3 +59,30 @@ export function isArrIdx(arr: unknown, x: number): x is number {
 
     return isInt(x) && x >= 0 && x < arr.length
 }
+
+/**
+ * Checks if a value is present in an array.
+ *
+ * @see {@link isArr}
+ * @see {@link isArrIdx}
+ *
+ * @param x The value to search for.
+ * @param arr The array to search in.
+ *
+ * @throws {TypeError} if `arr` is not an array.
+ *
+ * @returns `true` if `x` is in `arr`, `false` otherwise.
+ *
+ * @example
+ * inArr(1, [1, 2, 3]) // => true
+ * inArr(4, [1, 2, 3]) // => false
+ *
+ * @category Array
+ */
+export function inArr<T>(x: unknown, arr: readonly T[]): x is T {
+    if (!isArr(arr)) {
+        throw new TypeError(`inArr(): "arr" must be an array. Got ${arr} (${typeof arr})`)
+    }
+
+    return arr.includes(x as any)
+}
