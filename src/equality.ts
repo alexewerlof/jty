@@ -318,7 +318,10 @@ export function isEqualObj(x: unknown, ref: object): x is typeof ref {
     }
 
     for (const xKey of xKeys) {
-        if (!hasOwnProperty.call(ref, xKey) || !isDeepEqual((x as any)[xKey], (ref as any)[xKey])) {
+        if (
+            !hasOwnProperty.call(ref, xKey) ||
+            !isDeepEqual((x as Record<PropertyKey, unknown>)[xKey], (ref as Record<PropertyKey, unknown>)[xKey])
+        ) {
             return false
         }
     }

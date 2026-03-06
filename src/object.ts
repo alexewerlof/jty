@@ -79,7 +79,8 @@ export function isPOJO(x: unknown): x is Record<PropertyKey, unknown> {
  *
  * @category Object
  */
-export function isA<T extends new (...args: any) => any>(x: unknown, classConstructor: T): x is InstanceType<T> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function isA<T extends new (...args: any[]) => any>(x: unknown, classConstructor: T): x is InstanceType<T> {
     if (!isFn(classConstructor)) {
         throw new TypeError(
             `isA(): Expected a constructor function. Got ${classConstructor} (${typeof classConstructor})`,
@@ -89,10 +90,11 @@ export function isA<T extends new (...args: any) => any>(x: unknown, classConstr
 }
 
 /**
- * @internal
  * Creates a deeply nested record type from a tuple of property keys.
+ *
+ * @category Object
  */
-type DeepRecord<K extends readonly PropertyKey[], V = object> = K extends readonly [infer Head, ...infer Tail]
+export type DeepRecord<K extends readonly PropertyKey[], V = object> = K extends readonly [infer Head, ...infer Tail]
     ? Head extends PropertyKey
         ? Tail extends readonly PropertyKey[]
             ? { [P in Head]: DeepRecord<Tail, V> }
@@ -209,7 +211,7 @@ export function hasProp<K extends PropertyKey>(x: unknown, ...propNames: readonl
         return false
     }
 
-    for (let propName of propNames) {
+    for (const propName of propNames) {
         if (!(propName in x)) {
             return false
         }
@@ -240,12 +242,12 @@ export function hasProp<K extends PropertyKey>(x: unknown, ...propNames: readonl
  *
  * @category Object
  */
-export function hasOwnProp<K extends PropertyKey>(x: unknown, ...propNames: readonly K[]): x is Record<K, any> {
+export function hasOwnProp<K extends PropertyKey>(x: unknown, ...propNames: readonly K[]): x is Record<K, unknown> {
     if (!isObj(x)) {
         return false
     }
 
-    for (let propName of propNames) {
+    for (const propName of propNames) {
         if (!hasOwnProperty.call(x, propName)) {
             return false
         }

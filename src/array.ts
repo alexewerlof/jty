@@ -1,4 +1,4 @@
-import { inRange, isInt, isIdx } from './number.js'
+import { inRange, isIdx } from './number.js'
 
 const { isArray } = Array
 
@@ -53,7 +53,7 @@ export function isArr(x: unknown, minLen = 0, maxLen?: number): x is unknown[] {
  *
  * @category Array
  */
-export function isArrIdx(x: number, arr: unknown): x is number {
+export function isArrIdx(x: unknown, arr: readonly unknown[]): x is number {
     if (!isArr(arr)) {
         throw new TypeError(`isArrIdx(): "arr" must be an array. Got ${arr} (${typeof arr})`)
     }
@@ -85,5 +85,5 @@ export function inArr<T>(x: unknown, arr: readonly T[]): x is T {
         throw new TypeError(`inArr(): "arr" must be an array. Got ${arr} (${typeof arr})`)
     }
 
-    return arr.includes(x as any)
+    return arr.includes(x as T)
 }

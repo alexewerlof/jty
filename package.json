@@ -1,20 +1,30 @@
 {
     "name": "jty",
     "version": "4.0.0",
-    "description": "A minimal type checking library that I need in various projects for safer programming",
+    "description": "A minimal, zero-dependency, AI friendly, library for runtime type checking with developer ergonomy in mind",
     "keywords": [
-        "javascript",
+        "typescript",
         "language",
-        "manual type check",
+        "runtime type checking",
+        "javascript",
         "type safety",
         "defensive programming",
         "security",
-        "verification"
+        "verification",
+        "ai friendly",
+        "SKILL",
+        "manual type check"
     ],
     "type": "module",
+    "main": "./lib/index.cjs",
+    "module": "./lib/index.js",
+    "types": "./lib/index.d.ts",
     "exports": {
-        "import": "./lib/index.js",
-        "types": "./lib/index.d.ts"
+        ".": {
+            "types": "./lib/index.d.ts",
+            "import": "./lib/index.js",
+            "require": "./lib/index.cjs"
+        }
     },
     "directories": {
         "lib": "lib",
@@ -22,17 +32,18 @@
         "test": "test"
     },
     "files": [
-        "lib"
+        "lib",
+        "SKILL.md"
     ],
     "scripts": {
-        "doc": "typedoc src/index.ts",
-        "build": "tsc",
-        "typecheck": "tsc --noEmit",
         "fmt": "prettier --write .",
+        "lint": "eslint",
+        "typecheck": "tsc --noEmit",
+        "doc": "typedoc src/index.ts",
         "test": "npm run typecheck && node --import tsx --test",
-        "test:watch": "npm run typecheck && node --import tsx --test --watch",
-        "test:coverage": "npm run typecheck && node --import tsx --test --experimental-test-coverage",
-        "preversion": "npm t",
+        "prebuild": "rm -rf lib doc",
+        "build": "tsup --dts && npm run doc",
+        "preversion": "npm run fmt && npm t",
         "prepublishOnly": "npm run build",
         "postversion": "git push && git push --tags"
     },
@@ -43,10 +54,18 @@
     "author": "Alex Ewerlöf",
     "license": "MIT",
     "devDependencies": {
+        "@eslint/js": "^10.0.1",
+        "@eslint/json": "^1.0.1",
+        "@eslint/markdown": "^7.5.1",
         "@types/node": "^24.12.0",
+        "eslint": "^10.0.2",
+        "globals": "^17.4.0",
+        "jiti": "^2.6.1",
         "prettier": "^3.8.1",
+        "tsup": "^8.5.1",
         "tsx": "^4.21.0",
         "typedoc": "^0.28.17",
-        "typescript": "^5.9.3"
+        "typescript": "^5.9.3",
+        "typescript-eslint": "^8.56.1"
     }
 }

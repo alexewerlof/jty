@@ -5,7 +5,7 @@ description: A minimal, AI friendly, zero-dependency TypeScript type-checking li
 
 # jty — JavaScript/TypeScript Type Guards
 
-`jty` is a minimal, zero-dependency library for runtime type checking.
+`jty` is a minimal, zero-dependency, AI friendly, library for runtime type checking with developer ergonomy in mind.
 Every function returns `true`/`false` and acts as a TypeScript [type guard](https://www.typescriptlang.org/docs/handbook/2/narrowing.html#using-type-predicates), narrowing the type of the checked value.
 
 ## Installation

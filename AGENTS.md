@@ -13,17 +13,17 @@ Whenever the code changes, ensure the following files are updated to reflect the
 - **`SKILL.md`** — consumer-facing, shipped with the npm package. Update the function reference tables, usage patterns, and examples to match the current API.
 
 Specifically, when you:
+
 - **Add a function**: add it to the source file organization table in this file, and to the appropriate function reference table in `SKILL.md`.
 - **Remove a function**: remove it from both files.
 - **Rename a function**: update both files and ensure the test file is renamed to match.
 - **Change a function's behavior**: update the documentation, examples, and tests. Update `SKILL.md` if the description or usage patterns are affected.
 - **Add a new source file**: add it to the source file organization table and to `index.ts`. Add the new category to `SKILL.md`.
 
-
 # Structure
 
 - The API surface is implemented in `./src` as TypeScript files
-- Each function is elaborately tested in a dedicated test file named `./test/FUNC_NAME.spec.ts` (the filename must exactly match the function name)
+- Each function is elaborately tested in a dedicated test file named `./test/FUNC_NAME.test.ts` (the filename must exactly match the function name)
 - Use only the Node.js native test framework
 - `./src/index.ts` is a barrel file that re-exports everything via `export * from './module.js'`. New functions are added to their category file and automatically exported. Only edit `index.ts` when adding a new category file.
 - Internal imports between source files must use the `.js` extension (ESM resolution): `import { isInt } from './number.js'`
@@ -32,14 +32,14 @@ Specifically, when you:
 
 Source files are organized by the type category they primarily check:
 
-| File | Category | Functions |
-|---|---|---|
-| `array.ts` | Array | `isArr`, `isArrIdx`, `inArr` |
-| `number.ts` | Number | `isNum`, `isInt`, `isFin`, `inRange`, `inRangeInt`, `isIdx` |
-| `string.ts` | String | `isStr`, `isStrLen`, `isStrIdx` |
-| `object.ts` | Object | `isObj`, `isPOJO`, `isA`, `hasProp`, `hasOwnProp`, `hasPath`, `hasOwnPath`, `isSet`, `isMap`, `isRegExp`, `isDate`, `isErr` |
-| `misc.ts` | Miscellaneous primitives | `isDef`, `isNullish`, `isBool`, `isFn`, `isSym`, `isBigInt` |
-| `equality.ts` | Equality comparisons | `isEqualArr`, `isEqualSet`, `isEqualMap`, `isEqualRegExp`, `isEqualDate`, `isEqualErr`, `isEqualObj`, `isDeepEqual` |
+| File          | Category                 | Functions                                                                                                                   |
+| ------------- | ------------------------ | --------------------------------------------------------------------------------------------------------------------------- |
+| `array.ts`    | Array                    | `isArr`, `isArrIdx`, `inArr`                                                                                                |
+| `number.ts`   | Number                   | `isNum`, `isInt`, `isFin`, `inRange`, `inRangeInt`, `isIdx`                                                                 |
+| `string.ts`   | String                   | `isStr`, `isStrLen`, `isStrIdx`                                                                                             |
+| `object.ts`   | Object                   | `isObj`, `isPOJO`, `isA`, `hasProp`, `hasOwnProp`, `hasPath`, `hasOwnPath`, `isSet`, `isMap`, `isRegExp`, `isDate`, `isErr` |
+| `misc.ts`     | Miscellaneous primitives | `isDef`, `isNullish`, `isBool`, `isFn`, `isSym`, `isBigInt`                                                                 |
+| `equality.ts` | Equality comparisons     | `isEqualArr`, `isEqualSet`, `isEqualMap`, `isEqualRegExp`, `isEqualDate`, `isEqualErr`, `isEqualObj`, `isDeepEqual`         |
 
 # API design
 
@@ -54,17 +54,31 @@ Source files are organized by the type category they primarily check:
     - What was the expectation?
     - What did we get instead and its type.
 
+Do **NOT** rely on Typescript type checks in this library because the result will be run in the Javascript environment.
+For example:
+
+```typescript
+export function isStrIdx(x: unknown, str: string): x is number {
+    // This isStr() is unnecessary because of the type definition but it should be here because the compiled version that runs on Javascript runtime cannot guarantee that `str` is a string.
+    if (!isStr(str)) {
+        throw new TypeError(`isStrIdx(): "str" must be a string. Got ${str} (${typeof str})`)
+    }
+
+    return isIdx(x, str.length)
+}
+```
+
 ## Naming conventions
 
 Function names follow these prefixes:
 
-| Prefix | Meaning | Examples |
-|---|---|---|
-| `is` | Type-narrowing check returning `x is T` | `isStr`, `isNum`, `isArr`, `isObj` |
-| `has` | Object property/path existence check | `hasProp`, `hasPath` |
-| `in` | Containment or range check | `inRange`, `inArr` |
-| `isEqual` | Shallow equality comparison against a reference | `isEqualArr`, `isEqualSet` |
-| `hasOwn` | Same as `has` but for own properties only | `hasOwnProp`, `hasOwnPath` |
+| Prefix    | Meaning                                         | Examples                           |
+| --------- | ----------------------------------------------- | ---------------------------------- |
+| `is`      | Type-narrowing check returning `x is T`         | `isStr`, `isNum`, `isArr`, `isObj` |
+| `has`     | Object property/path existence check            | `hasProp`, `hasPath`               |
+| `in`      | Containment or range check                      | `inRange`, `inArr`                 |
+| `isEqual` | Shallow equality comparison against a reference | `isEqualArr`, `isEqualSet`         |
+| `hasOwn`  | Same as `has` but for own properties only       | `hasOwnProp`, `hasOwnPath`         |
 
 ## Reference parameter contract
 
@@ -82,6 +96,7 @@ functionName(): "paramName" must be description. Got ${value} (${typeof value})
 ```
 
 Examples:
+
 - `isArrIdx(): "arr" must be an array. Got ${arr} (${typeof arr})`
 - `isIdx(): "length" must be an integer. Got ${length} (${typeof length})`
 
@@ -110,7 +125,7 @@ The documentation audience is JavaScript/TypeScript front-end or backend develop
 
 # Testing
 
-Every test file follows this structure:
+Every test test file is named after the function it tests and follows this structure:
 
 ```typescript
 import { describe, it } from 'node:test'
@@ -135,6 +150,7 @@ describe('functionName()', () => {
 ```
 
 Key rules:
+
 - Always import from `../src/index.ts` (not from individual module files)
 - Use `assert.strictEqual` for all boolean checks
 - Use `assert.throws` with the error constructor class for throw cases
@@ -168,5 +184,5 @@ When generating code, respect [Prettier Configurations](./.prettierrc.json) whic
 # Dependencies
 
 - The library has **zero runtime dependencies**.
-- DevDependencies: `typescript`, `tsx` (for running TS tests), `prettier`, `typedoc`, `@types/node`.
+- DevDependencies: `typescript`, `tsup`, `tsx` (for running TS tests), `jiti`, `prettier`, `typedoc`, `@types/node`.
 - Do not introduce any runtime dependencies.

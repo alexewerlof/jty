@@ -89,7 +89,8 @@ export function isBool(x: unknown): x is boolean {
  *
  * @category Function
  */
-export function isFn<T extends Function>(x: unknown): x is T {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function isFn<T extends (...args: any[]) => any>(x: unknown): x is T {
     return typeof x === 'function'
 }
 
@@ -130,6 +131,6 @@ export function isSym(x: unknown): x is symbol {
  *
  * @category BigInt
  */
-export function isBigInt(x: unknown): x is BigInt {
+export function isBigInt(x: unknown): x is bigint {
     return typeof x === 'bigint'
 }

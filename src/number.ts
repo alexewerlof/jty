@@ -67,7 +67,7 @@ export function isInt(x: unknown): x is number {
  * isFin(Number.POSITIVE_INFINITY) => false
  * isFin(Number.EPSILON) => true
  * isFin(-0) => true
- * isFin(+0) => true`
+ * isFin(+0) => true
  *
  * @category Number
  */
@@ -131,7 +131,9 @@ export function inRange(x: unknown, min?: number, max?: number): x is number {
 
         return x <= max
     }
-    throw new TypeError(`inRange(): expected at least min or max to be defined. Got min=${min} (${typeof min}) and max=${max} (${typeof max})`)
+    throw new TypeError(
+        `inRange(): expected at least min or max to be defined. Got min=${min} (${typeof min}) and max=${max} (${typeof max})`,
+    )
 }
 
 /**
