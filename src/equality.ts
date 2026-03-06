@@ -15,20 +15,20 @@ const { isArray } = Array
  * @example
  * const refArr = [1, 2, 3];
  * const unknownArr: unknown = [1, 2, 3];
- * isSameArr([1, 2, 3], [1, 2, 3]) => true
- * isSameArr([1, 2, 3], [1, 2, 3, 4]) => false
- * isSameArr([1, 2, 3, 4], [1, 2, 3]) => false
- * isSameArr([1, 2, 3], []) => true
- * isSameArr([], [1, 2, 3]) => false
- * isSameArr({}, [1, 2, 3]) => false
- * isSameArr([1, 2, 3], [3, 2, 1]) => false
+ * isEqualArr([1, 2, 3], [1, 2, 3]) => true
+ * isEqualArr([1, 2, 3], [1, 2, 3, 4]) => false
+ * isEqualArr([1, 2, 3, 4], [1, 2, 3]) => false
+ * isEqualArr([1, 2, 3], []) => true
+ * isEqualArr([], [1, 2, 3]) => false
+ * isEqualArr({}, [1, 2, 3]) => false
+ * isEqualArr([1, 2, 3], [3, 2, 1]) => false
  * @throws {TypeError} if `ref` is not an array.
  *
  * @category Array
  */
-export function isSameArr<T>(x: unknown, ref: T[]): x is typeof ref {
+export function isEqualArr<T>(x: unknown, ref: T[]): x is typeof ref {
     if (!isArray(ref)) {
-        throw new TypeError(`isSameArr(): "ref" must be an array. Got ${JSON.stringify(ref)} (${typeof ref})`)
+        throw new TypeError(`isEqualArr(): "ref" must be an array. Got ${JSON.stringify(ref)} (${typeof ref})`)
     }
 
     if (!isArray(x)) {
@@ -48,10 +48,18 @@ export function isSameArr<T>(x: unknown, ref: T[]): x is typeof ref {
  * @param ref The reference Set.
  * @returns `true` if the sets are the same, `false` otherwise.
  * @throws {TypeError} if `ref` is not a Set.
+ *
+ * @example
+ * isEqualSet(new Set([1, 2]), new Set([1, 2])) => true
+ * isEqualSet(new Set([1, 2]), new Set([1, 3])) => false
+ * isEqualSet(new Set([1, 2]), new Set([1, 2, 3])) => false
+ * isEqualSet(new Set(), new Set()) => true
+ *
+ * @category Object
  */
-export function isSameSet<T>(x: unknown, ref: Set<T>): x is Set<T> {
+export function isEqualSet<T>(x: unknown, ref: Set<T>): x is Set<T> {
     if (!isSet(ref)) {
-        throw new TypeError(`isSameSet(): "ref" must be a Set. Got ${ref} (${typeof ref})`)
+        throw new TypeError(`isEqualSet(): "ref" must be a Set. Got ${ref} (${typeof ref})`)
     }
 
     if (x === ref) {
@@ -81,10 +89,18 @@ export function isSameSet<T>(x: unknown, ref: Set<T>): x is Set<T> {
  * @param ref The reference Map.
  * @returns `true` if the maps are the same, `false` otherwise.
  * @throws {TypeError} if `ref` is not a Map.
+ *
+ * @example
+ * isEqualMap(new Map([['a', 1]]), new Map([['a', 1]])) => true
+ * isEqualMap(new Map([['a', 1]]), new Map([['a', 2]])) => false
+ * isEqualMap(new Map([['a', 1]]), new Map([['b', 1]])) => false
+ * isEqualMap(new Map(), new Map()) => true
+ *
+ * @category Object
  */
-export function isSameMap<T, U>(x: unknown, ref: Map<T, U>): x is Map<T, U> {
+export function isEqualMap<T, U>(x: unknown, ref: Map<T, U>): x is Map<T, U> {
     if (!isMap(ref)) {
-        throw new TypeError(`isSameMap(): "ref" must be a Map. Got ${ref} (${typeof ref})`)
+        throw new TypeError(`isEqualMap(): "ref" must be a Map. Got ${ref} (${typeof ref})`)
     }
 
     if (x === ref) {
@@ -114,10 +130,18 @@ export function isSameMap<T, U>(x: unknown, ref: Map<T, U>): x is Map<T, U> {
  * @param ref The reference RegExp.
  * @returns `true` if the regular expressions are the same, `false` otherwise.
  * @throws {TypeError} if `ref` is not a RegExp.
+ *
+ * @example
+ * isEqualRegExp(/a/g, /a/g) => true
+ * isEqualRegExp(/a/i, /a/g) => false
+ * isEqualRegExp(/a/, /b/) => false
+ * isEqualRegExp(new RegExp('a', 'g'), /a/g) => true
+ *
+ * @category Object
  */
-export function isSameRegExp(x: unknown, ref: RegExp): x is RegExp {
+export function isEqualRegExp(x: unknown, ref: RegExp): x is RegExp {
     if (!isRegExp(ref)) {
-        throw new TypeError(`isSameRegExp(): "ref" must be a RegExp. Got ${ref} (${typeof ref})`)
+        throw new TypeError(`isEqualRegExp(): "ref" must be a RegExp. Got ${ref} (${typeof ref})`)
     }
 
     if (x === ref) {
@@ -137,10 +161,16 @@ export function isSameRegExp(x: unknown, ref: RegExp): x is RegExp {
  * @param ref The reference Date.
  * @returns `true` if the dates are the same, `false` otherwise.
  * @throws {TypeError} if `ref` is not a Date.
+ *
+ * @example
+ * isEqualDate(new Date(2020, 0, 1), new Date(2020, 0, 1)) => true
+ * isEqualDate(new Date(2020, 0, 1), new Date(2020, 0, 2)) => false
+ *
+ * @category Object
  */
-export function isSameDate(x: unknown, ref: Date): x is Date {
+export function isEqualDate(x: unknown, ref: Date): x is Date {
     if (!isDate(ref)) {
-        throw new TypeError(`isSameDate(): "ref" must be a Date. Got ${ref} (${typeof ref})`)
+        throw new TypeError(`isEqualDate(): "ref" must be a Date. Got ${ref} (${typeof ref})`)
     }
 
     if (x === ref) {
@@ -160,10 +190,17 @@ export function isSameDate(x: unknown, ref: Date): x is Date {
  * @param ref The reference Error.
  * @returns `true` if the errors are the same, `false` otherwise.
  * @throws {TypeError} if `ref` is not an Error.
+ *
+ * @example
+ * isEqualErr(new Error('test'), new Error('test')) => true
+ * isEqualErr(new Error('test'), new TypeError('test')) => false
+ * isEqualErr(new Error('test'), new Error('other')) => false
+ *
+ * @category Object
  */
-export function isSameErr(x: unknown, ref: Error): x is Error {
+export function isEqualErr(x: unknown, ref: Error): x is Error {
     if (!isErr(ref)) {
-        throw new TypeError(`isSameErr(): "ref" must be an Error. Got ${ref} (${typeof ref})`)
+        throw new TypeError(`isEqualErr(): "ref" must be an Error. Got ${ref} (${typeof ref})`)
     }
 
     if (x === ref) {
@@ -195,18 +232,25 @@ export function isSameErr(x: unknown, ref: Error): x is Error {
  * deeply nested or circular structures. This function is a wrapper around `isDeepEqual`.
  *
  * @see {@link isObj}
- * @see {@link isSameArr}
+ * @see {@link isEqualArr}
  *
  * @param x The first value to compare.
  * @param ref The reference object to compare against.
  * @returns `true` if the objects are deeply equal, `false` otherwise.
  * @throws {TypeError} if `ref` is not a non-null object.
  *
+ * @example
+ * isEqualObj({ a: 1, b: 2 }, { a: 1, b: 2 }) => true
+ * isEqualObj({ a: 1, b: 2 }, { a: 1, c: 2 }) => false
+ * isEqualObj([1, 2], [1, 2]) => true
+ * isEqualObj(new Set([1]), new Set([1])) => true
+ * isEqualObj(new Date('2020-01-01'), new Date('2020-01-01')) => true
+ *
  * @category Object
  */
-export function isSameObj(x: unknown, ref: object): x is typeof ref {
+export function isEqualObj(x: unknown, ref: object): x is typeof ref {
     if (!isObj(ref)) {
-        throw new TypeError(`isSameObj(): "ref" must be an object. Got ${ref} (${typeof ref})`)
+        throw new TypeError(`isEqualObj(): "ref" must be an object. Got ${ref} (${typeof ref})`)
     }
 
     if (x === ref) {
@@ -222,27 +266,27 @@ export function isSameObj(x: unknown, ref: object): x is typeof ref {
     }
 
     if (isArray(ref)) {
-        return isSameArr(x, ref)
+        return isEqualArr(x, ref)
     }
 
     if (ref instanceof Set) {
-        return isSameSet(x, ref)
+        return isEqualSet(x, ref)
     }
 
     if (ref instanceof Map) {
-        return isSameMap(x, ref)
+        return isEqualMap(x, ref)
     }
 
     if (ref instanceof Error) {
-        return isSameErr(x, ref)
+        return isEqualErr(x, ref)
     }
 
     if (ref instanceof Date) {
-        return isSameDate(x, ref)
+        return isEqualDate(x, ref)
     }
 
     if (ref instanceof RegExp) {
-        return isSameRegExp(x, ref)
+        return isEqualRegExp(x, ref)
     }
 
     const xKeys = Object.keys(x)
@@ -263,7 +307,16 @@ export function isSameObj(x: unknown, ref: object): x is typeof ref {
 
 /**
  * A general-purpose deep equality comparison function.
- * It's used by `isSameObj` to recursively compare values.
+ * It's used by `isEqualObj` to recursively compare values.
+ *
+ * @example
+ * isDeepEqual(1, 1) => true
+ * isDeepEqual(1, 2) => false
+ * isDeepEqual('a', 'a') => true
+ * isDeepEqual({ a: { b: 1 } }, { a: { b: 1 } }) => true
+ * isDeepEqual({ a: 1 }, { a: 2 }) => false
+ * isDeepEqual([1, [2, 3]], [1, [2, 3]]) => true
+ *
  * @category Object
  */
 export function isDeepEqual(x: unknown, ref: unknown): boolean {
@@ -278,7 +331,7 @@ export function isDeepEqual(x: unknown, ref: unknown): boolean {
     }
 
     // At this point, x and y are non-null objects.
-    // isSameObj will handle the detailed comparison.
+    // isEqualObj will handle the detailed comparison.
     // We pass `y` as the second argument which is known to be an object.
-    return isSameObj(x, ref)
+    return isEqualObj(x, ref)
 }
