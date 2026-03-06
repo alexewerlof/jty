@@ -14,4 +14,20 @@ describe('isObj()', () => {
     it('returns false for null', () => {
         assert.strictEqual(isObj(null), false)
     })
+
+    it('returns true for a Map()', () => {
+        assert.strictEqual(isObj(new Map()), true)
+    })
+
+    it('returns true for a Set()', () => {
+        assert.strictEqual(isObj(new Set()), true)
+    })
+
+    it('returns true for a Array()', () => {
+        assert.strictEqual(isObj(new Array()), true)
+    })
+
+    it('returns true for a Number()', () => {
+        assert.strictEqual(isObj(new Number()), true)
+    })
 })

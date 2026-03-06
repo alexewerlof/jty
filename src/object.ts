@@ -11,6 +11,7 @@ const { hasOwnProperty } = Object
  * @see {@link hasProp}
  * @see {@link hasOwnProp}
  * @see {@link isArr}
+ * @see {@link isPOJO}
  *
  * @example
  * isObj({}) => true
@@ -29,6 +30,31 @@ const { hasOwnProperty } = Object
  */
 export function isObj(x: unknown): x is Exclude<object, null> {
     return Boolean(x) && typeof x === 'object'
+}
+
+/**
+ * Checks if a value is a Plain Old Javascript Object (POJO)
+ *
+ * This function returns false for Array, Map, Set, etc. Basically it only
+ * returns true if `x` is a so called Plain Old Javascript Object.
+ *
+ * @see {@link isObj}
+ * @see {@link isArr}
+ *
+ * @example
+ * isPOJO({}) => true
+ * isPOJO(Object.create(null)) => false
+ * isPOJO([]) => false
+ * isPOJO(new Map()) => false
+ * isPOJO(new Set()) => false
+ *
+ * @param x possibly a POJO
+ * @returns true if the value is a Plain Old Javascript Object, false otherwise
+ *
+ * @category Object
+ */
+export function isPOJO(x: unknown): x is Record<PropertyKey, unknown> {
+    return isObj(x) && Object.getPrototypeOf(x) === Object.prototype
 }
 
 /**
