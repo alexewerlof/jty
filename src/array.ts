@@ -36,23 +36,24 @@ export function isArr(x: unknown, minLen = 0, maxLen?: number): x is unknown[] {
  *
  * @see {@link isArr}
  * @see {@link isInt}
+ * @see {@link isStrIdx}
  *
- * @param arr The array to check against.
  * @param x The value to check if it's a valid index.
+ * @param arr The array to check against.
  *
  * @throws {TypeError} if `arr` is not an array.
  *
  * @returns `true` if `x` is a valid index for `arr`, `false` otherwise.
  *
  * @example
- * isArrIdx(['a', 'b'], 1) => true
- * isArrIdx(['a', 'b'], 2) => false
- * isArrIdx(['a', 'b'], -1) => false
- * isArrIdx(['a', 'b'], 0.5) => false
+ * isArrIdx(1, ['a', 'b']) => true
+ * isArrIdx(2, ['a', 'b']) => false
+ * isArrIdx(-1, ['a', 'b']) => false
+ * isArrIdx(0.5, ['a', 'b']) => false
  *
  * @category Array
  */
-export function isArrIdx(arr: unknown, x: number): x is number {
+export function isArrIdx(x: number, arr: unknown): x is number {
     if (!isArr(arr)) {
         throw new TypeError(`isArrIdx(): "arr" must be an array. Got ${arr} (${typeof arr})`)
     }
