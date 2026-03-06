@@ -1,4 +1,4 @@
-import { inRange } from './number.js'
+import { inRange, isInt } from './number.js'
 
 /**
  * Checks if the provided value is a string
@@ -47,4 +47,35 @@ export function isStrLen(x: unknown, minLen = 0, maxLen?: number): x is string {
     }
 
     return inRange(x.length, minLen, maxLen)
+}
+
+/**
+ * Checks if `x` is a valid string index for `str`.
+ *
+ * @see {@link isStr}
+ * @see {@link isInt}
+ * @see {@link isArrIdx}
+ *
+ * @param x The value to check if it's a valid index.
+ * @param str The string to check against.
+ *
+ * @throws {TypeError} if `str` is not a string.
+ *
+ * @returns `true` if `x` is a valid index for `str`, `false` otherwise.
+ *
+ * @example
+ * isStrIdx(0, 'ab') // => true
+ * isStrIdx(1, 'ab') // => true
+ * isStrIdx(2, 'ab') // => false
+ * isStrIdx(-1, 'ab') // => false
+ * isStrIdx(0.5, 'ab') // => false
+ *
+ * @category String
+ */
+export function isStrIdx(x: number, str: unknown): x is number {
+    if (!isStr(str)) {
+        throw new TypeError(`isStrIdx(): "str" must be a string. Got ${str} (${typeof str})`)
+    }
+
+    return isInt(x) && x >= 0 && x < str.length
 }
