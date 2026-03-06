@@ -38,4 +38,10 @@ describe('isPOJO()', () => {
     it('returns false for a string', () => {
         assert.strictEqual(isPOJO('hello'), false)
     })
+
+    it('returns false for a class instance', () => {
+        class C {}
+        const c = new C()
+        assert.strictEqual(isPOJO(c), false)
+    })
 })

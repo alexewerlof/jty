@@ -23,8 +23,10 @@ describe('isObj()', () => {
         assert.strictEqual(isObj(new Set()), true)
     })
 
-    it('returns true for a Array()', () => {
-        assert.strictEqual(isObj(new Array()), true)
+    it('returns true for a class instance', () => {
+        class C {}
+        const c = new C()
+        assert.strictEqual(isObj(c), true)
     })
 
     it('returns true for a Number()', () => {
