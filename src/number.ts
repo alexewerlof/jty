@@ -131,7 +131,7 @@ export function inRange(x: unknown, min?: number, max?: number): x is number {
 
         return x <= max
     }
-    throw new TypeError(`inRange(): expected at least min or max to be defined. Got min=${min} and max=${max}`)
+    throw new TypeError(`inRange(): expected at least min or max to be defined. Got min=${min} (${typeof min}) and max=${max} (${typeof max})`)
 }
 
 /**
@@ -191,7 +191,7 @@ export function isIdx(x: unknown, length: unknown): x is number {
     }
 
     if (length < 0) {
-        throw new RangeError(`isIdx(): "length" must be >= 0. Got ${length}`)
+        throw new RangeError(`isIdx(): "length" must be >= 0. Got ${length} (${typeof length})`)
     }
 
     return isInt(x) && x >= 0 && x < length

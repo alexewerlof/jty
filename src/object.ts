@@ -80,7 +80,7 @@ export function isPOJO(x: unknown): x is Record<PropertyKey, unknown> {
  */
 export function isA<T extends new (...args: any) => any>(x: unknown, classConstructor: T): x is InstanceType<T> {
     if (!isFn(classConstructor)) {
-        throw new TypeError(`Expected a constructor function. Got ${classConstructor} (${typeof classConstructor})`)
+        throw new TypeError(`isA(): Expected a constructor function. Got ${classConstructor} (${typeof classConstructor})`)
     }
     return x instanceof classConstructor
 }

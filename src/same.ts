@@ -28,7 +28,7 @@ const { isArray } = Array
  */
 export function isSameArr<T>(x: unknown, ref: T[]): x is typeof ref {
     if (!isArray(ref)) {
-        throw new TypeError(`isSameArr(): "ref" must be an array. Got ${JSON.stringify(ref)}`)
+        throw new TypeError(`isSameArr(): "ref" must be an array. Got ${JSON.stringify(ref)} (${typeof ref})`)
     }
 
     if (!isArray(x)) {
