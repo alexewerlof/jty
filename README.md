@@ -3,148 +3,138 @@
 [![GitHub license](https://img.shields.io/github/license/alexewerlof/jty)](https://github.com/alexewerlof/jty/blob/master/LICENSE.md)
 [![npm version](https://img.shields.io/npm/v/jty.svg)](https://www.npmjs.com/package/jty)
 [![GitHub stars](https://img.shields.io/github/stars/alexewerlof/jty)](https://github.com/alexewerlof/jty/stargazers)
-[![Deploy documentation to GitHub Pages](https://github.com/alexewerlof/jty/actions/workflows/gh-pages.yml/badge.svg?branch=master)](https://github.com/alexewerlof/jty/actions/workflows/gh-pages.yml)
+[![Documentation](https://github.com/alexewerlof/jty/actions/workflows/gh-pages.yml/badge.svg?branch=master)](https://github.com/alexewerlof/jty/actions/workflows/gh-pages.yml)
 [![GitHub issues](https://img.shields.io/github/issues/alexewerlof/jty)](https://github.com/alexewerlof/jty/issues)
 [![Vulnerabilities](https://snyk.io/test/github/alexewerlof/jty/badge.svg)](https://snyk.io/test/github/alexewerlof/jty)
 [![Downloads](https://img.shields.io/npm/dm/jty.svg?style=flat-square)](http://npm-stat.com/charts.html?package=jty&from=2020-01-01)
 
-# jty - the tiny JavaScript type checker
+# jty - Just a Tiny Runtime Type Checker
 
-A minimalistic, zero-dependency library for runtime type checking in JavaScript and TypeScript.
-It helps you write safer, more reliable code by verifying types before usage and fail gracefully instead of crashing.
+A minimalistic, ergonomic, AI friendly, zero-dependency library for runtime type checking and defensive programming in JavaScript and TypeScript.
 
-**Fail early with a good error rather than continue with the wrong assumption**
+It helps you write safer, more reliable code by verifying types before usage and failing gracefully instead of bringing your application down with cryptic errors. **Fail early with a good error rather than continue with the wrong assumption.**
 
-- No dependencies
-- Minimalistic: complements what's available in JavaScript
-- Comes with TypeScript support out of the box
-- Unified, solid and predictable behavior for all functions:
-    - All functions return `true` or `false`
-    - Only `throw` for developer errors
-    - Never mutates any parameter
-    - Short expressive names to reduce boilerplate
-    - Small code that's easy to understand and audit
-- Thoroughly tested
-- Works in Node.js, Deno, Bun, and modern browsers
-- High performance
+## 🤔 Why `jty`? Didn't TypeScript Solve This?
 
-`jty` makes no assumption about how you handle anomalies. You throw an error or use it in conditional statements.
+JavaScript is a highly dynamic language with famous quirks around implicit type conversions. TypeScript helps a lot **at compile-time**. In fact the illusion of type-safety can create more fragile code when interacting with APIs or external JS code at **runtime**:
 
-# API docs
+- An API responds with an unexpected payload structure or values.
+- A user ot AI agent submits a form with invalid input.
+- Parsed JSON/YAML have drifted from the code that depends on them.
+- You are interoperating with untyped 3rd-party JavaScript libraries.
+- You are dealing with Typescript code that uses various escape hatches (`any`, `unknown`, or casting `as SomeType`).
 
-https://alexewerlof.github.io/jty/
+If you don't validate your data at the boundaries, your application is vulnerable to cascading failures and extremely hard-to-debug behaviors.
 
-## Why?
+**This is where `jty` comes in.** `jty` enables **Defensive Programming**, empowering you to validate shapes and types _at runtime_, failing early right at the boundary.
 
-- For **JavaScript**, `jty` helps verify function/method contracts and fail early with [good error messages](https://medium.com/hackernoon/what-makes-a-good-error-710d02682a68) instead of continuing on wrong assumption and producing wrong results (which is hard to debug due to [implicit type conversion quirks](https://2ality.com/2013/04/quirk-implicit-conversion.html))
-- For **TypeScript**, `jty` helps guarantee type safely when called from JavaScript code (also provides reliability against abusing TypeScript's escape hatches like `as` and `any`). _TypeScript may create a false sense of type safety, specially when interoperating with external systems that are not in TypeScript like APIs or other JavaScript code._
-- For **REST APIs**, `jty` helps verify the shape of the API response before processing `*`
-- For **JSON/YML**, `jty` helps verify the shape of the objects (like configs or `manifest.json`) programmatically with minimal ceremonies and code that's easy to read `*`
+## ✨ Developer Ergonomics & Features
 
-`*` Technically you can solve these problems with [JSON Schema validators](https://json-schema.org/implementations.html#validator-javascript), but:
+`jty` was designed to be a joy to write and read, focusing heavily on developer experience and AI Agent effectiveness. Written in the latest TypeScript, it provides:
 
-- It requires learning a DSL instead of using play JavaScript
-- The DSL is parsed at runtime (or compiled to generated JS code beforehand to avoid the performance penalty)
-- Usually relies on externalized specifications as opposed to failing at the location where the data is used (see "Best Practices")
+- 🛡️ **TypeScript Type Guards:** Functions act as type guards. Once `jty` verifies a type, your IDE language server instantly recognizes the narrowed type structure. No more `any`!
+- 🗣️ **Expressive Error Messages:** When a validation fails, `jty` empowers you to throw highly expressive exceptions explicitly logging what went wrong, what was expected, and exactly what was received. This also helps AI agents identify exactly what went wrong, what was expected and what was received, accelerating debugging and reducing token usage.
+- 🧪 **Thoroughly Tested:** Fully tested against all the infamous JavaScript edge cases (like `NaN`, `null` vs `undefined`, object prototypes, inheritance, arrays, etc.).
+- 📦 **Batteries Included:** Comes with TypeScript types out of the box, eliminating the need to install and update a separate `@types/...` package to work with `jty` in TypeScript repos. Zero external runtime dependencies.
+- 🔌 **Universal Compatibility:** Works seamlessly with both **ESM** (`import`) and **CommonJS** (`require()`), natively supporting Node.js, Deno, Bun, and modern browsers.
 
-# How to use it?
+## 🤖 An AI-First Library
+
+`jty` is built with modern AI-driven development in mind.
+It is an AI-first library where an embedded `SKILL.md` file is shipped alongside the codebase. This allows LLM-powered coding assistants to learn exactly how to use this library efficiently.
+
+Plus the function names and accompanying Typedocs gives an expressive token-language to LLM and makes it easy for AI agents to discover how to use it.
+
+**How to use our AI Skill:**
+
+- **From `node_modules`:** Once installed locally, your agent can read `node_modules/jty/SKILL.md` directly to understand the API standards, function signatures, and best practices.
+- **Using Skills.sh:** You can reference this skill in external AI tools and workflows using platforms like [skills.sh](https://skills.sh/) to seamlessly inject context into your favorite agentic tools with zero manual setup.
+- **Using a pointer file**: Put a basic `.agent/skills/jty/SKILL.md` which references `node_modules/jty/SKILL.md`.
+
+```yaml
+---
+name: jty
+description: 'Defensive programming patterns to ensure runtime type safety using the jty library'
+---
+Look up [jty SKILL.md](node_modules/jty/SKILL.md)
+```
+
+---
+
+## 🚀 Quick Start
 
 ```bash
-$ npm i jty
+npm install jty
 ```
 
+### Basic Usage
+
+Use `jty` to easily validate variables and surface descriptive errors.
+
 ```js
-// In your JS file
 import { isStr } from 'jty'
 
-if (isStr('Hello world!', 3)) {
-    console.log('Success')
-} else {
-    throw new TypeError('Expected an string with at least 3 characters')
-}
-```
-
-If you use TypeScript, many of these functions work as [type guards](https://www.typescriptlang.org/docs/handbook/2/narrowing.html):
-
-```TypeScript
-const a = { foo: 13 }
-
-if (hasPath(a, 'bar', 'baz')) {
-  // `a.foo` is valid, as well as `a.bar` and `a.bar.baz`
-}
-```
-
-Let's say you have a function that is supposed to double a number:
-
-```js
-function double(n) {
-    return n + n
-}
-double(1) // 2
-double(13) // 26
-```
-
-But this function happily accepts strings which is not desired:
-
-```js
-double('13') // '1313'
-```
-
-Using `jty` we can verify the input before using it:
-
-```js
-import { isNum } from 'jty'
-
-function double(n) {
-    if (!isNum(n)) {
-        throw new TypeError(`Expected a number but got ${n}`)
+function greet(name) {
+    if (!isStr(name)) {
+        throw new TypeError(`Expected "name" to be a string. Got ${name} (${typeof name})`)
     }
-    return n + n
+    console.log(`Hello, ${name}!`)
 }
 
-double(13) // 26
-double('13') // throws 'Expected a number but got 13'
-double(NaN) // throws 'Expected a number but got NaN'
+greet('Alice') // Hello, Alice!
+greet(13) // TypeError: Expected "name" to be a string. Got 13 (number)
 ```
 
-## More advanced case
+### Advanced Schema Validation with Type Guarding
 
-Let's say you're using an API that returns an array (e.g. https://jsonplaceholder.typicode.com/posts).
-You can verify that the API response is what you expect using a simple piece of code:
+Let's validate a complex API response payload. `jty` gracefully scopes properties so the TypeScript compiler can perfectly infer them.
 
-```js
-import { isArr, hasProp, isInt, isStr, isStrLen } from './index'
+```typescript
+import { isArr, hasProp, isInt, isStr, isStrLen } from 'jty'
 
 function verifyResponseShape(responseJson: unknown) {
     if (!isArr(responseJson)) {
-        throw new TypeError(`Expected the response to be an array. Got ${responseJson} (${typeof responseJson})`)
+        throw new TypeError(`Expected an array. Got ${responseJson} (${typeof responseJson})`)
     }
+
     for (let i = 0; i < responseJson.length; i++) {
-        const post = post[i]
+        const post = responseJson[i]
+
+        // Ensure the base properties exist!
         if (!hasProp(post, 'userId', 'id', 'title', 'body')) {
-            throw new Error(`Post ${i} is missing a required property`)
+            throw new Error(`Post ${i} is missing required properties`)
         }
-        // Now Typescript knows that your code has these properties
-        if (!isInt(post.userId)) {
-            throw new Error(`Post ${i} does not have a positive integer userId`)
+
+        // Type Guards active! TS now knows post has 'userId', 'id', 'title', and 'body'
+
+        if (!isInt(post.userId) || post.userId < 0) {
+            throw new TypeError(`Post ${i} does not have a positive integer userId`)
         }
         if (!isInt(post.id) || post.id < 0) {
-            throw new Error(`Post ${i} does not have a positive integer id`)
+            throw new TypeError(`Post ${i} does not have a positive integer id`)
         }
         if (!isStr(post.title)) {
-            throw new TypeError(`Post ${i} misses a title string`)
+            throw new TypeError(`Post ${i} is missing a valid title string`)
         }
         if (!isStrLen(post.body, 10, 200)) {
-            throw new RangeError(`Post ${i} has an invalid body: ${post.body}`)
+            throw new RangeError(`Post ${i} has an invalid body length. Got: ${post.body}`)
         }
     }
+
+    // Everything is verified.
     return responseJson
 }
 ```
 
-# Best practices
+## 📖 API Documentation
 
-[On the wiki](https://github.com/alexewerlof/jty/wiki/Best-Practices)
+Explore all available methods and exhaustive examples on our interactive documentation.
+
+[Read the API Docs](https://alexewerlof.github.io/jty/)
+
+## 🎓 Best Practices
+
+Discover patterns for resilient JavaScript and TypeScript structures on [our Wiki](https://github.com/alexewerlof/jty/wiki/Best-Practices).
 
 ---
 

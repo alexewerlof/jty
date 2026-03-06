@@ -5,6 +5,21 @@ This repo contains a Javascript type checking library that is primarily publishe
 - The code is in the latest version of Typescript
 - The code should run in both modern browsers, and backend runtimes like Node.js, Deno.js, and Bun.js
 
+# Keeping docs in sync
+
+Whenever the code changes, ensure the following files are updated to reflect the new state:
+
+- **`AGENTS.md`** (this file) — maintainer-facing. Update the source file organization table, naming conventions, error message format examples, or any other section that references specific functions, patterns, or behaviors that changed.
+- **`SKILL.md`** — consumer-facing, shipped with the npm package. Update the function reference tables, usage patterns, and examples to match the current API.
+
+Specifically, when you:
+- **Add a function**: add it to the source file organization table in this file, and to the appropriate function reference table in `SKILL.md`.
+- **Remove a function**: remove it from both files.
+- **Rename a function**: update both files and ensure the test file is renamed to match.
+- **Change a function's behavior**: update the documentation, examples, and tests. Update `SKILL.md` if the description or usage patterns are affected.
+- **Add a new source file**: add it to the source file organization table and to `index.ts`. Add the new category to `SKILL.md`.
+
+
 # Structure
 
 - The API surface is implemented in `./src` as TypeScript files
