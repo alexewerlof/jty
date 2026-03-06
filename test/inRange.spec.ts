@@ -33,6 +33,11 @@ describe('inRange()', () => {
         assert.strictEqual(inRange(0, 1, 3), false)
     })
 
+    it('returns false if x is not a number', () => {
+        assert.strictEqual(inRange('2', 1, 3), false)
+        assert.strictEqual(inRange(NaN, 1, 3), false)
+    })
+
     it('throws if min is defined but not a number', () => {
         // @ts-expect-error
         assert.throws(() => inRange(2, '1', 3), TypeError)

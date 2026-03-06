@@ -87,9 +87,8 @@ export function isFin(x: unknown): x is number {
  * @param max The maximum value of the range (inclusive). If undefined, only the min is checked.
  * @returns `true` if `x` is within the specified range, `false` otherwise.
  *
- * @throws {TypeError} if `x` is not a number.
  * @throws {TypeError} if either `min` or `max` are defined, but are not numbers.
- * @throws {TypeError} if neither `min` nor `max` are provided.
+ * @throws {TypeError} if neither `min` nor `max` are provided. Use {@link isNum} if that's what you want to do.
  *
  * @example
  * inRange(5, 0, 10) => true
@@ -102,9 +101,9 @@ export function isFin(x: unknown): x is number {
  *
  * @category Number
  */
-export function inRange(x: number, min?: number, max?: number): x is number {
+export function inRange(x: unknown, min?: number, max?: number): x is number {
     if (!isNum(x)) {
-        throw new TypeError(`inRange(): "x" must be a number. Got ${x} (${typeof x})`)
+        return false
     }
 
     if (isDef(min)) {
@@ -133,4 +132,33 @@ export function inRange(x: number, min?: number, max?: number): x is number {
         return x <= max
     }
     throw new TypeError(`inRange(): expected at least min or max to be defined. Got min=${min} and max=${max}`)
+}
+
+/**
+ * Checks if `x` is an integer and within a given range (inclusive).
+ *
+ * It first checks that `x` is an integer using {@link isInt}. If not, it returns false.
+ * Then it delegates the range checking to {@link inRange}.
+ *
+ * @see {@link inRange}
+ * @see {@link isInt}
+ *
+ * @param x The integer to check.
+ * @param min The minimum value of the range (inclusive). If undefined, only the max is checked.
+ * @param max The maximum value of the range (inclusive). If undefined, only the min is checked.
+ * @returns `true` if `x` is an integer and within the specified range, `false` otherwise.
+ *
+ * @throws {TypeError} if either `min` or `max` are defined, but are not numbers.
+ * @throws {TypeError} if neither `min` nor `max` are provided. Use {@link isInt} if that's what you want to do.
+ *
+ * @example
+ * inRangeInt(5, 0, 10) => true
+ * inRangeInt(5, 5, 10) => true
+ * inRangeInt(5, 0, 5) => true
+ * inRangeInt(5.5, 0, 10) // throws TypeError
+ *
+ * @category Number
+ */
+export function inRangeInt(x: unknown, min?: number, max?: number): x is number {
+    return isInt(x) && inRange(x, min, max)
 }
