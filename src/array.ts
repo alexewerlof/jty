@@ -1,4 +1,4 @@
-import { inRange, isInt } from './number.js'
+import { inRange, isInt, isIdx } from './number.js'
 
 const { isArray } = Array
 
@@ -58,7 +58,7 @@ export function isArrIdx(x: number, arr: unknown): x is number {
         throw new TypeError(`isArrIdx(): "arr" must be an array. Got ${arr} (${typeof arr})`)
     }
 
-    return isInt(x) && x >= 0 && x < arr.length
+    return isIdx(x, arr.length)
 }
 
 /**

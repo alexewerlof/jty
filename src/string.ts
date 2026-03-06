@@ -1,4 +1,4 @@
-import { inRange, isInt } from './number.js'
+import { inRange, isInt, isIdx } from './number.js'
 
 /**
  * Checks if the provided value is a string
@@ -77,5 +77,5 @@ export function isStrIdx(x: number, str: unknown): x is number {
         throw new TypeError(`isStrIdx(): "str" must be a string. Got ${str} (${typeof str})`)
     }
 
-    return isInt(x) && x >= 0 && x < str.length
+    return isIdx(x, str.length)
 }

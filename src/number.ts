@@ -162,3 +162,37 @@ export function inRange(x: unknown, min?: number, max?: number): x is number {
 export function inRangeInt(x: unknown, min?: number, max?: number): x is number {
     return isInt(x) && inRange(x, min, max)
 }
+
+/**
+ * Checks if `x` is an integer and in the range for being a valid index for an array or string that has that length.
+ *
+ * @see {@link isInt}
+ *
+ * @param x The value to check if it's a valid index.
+ * @param length The length of the array or string.
+ *
+ * @throws {TypeError} if `length` is not an integer.
+ * @throws {RangeError} if `length` is less than 0.
+ *
+ * @returns `true` if `x` is an integer and `0 <= x < length`, `false` otherwise.
+ *
+ * @example
+ * isIdx(0, 2) // => true
+ * isIdx(1, 2) // => true
+ * isIdx(2, 2) // => false
+ * isIdx(-1, 2) // => false
+ * isIdx(0.5, 2) // => false
+ *
+ * @category Number
+ */
+export function isIdx(x: unknown, length: unknown): x is number {
+    if (!isInt(length)) {
+        throw new TypeError(`isIdx(): "length" must be an integer. Got ${length} (${typeof length})`)
+    }
+
+    if (length < 0) {
+        throw new RangeError(`isIdx(): "length" must be >= 0. Got ${length}`)
+    }
+
+    return isInt(x) && x >= 0 && x < length
+}
