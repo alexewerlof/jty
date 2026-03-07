@@ -1,4 +1,4 @@
-import { inRange, isIdx } from './number.js'
+import { inRangeInt, isIdx } from './number.js'
 
 /**
  * Checks if the provided value is a string
@@ -28,7 +28,7 @@ export function isStr(x: unknown): x is string {
  * @param minLen minimum possible length (inclusive)
  * @param maxLen maximum possible length (inclusive)
  *
- * @throws This function delegates the length check to `inRange`, which may throw if `minLen` or `maxLen` are invalid.
+ * @throws {TypeError} if `minLen` or `maxLen` are defined but are not numbers. Delegates to `inRangeInt()`.
  *
  * @example
  * isStrLen('Hello', 2, 10) => true
@@ -46,7 +46,7 @@ export function isStrLen(x: unknown, minLen = 0, maxLen?: number): x is string {
         return false
     }
 
-    return inRange(x.length, minLen, maxLen)
+    return inRangeInt(x.length, minLen, maxLen)
 }
 
 /**
@@ -54,7 +54,7 @@ export function isStrLen(x: unknown, minLen = 0, maxLen?: number): x is string {
  *
  * @see {@link isStr}
  * @see {@link isInt}
- * @see {@link isArrIdx}
+ * @see {@link isStrIdx}
  *
  * @param x The value to check if it's a valid index.
  * @param str The string to check against.

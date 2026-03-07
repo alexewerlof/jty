@@ -34,7 +34,7 @@ Source files are organized by the type category they primarily check:
 
 | File          | Category                 | Functions                                                                                                                   |
 | ------------- | ------------------------ | --------------------------------------------------------------------------------------------------------------------------- |
-| `array.ts`    | Array                    | `isArr`, `isArrIdx`, `inArr`                                                                                                |
+| `array.ts`    | Array                    | `isArr`, `isArrLen`, `isArrIdx`, `inArr`                                                                                    |
 | `number.ts`   | Number                   | `isNum`, `isInt`, `isFin`, `inRange`, `inRangeInt`, `isIdx`                                                                 |
 | `string.ts`   | String                   | `isStr`, `isStrLen`, `isStrIdx`                                                                                             |
 | `object.ts`   | Object                   | `isObj`, `isPOJO`, `isA`, `hasProp`, `hasOwnProp`, `hasPath`, `hasOwnPath`, `isSet`, `isMap`, `isRegExp`, `isDate`, `isErr` |

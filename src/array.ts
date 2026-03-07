@@ -1,17 +1,15 @@
-import { inRange, isIdx } from './number.js'
+import { inRangeInt, isIdx } from './number.js'
 
 const { isArray } = Array
 
 /**
- * Checks if the provided value is an array, optionally checking if its length is within a given range.
+ * Checks if the provided value is an array.
  *
  * @see {@link isObj}
  *
  * @param x The value to check.
- * @param minLen minimum possible length (inclusive)
- * @param maxLen maximum possible length (inclusive)
  *
- * @returns `true` if `x` is an array and its length is within the specified range, `false` otherwise.
+ * @returns `true` if `x` is an array, `false` otherwise.
  *
  * @category Array
  *
@@ -20,15 +18,41 @@ const { isArray } = Array
  * isArr([]) // => true
  * isArr([1, 2, 3]) // => true
  * isArr({}) // => false
+ */
+export function isArr(x: unknown): x is unknown[] {
+    return isArray(x)
+}
+
+/**
+ * Checks if the provided value is an array AND its length is in a boundary (inclusive).
+ * If `min` and `max` are the same, it tests for exact length.
+ *
+ * @see {@link isArr}
+ * @see {@link isSym}
+ *
+ * @param x possibly an array
+ * @param minLen minimum possible length (inclusive)
+ * @param maxLen maximum possible length (inclusive)
+ *
+ * @throws {TypeError} if `minLen` or `maxLen` are defined but are not numbers. Delegates to `inRangeInt()`.
  *
  * @example
- * // With length validation
- * isArr([1, 2], 2) // => true
- * isArr([1, 2], 3) // => false
- * isArr([1, 2], 1, 2) // => true
+ * isArrLen([1, 2, 3], 2, 4) => true
+ * isArrLen([1, 2, 3], 5, 10) => false
+ * isArrLen([1, 2, 3], 3, 3) => true
+ * isArrLen([1, 2, 3], 3) => true // The length is at least 3
+ * isArrLen([1, 2, 3], undefined, 3) => true // The length is at most 3
+ * isArrLen([1, 2, 3], 1, 2) => false
+ * isArrLen(null, 1, 4) => false
+ *
+ * @category Array
  */
-export function isArr(x: unknown, minLen = 0, maxLen?: number): x is unknown[] {
-    return isArray(x) && inRange(x.length, minLen, maxLen)
+export function isArrLen(x: unknown, minLen = 0, maxLen?: number): x is unknown[] {
+    if (!isArr(x)) {
+        return false
+    }
+
+    return inRangeInt(x.length, minLen, maxLen)
 }
 
 /**

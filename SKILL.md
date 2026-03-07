@@ -66,11 +66,12 @@ import * as jty from 'jty'
 
 ### Arrays
 
-| Function               | Check                                                                                    |
-| ---------------------- | ---------------------------------------------------------------------------------------- |
-| `isArr(x, min?, max?)` | Is `x` an array with length in `[min, max]`?                                             |
-| `isArrIdx(x, arr)`     | Is `x` a valid index for array `arr`? Throws if `arr` isn't an array.                    |
-| `inArr(x, arr)`        | Is `x` an element of `arr`? Throws if `arr` isn't an array. Narrows `x` to element type. |
+| Function                  | Check                                                                                    |
+| ------------------------- | ---------------------------------------------------------------------------------------- |
+| `isArr(x)`                | Is `x` an array?                                                                         |
+| `isArrLen(x, min?, max?)` | Is `x` an array with length in `[min, max]`?                                             |
+| `isArrIdx(x, arr)`        | Is `x` a valid index for array `arr`? Throws if `arr` isn't an array.                    |
+| `inArr(x, arr)`           | Is `x` an element of `arr`? Throws if `arr` isn't an array. Narrows `x` to element type. |
 
 ### Objects
 
@@ -127,7 +128,7 @@ function greet(name: unknown) {
 import { isArr, isPOJO, isStr } from 'jty'
 
 function validateUsers(data: unknown): data is { name: string }[] {
-    if (!isArr(data, 1)) {
+    if (!isArrLen(data, 1)) {
         throw new TypeError(`Expected a non-empty array. Got: ${typeof data}`)
     }
     for (let i = 0; i < data.length; i++) {

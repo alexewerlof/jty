@@ -39,4 +39,10 @@ describe('isStrLen()', () => {
         assert.strictEqual(isStrLen(str, 6, 3), true)
         assert.strictEqual(isStrLen(str, 16, 14), false)
     })
+
+    it('throws for invalid bounds', () => {
+        const str = 'Hello'
+        assert.throws(() => isStrLen(str, '1' as any), TypeError)
+        assert.throws(() => isStrLen(str, undefined, '3' as any), TypeError)
+    })
 })

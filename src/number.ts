@@ -80,7 +80,7 @@ export function isFin(x: unknown): x is number {
  * This function also serves as a type guard, narrowing the type to `number`.
  *
  * At least one of `min` or `max` must be provided.
- * If `min` happens to be larger than `max`, it swaps them and works gracefully.
+ * If both `min` and `max` are provided and `min` happens to be larger than `max`, it swaps them and works gracefully.
  *
  * @param x The number to check.
  * @param min The minimum value of the range (inclusive). If undefined, only the max is checked.
