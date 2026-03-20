@@ -32,14 +32,14 @@ Specifically, when you:
 
 Source files are organized by the type category they primarily check:
 
-| File          | Category                 | Functions                                                                                                                   |
-| ------------- | ------------------------ | --------------------------------------------------------------------------------------------------------------------------- |
-| `array.ts`    | Array                    | `isArr`, `isArrLen`, `isArrIdx`, `inArr`                                                                                    |
-| `number.ts`   | Number                   | `isNum`, `isInt`, `isFin`, `inRange`, `inRangeInt`, `isIdx`                                                                 |
-| `string.ts`   | String                   | `isStr`, `isStrLen`, `isStrIdx`                                                                                             |
-| `object.ts`   | Object                   | `isObj`, `isPOJO`, `isA`, `hasProp`, `hasOwnProp`, `hasPath`, `hasOwnPath`, `isSet`, `isMap`, `isRegExp`, `isDate`, `isErr` |
-| `misc.ts`     | Miscellaneous primitives | `isDef`, `isNullish`, `isBool`, `isFn`, `isSym`, `isBigInt`                                                                 |
-| `equality.ts` | Equality comparisons     | `isEqualArr`, `isEqualSet`, `isEqualMap`, `isEqualRegExp`, `isEqualDate`, `isEqualErr`, `isEqualObj`, `isDeepEqual`         |
+| File          | Category                 | Functions                                                                                                                                           |
+| ------------- | ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `array.ts`    | Array                    | `isArr`, `isArrLen`, `isArrIdx`, `inArr`                                                                                                            |
+| `number.ts`   | Number                   | `isNum`, `isInt`, `isFin`, `inRange`, `inRangeInt`, `isIdx`                                                                                         |
+| `string.ts`   | String                   | `isStr`, `isStrLen`, `isStrIdx`                                                                                                                     |
+| `object.ts`   | Object                   | `isObj`, `isPOJO`, `isInstance`, `isOwnInstance`, `hasProp`, `hasOwnProp`, `hasPath`, `hasOwnPath`, `isSet`, `isMap`, `isRegExp`, `isDate`, `isErr` |
+| `misc.ts`     | Miscellaneous primitives | `isDef`, `isNullish`, `isBool`, `isFn`, `isSym`, `isBigInt`                                                                                         |
+| `equality.ts` | Equality comparisons     | `isEqualArr`, `isEqualSet`, `isEqualMap`, `isEqualRegExp`, `isEqualDate`, `isEqualErr`, `isEqualObj`, `isDeepEqual`                                 |
 
 # API design
 
@@ -72,13 +72,14 @@ export function isStrIdx(x: unknown, str: string): x is number {
 
 Function names follow these prefixes:
 
-| Prefix    | Meaning                                         | Examples                           |
-| --------- | ----------------------------------------------- | ---------------------------------- |
-| `is`      | Type-narrowing check returning `x is T`         | `isStr`, `isNum`, `isArr`, `isObj` |
-| `has`     | Object property/path existence check            | `hasProp`, `hasPath`               |
-| `in`      | Containment or range check                      | `inRange`, `inArr`                 |
-| `isEqual` | Shallow equality comparison against a reference | `isEqualArr`, `isEqualSet`         |
-| `hasOwn`  | Same as `has` but for own properties only       | `hasOwnProp`, `hasOwnPath`         |
+| Prefix    | Meaning                                            | Examples                           |
+| --------- | -------------------------------------------------- | ---------------------------------- |
+| `is`      | Type-narrowing check returning `x is T`            | `isStr`, `isNum`, `isArr`, `isObj` |
+| `has`     | Object property/path existence check               | `hasProp`, `hasPath`               |
+| `in`      | Containment or range check                         | `inRange`, `inArr`                 |
+| `isEqual` | Shallow equality comparison against a reference    | `isEqualArr`, `isEqualSet`         |
+| `hasOwn`  | Same as `has` but for own properties only          | `hasOwnProp`, `hasOwnPath`         |
+| `isOwn`   | Same as `is` but for direct (non-inherited) checks | `isOwnInstance`                    |
 
 ## Reference parameter contract
 

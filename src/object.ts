@@ -6,7 +6,8 @@ const { hasOwnProperty } = Object
 /**
  * Checks if a value is a non-null object
  *
- * @see {@link isA}
+ * @see {@link isInstance}
+ * @see {@link isOwnInstance}
  * @see {@link hasPath}
  * @see {@link hasOwnPath}
  * @see {@link hasProp}
@@ -59,19 +60,22 @@ export function isPOJO(x: unknown): x is Record<PropertyKey, unknown> {
 }
 
 /**
- * Checks if a provided value is an instance of the provided class
+ * Checks if a provided value is an instance of the provided class (considers inheritance)
  *
- * This does not throw for some cases where JavaScript chokes ()
+ * Uses the `instanceof` operator under the hood but does not throw for some cases
+ * where JavaScript chokes (e.g. `2 instanceof NaN` throws, but `isInstance(2, NaN)` returns `false`).
+ *
+ * @see {@link isOwnInstance}
  *
  * @example
- * isA({}, Object) => true
- * isA(Promise.resolve, Promise) => true
- * isA(/hello/i, RegExp) => true
- * isA('plain str', String) => false
- * isA(new String('str obj'), String) => true
- * isA(22, Number) => false
- * isA(new Number(33), Number) => true
- * isA(2, NaN) => false // Note that `2 instanceof NaN` throws
+ * isInstance({}, Object) => true
+ * isInstance(Promise.resolve, Promise) => true
+ * isInstance(/hello/i, RegExp) => true
+ * isInstance('plain str', String) => false
+ * isInstance(new String('str obj'), String) => true
+ * isInstance(22, Number) => false
+ * isInstance(new Number(33), Number) => true
+ * isInstance(2, NaN) => false // Note that `2 instanceof NaN` throws
  *
  * @param x possibly an instance of a class
  * @param classConstructor a class constructor (usually starts with big letter!)
@@ -80,13 +84,62 @@ export function isPOJO(x: unknown): x is Record<PropertyKey, unknown> {
  * @category Object
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function isA<T extends new (...args: any[]) => any>(x: unknown, classConstructor: T): x is InstanceType<T> {
+export function isInstance<T extends new (...args: any[]) => any>(
+    x: unknown,
+    classConstructor: T,
+): x is InstanceType<T> {
     if (!isFn(classConstructor)) {
         throw new TypeError(
-            `isA(): Expected a constructor function. Got ${classConstructor} (${typeof classConstructor})`,
+            `isInstance(): "classConstructor" must be a constructor function. Got ${classConstructor} (${typeof classConstructor})`,
         )
     }
     return x instanceof classConstructor
+}
+
+/**
+ * Checks if a value was directly constructed by the provided class (ignores inheritance)
+ *
+ * Unlike {@link isInstance} which uses `instanceof` and walks the prototype chain,
+ * `isOwnInstance` only returns `true` when the value's immediate prototype matches
+ * `classConstructor.prototype`. This means subclass instances return `false` when
+ * checked against a parent class.
+ *
+ * @see {@link isInstance}
+ *
+ * @example
+ * class Animal {}
+ * class Dog extends Animal {}
+ * const dog = new Dog()
+ *
+ * isOwnInstance(dog, Dog) => true
+ * isOwnInstance(dog, Animal) => false // dog's direct prototype is Dog.prototype
+ * isInstance(dog, Animal) => true     // for comparison: instanceof walks the chain
+ *
+ * isOwnInstance({}, Object) => true
+ * isOwnInstance([], Object) => false  // direct prototype is Array.prototype
+ * isOwnInstance([], Array) => true
+ * isOwnInstance(/hello/i, RegExp) => true
+ * isOwnInstance('plain str', String) => false
+ * isOwnInstance(22, Number) => false
+ * isOwnInstance(Object.create(null), Object) => false
+ *
+ * @param x possibly a direct instance of a class
+ * @param classConstructor a class constructor (usually starts with big letter!)
+ * @throws {TypeError} if `classConstructor` is not a function.
+ *
+ * @category Object
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function isOwnInstance<T extends new (...args: any[]) => any>(
+    x: unknown,
+    classConstructor: T,
+): x is InstanceType<T> {
+    if (!isFn(classConstructor)) {
+        throw new TypeError(
+            `isOwnInstance(): "classConstructor" must be a constructor function. Got ${classConstructor} (${typeof classConstructor})`,
+        )
+    }
+    return isObj(x) && Object.getPrototypeOf(x) === classConstructor.prototype
 }
 
 /**
@@ -259,7 +312,7 @@ export function hasOwnProp<K extends PropertyKey>(x: unknown, ...propNames: read
 /**
  * Checks if a value is a Set.
  *
- * @see {@link isA}
+ * @see {@link isInstance}
  * @see {@link isEqualSet}
  *
  * @example
@@ -270,13 +323,13 @@ export function hasOwnProp<K extends PropertyKey>(x: unknown, ...propNames: read
  * @category Object
  */
 export function isSet(x: unknown): x is Set<unknown> {
-    return isA(x, Set)
+    return isInstance(x, Set)
 }
 
 /**
  * Checks if a value is a Map.
  *
- * @see {@link isA}
+ * @see {@link isInstance}
  * @see {@link isEqualMap}
  *
  * @example
@@ -287,13 +340,13 @@ export function isSet(x: unknown): x is Set<unknown> {
  * @category Object
  */
 export function isMap(x: unknown): x is Map<unknown, unknown> {
-    return isA(x, Map)
+    return isInstance(x, Map)
 }
 
 /**
  * Checks if a value is a RegExp.
  *
- * @see {@link isA}
+ * @see {@link isInstance}
  * @see {@link isEqualRegExp}
  *
  * @example
@@ -304,7 +357,7 @@ export function isMap(x: unknown): x is Map<unknown, unknown> {
  * @category Object
  */
 export function isRegExp(x: unknown): x is RegExp {
-    return isA(x, RegExp)
+    return isInstance(x, RegExp)
 }
 
 /**
@@ -313,7 +366,7 @@ export function isRegExp(x: unknown): x is RegExp {
  * Returns `false` for invalid Date objects (e.g. `new Date('not a date')`) because
  * their time value is `NaN`, making them unusable for date arithmetic and formatting.
  *
- * @see {@link isA}
+ * @see {@link isInstance}
  * @see {@link isEqualDate}
  *
  * @example
@@ -327,13 +380,13 @@ export function isRegExp(x: unknown): x is RegExp {
  * @category Object
  */
 export function isDate(x: unknown): x is Date {
-    return isA(x, Date) && isNum(x.getTime())
+    return isInstance(x, Date) && isNum(x.getTime())
 }
 
 /**
  * Checks if a value is an Error or a descendant of it.
  *
- * @see {@link isA}
+ * @see {@link isInstance}
  * @see {@link isEqualErr}
  *
  * @example
@@ -346,5 +399,5 @@ export function isDate(x: unknown): x is Date {
  * @category Object
  */
 export function isErr(x: unknown): x is Error {
-    return isA(x, Error)
+    return isInstance(x, Error)
 }

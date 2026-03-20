@@ -75,20 +75,21 @@ import * as jty from 'jty'
 
 ### Objects
 
-| Function                 | Check                                                                                  |
-| ------------------------ | -------------------------------------------------------------------------------------- |
-| `isObj(x)`               | Is `x` a non-null object? (includes arrays, maps, sets, etc.)                          |
-| `isPOJO(x)`              | Is `x` a plain object literal? (`false` for arrays, maps, `Object.create(null)`, etc.) |
-| `isA(x, Constructor)`    | Is `x` an instance of `Constructor`? Throws if `Constructor` isn't a function.         |
-| `hasProp(x, ...keys)`    | Does object `x` have all listed properties? (includes inherited)                       |
-| `hasOwnProp(x, ...keys)` | Same as `hasProp` but only own properties.                                             |
-| `hasPath(x, ...keys)`    | Does `x` have a nested property path? (includes inherited)                             |
-| `hasOwnPath(x, ...keys)` | Same as `hasPath` but only own properties.                                             |
-| `isSet(x)`               | Is `x` a `Set`?                                                                        |
-| `isMap(x)`               | Is `x` a `Map`?                                                                        |
-| `isRegExp(x)`            | Is `x` a `RegExp`?                                                                     |
-| `isDate(x)`              | Is `x` a valid `Date`? (`false` for `new Date('invalid')`)                             |
-| `isErr(x)`               | Is `x` an `Error` (or subclass)?                                                       |
+| Function                        | Check                                                                                                                            |
+| ------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| `isObj(x)`                      | Is `x` a non-null object? (includes arrays, maps, sets, etc.)                                                                    |
+| `isPOJO(x)`                     | Is `x` a plain object literal? (`false` for arrays, maps, `Object.create(null)`, etc.)                                           |
+| `isInstance(x, Constructor)`    | Is `x` an instance of `Constructor`? Considers inheritance. Throws if `Constructor` isn't a function.                            |
+| `isOwnInstance(x, Constructor)` | Is `x` a **direct** instance of `Constructor`? Returns `false` for subclass instances. Throws if `Constructor` isn't a function. |
+| `hasProp(x, ...keys)`           | Does object `x` have all listed properties? (includes inherited)                                                                 |
+| `hasOwnProp(x, ...keys)`        | Same as `hasProp` but only own properties.                                                                                       |
+| `hasPath(x, ...keys)`           | Does `x` have a nested property path? (includes inherited)                                                                       |
+| `hasOwnPath(x, ...keys)`        | Same as `hasPath` but only own properties.                                                                                       |
+| `isSet(x)`                      | Is `x` a `Set`?                                                                                                                  |
+| `isMap(x)`                      | Is `x` a `Map`?                                                                                                                  |
+| `isRegExp(x)`                   | Is `x` a `RegExp`?                                                                                                               |
+| `isDate(x)`                     | Is `x` a valid `Date`? (`false` for `new Date('invalid')`)                                                                       |
+| `isErr(x)`                      | Is `x` an `Error` (or subclass)?                                                                                                 |
 
 ### Equality Comparisons
 
@@ -197,16 +198,16 @@ isDeepEqual(config1, config2) // true — deep recursive comparison
 isDeepEqual(config1, config2.sizes) // false — different types
 ```
 
-## AI Agent Guidelines: Best Practices & Defensive Programming
+## AI Agent Guidelines: Defensive Programming
 
-When writing TypeScript or JavaScript code using `jty`, follow these defensive programming best practices:
+When writing TypeScript or JavaScript code in a project that uses `jty`, follow the defensive programming guidelines in [defensive-programming.md](defensive-programming.md).
 
-1. **Verify External Inputs:** ALWAYS validate the shape and values of input from external origins (e.g., API payloads, user forms, AI-generated tools calls, parsed JSON/YAML) at the application constraints boundaries before processing.
-2. **Fail Fast and Locally:** Validate parameters close to where the code logic depends on them. Validating arguments directly inside the function that uses them produces clearer stack traces and isolates type requirements, simplifying refactoring. If a function merely passes an argument to another one, the latter should do the type checking to keep the logic localized to where it's used and reduce the burden of maintaining it in different places.
-3. **Use Standard Error Classes:** Throw the appropriate standard JavaScript error subclass:
-    - `TypeError`: When a value has an unexpected type (e.g. `!isStr(x)` or `!isObj(x)`).
-    - `ReferenceError`: When a required property is missing (e.g. `!hasProp(obj, 'key')`).
-    - `RangeError`: When a value falls outside of an expected boundary (e.g. `!inRange(x, 0, 10)` or `!isArrIdx(i, arr)`).
-    - `SyntaxError`: For malformed structures or failures when validating parsed strings/JSON.
-4. **Construct Expressive Error Messages:** Always write detailed exceptions that provide enough context to troubleshoot without debugging. State exactly **what failed**, **what was expected**, and **what was actually received** alongside its type (when relevant and helpful for debugging).
-5. **Protect Function Signatures:** If you are writing TypeScript exported primitives that might be called from plain JavaScript, verify the inputs of those user-facing APIs. Never blindly rely on TypeScript's compile-time guarantees for runtime values.
+Key principles:
+
+1. **Never trust external boundaries** — set types from external sources to `unknown` and verify with `jty`
+2. **Verify close to usage** — validate inside the function that depends on the value, not in a distant caller
+3. **Don't double-verify** — if a value is only passed through, let the consuming function validate it
+4. **Use standard error classes** — `TypeError` for wrong types, `ReferenceError` for missing properties, `RangeError` for out-of-bounds, `SyntaxError` for malformed structures
+5. **Emit meaningful errors** — state what failed, what was expected, what was received (with type)
+6. **Chain errors with `cause`** — add context at intermediate layers to aid debugging
+7. **Protect against missing TypeScript guarantees** — runtime callers may be JavaScript or AI-generated code
