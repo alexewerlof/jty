@@ -16,55 +16,36 @@ It helps you write safer, more reliable code by verifying types before usage and
 
 ## 🤔 Why `jty`? Didn't TypeScript Solve This?
 
-JavaScript is a highly dynamic language with famous quirks around implicit type conversions. TypeScript helps a lot **at compile-time**. In fact the illusion of type-safety can create more fragile code when interacting with APIs or external JS code at **runtime**:
+JavaScript is a highly dynamic language with famous quirks around implicit type conversions. TypeScript helps a lot **at compile-time**. However, compile time type safety creates an illusion that hurts runtime type safety:
 
-- An API responds with an unexpected payload structure or values.
-- A user ot AI agent submits a form with invalid input.
-- Parsed JSON/YAML have drifted from the code that depends on them.
+- An API responds with an unexpected structure or values.
 - You are interoperating with untyped 3rd-party JavaScript libraries.
+- Parsed JSON/YAML have drifted from the code that depends on them.
+- A user or AI agent submits a form with invalid input.
 - You are dealing with Typescript code that uses various escape hatches (`any`, `unknown`, or casting `as SomeType`).
 
-If you don't validate your data at the boundaries, your application is vulnerable to cascading failures and extremely hard-to-debug behaviors.
+If you don't validate the data at those boundaries, your application is vulnerable to cascading failures and extremely hard-to-debug behaviors.
 
-**This is where `jty` comes in.** `jty` enables **Defensive Programming**, empowering you to validate shapes and types _at runtime_, failing early right at the boundary.
+**This is where `jty` comes in.** `jty` enables [**Defensive Programming**](./defensive-programming.md), empowering you to validate shapes and types _at runtime_, failing early right at the boundary and generating context-rich exceptions that facilitates AI-driven debugging and maintanance.
 
-## ✨ Developer Ergonomics & Features
+### How about `zod`, `chai`, etc?
 
-`jty` was designed to be a joy to write and read, focusing heavily on developer experience and AI Agent effectiveness. Written in the latest TypeScript, it provides:
-
-- 🛡️ **TypeScript Type Guards:** Functions act as type guards. Once `jty` verifies a type, your IDE language server instantly recognizes the narrowed type structure. No more `any`!
-- 🗣️ **Expressive Error Messages:** When a validation fails, `jty` empowers you to throw highly expressive exceptions explicitly logging what went wrong, what was expected, and exactly what was received. This also helps AI agents identify exactly what went wrong, what was expected and what was received, accelerating debugging and reducing token usage.
-- 🧪 **Thoroughly Tested:** Fully tested against all the infamous JavaScript edge cases (like `NaN`, `null` vs `undefined`, object prototypes, inheritance, arrays, etc.).
-- 📦 **Batteries Included:** Comes with TypeScript types out of the box, eliminating the need to install and update a separate `@types/...` package to work with `jty` in TypeScript repos. Zero external runtime dependencies.
-- 🔌 **Universal Compatibility:** Works seamlessly with both **ESM** (`import`) and **CommonJS** (`require()`), natively supporting Node.js, Deno, Bun, and modern browsers.
-
-## 🤖 An AI-First Library
-
-`jty` is built with modern AI-driven development in mind.
-It is an AI-first library where an embedded `SKILL.md` file is shipped alongside the codebase. This allows LLM-powered coding assistants to learn exactly how to use this library efficiently.
-
-Plus the function names and accompanying Typedocs gives an expressive token-language to LLM and makes it easy for AI agents to discover how to use it.
-
-**How to use our AI Skill:**
-
-- **From `node_modules`:** Once installed locally, your agent can read `node_modules/jty/SKILL.md` directly to understand the API standards, function signatures, and best practices.
-- **Using Skills.sh:** You can reference this skill in external AI tools and workflows using platforms like [skills.sh](https://skills.sh/) to seamlessly inject context into your favorite agentic tools with zero manual setup.
-- **Using a pointer file**: Put a basic `.agent/skills/jty/SKILL.md` which references `node_modules/jty/SKILL.md`.
-
-```yaml
----
-name: jty
-description: 'Defensive programming patterns to ensure runtime type safety using the jty library'
----
-Look up [jty SKILL.md](node_modules/jty/SKILL.md)
-```
-
----
+- [zod](https://zod.dev/): a larger library with its own DSL. JTY is tiny and uses plain pure functions that serve as typescript guards. When you detect an edge case, JTY give you the control to decide what error message to throw or how to gracefully degrade.
+- [chai](https://www.chaijs.com/): is a rich BDD/TDD library with assertions that throw pre-defined error messages. JTY give you the control to validate data and throw the appropriate exception with expressive contextful error messages.
+- [expect](https://jestjs.io/docs/expect) is part of the Jest test library. JTY doesn't eliminate the need for solid tests. JTY is meant to be inside your runtime code while Jest is meant to verify the behavior before shipping the code.
+- [should.js](https://shouldjs.github.io/) is another elaborate DSL. JTY aims to be as small as possible and doesn't make any effort to be a QA framework or comply to BDD/TDD.
+- [node:assert](https://nodejs.org/api/assert.html) is a great built-in feature of node. If your code only targets Node, you should skip JTY and try to stick to what's provided by the platform. But if you're targetting other runtimes, JTY can bring a set of minimalistic type guards to your code.
 
 ## 🚀 Quick Start
 
 ```bash
 npm install jty
+```
+
+**Bonus**: install the skills:
+
+```bash
+npx skills add alexewerlof/jty
 ```
 
 ### Basic Usage
@@ -131,6 +112,39 @@ function verifyResponseShape(responseJson: unknown) {
 Explore all available methods and exhaustive examples on our interactive documentation.
 
 [Read the API Docs](https://alexewerlof.github.io/jty/)
+
+## ✨ Developer Ergonomics & Features
+
+`jty` was designed to be a joy to write and read, focusing heavily on developer experience and AI Agent effectiveness. Written in the latest TypeScript, it provides:
+
+- 🛡️ **TypeScript Type Guards:** Functions act as type guards. Once `jty` verifies a type, your IDE language server instantly recognizes the narrowed type structure. No more `any`!
+- 🗣️ **Expressive Error Messages:** When a validation fails, `jty` empowers you to throw highly expressive exceptions explicitly logging what went wrong, what was expected, and exactly what was received. This also helps AI agents identify exactly what went wrong, what was expected and what was received, accelerating debugging and reducing token usage.
+- 🧪 **Thoroughly Tested:** Fully tested against all the infamous JavaScript edge cases (like `NaN`, `null` vs `undefined`, object prototypes, inheritance, arrays, etc.).
+- 📦 **Batteries Included:** Comes with TypeScript types out of the box, eliminating the need to install and update a separate `@types/...` package to work with `jty` in TypeScript repos. Zero external runtime dependencies. The accompanying [SKILL.md](./SKILL.md) helps your AI agent efficiently use this tiny library according to [defensive programming best practices](./defensive-programming.md).
+- 🔌 **Universal Compatibility:** Works seamlessly with both **ESM** (`import`), **CommonJS** (`require()`) and globals while natively supporting Node.js, Deno, Bun, and modern browsers.
+
+## 🤖 An AI-First Library
+
+`jty` is built with modern AI-driven development in mind.
+It is an AI-first library where an embedded `SKILL.md` file is shipped alongside the codebase. This allows LLM-powered coding assistants to learn exactly how to use this library efficiently.
+
+Plus the function names and accompanying Typedocs gives an expressive token-language to LLM and makes it easy for AI agents to discover how to use it.
+
+**How to use the AI SKILL:**
+
+- **From `node_modules`:** Once installed locally, your agent can read `node_modules/jty/SKILL.md` directly to understand the API standards, function signatures, and best practices. You can also drag that file manually to any chat that requires it.
+- **Using Skills.sh:** You can reference this skill in external AI tools and workflows using platforms like [skills.sh](https://skills.sh/) to seamlessly inject context into your favorite agentic tools with zero manual setup: `npx skills add alexewerlof/jty`.
+- **Using a pointer file**: Put a basic `.agent/skills/jty/SKILL.md` which references `node_modules/jty/SKILL.md`.
+
+```yaml
+---
+name: jty
+description: 'Defensive programming patterns to ensure runtime type safety using the jty library'
+---
+Look up [jty SKILL.md](node_modules/jty/SKILL.md)
+```
+
+---
 
 ## 🎓 Best Practices
 
