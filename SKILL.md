@@ -80,7 +80,10 @@ import * as jty from 'jty'
 | `isObj(x)`                      | Is `x` a non-null object? (includes arrays, maps, sets, etc.)                                                                    |
 | `isPOJO(x)`                     | Is `x` a plain object literal? (`false` for arrays, maps, `Object.create(null)`, etc.)                                           |
 | `isInstance(x, Constructor)`    | Is `x` an instance of `Constructor`? Considers inheritance. Throws if `Constructor` isn't a function.                            |
+| `isInstance(x, Promise)`        | Strict Promise-instance check via `instanceof Promise`.                                                                          |
 | `isOwnInstance(x, Constructor)` | Is `x` a **direct** instance of `Constructor`? Returns `false` for subclass instances. Throws if `Constructor` isn't a function. |
+| `isPromise(x)`                  | Is `x` literally a native `Promise` instance? Strict check; does not sniff `.then()` / `.catch()`.                               |
+| `isPromiseLike(x)`              | Is `x` awaitable (`PromiseLike`) by checking for a callable `.then` method?                                                      |
 | `hasProp(x, ...keys)`           | Does object `x` have all listed properties? (includes inherited)                                                                 |
 | `hasOwnProp(x, ...keys)`        | Same as `hasProp` but only own properties.                                                                                       |
 | `hasPath(x, ...keys)`           | Does `x` have a nested property path? (includes inherited)                                                                       |
@@ -90,6 +93,11 @@ import * as jty from 'jty'
 | `isRegExp(x)`                   | Is `x` a `RegExp`?                                                                                                               |
 | `isDate(x)`                     | Is `x` a valid `Date`? (`false` for `new Date('invalid')`)                                                                       |
 | `isErr(x)`                      | Is `x` an `Error` (or subclass)?                                                                                                 |
+
+Promise checks in jty:
+
+- Use `isPromise(x)` (or `isInstance(x, Promise)`) when you need a strict native Promise instance.
+- Use `isPromiseLike(x)` when you only care that the value is awaitable and has a callable `.then`.
 
 ### Equality Comparisons
 

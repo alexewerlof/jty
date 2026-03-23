@@ -8,6 +8,7 @@ const { hasOwnProperty } = Object
  *
  * @see {@link isInstance}
  * @see {@link isOwnInstance}
+ * @see {@link isPromise}
  * @see {@link hasPath}
  * @see {@link hasOwnPath}
  * @see {@link hasProp}
@@ -69,7 +70,7 @@ export function isPOJO(x: unknown): x is Record<PropertyKey, unknown> {
  *
  * @example
  * isInstance({}, Object) => true
- * isInstance(Promise.resolve, Promise) => true
+ * isInstance(Promise.resolve(), Promise) => true
  * isInstance(/hello/i, RegExp) => true
  * isInstance('plain str', String) => false
  * isInstance(new String('str obj'), String) => true
@@ -324,6 +325,64 @@ export function hasOwnProp<K extends PropertyKey>(x: unknown, ...propNames: read
  */
 export function isSet(x: unknown): x is Set<unknown> {
     return isInstance(x, Set)
+}
+
+/**
+ * Checks if a value is a native Promise instance.
+ *
+ * This guard is intentionally strict and uses `instanceof Promise` semantics.
+ * It does not use `.then()` / `.catch()` feature sniffing.
+ *
+ * Use {@link isPromiseLike} if you want to accept general thenables.
+ *
+ * @see {@link isInstance}
+ * @see {@link isPromiseLike}
+ *
+ * @example
+ * isPromise(Promise.resolve(123)) => true
+ * isPromise(new Promise(() => {})) => true
+ * isPromise({ then: () => {}, catch: () => {} }) => false
+ * isPromise(42) => false
+ *
+ * @category Object
+ */
+export function isPromise(x: unknown): x is Promise<unknown> {
+    return isInstance(x, Promise)
+}
+
+/**
+ * Checks if a value is Promise-like (thenable).
+ *
+ * Returns true for native Promise instances and for values that expose a callable
+ * `.then` method. This is useful when you do not care whether the value is literally
+ * a Promise instance and only need awaitable behavior.
+ *
+ * @remarks
+ * This function does not care if there is a `.catch` method or not.
+ * Only presence of `.then` is sufficient to be considered Promise-like.
+ *
+ * @see {@link isPromise}
+ * @see {@link isInstance}
+ *
+ * @example
+ * isPromiseLike(Promise.resolve(123)) => true
+ * isPromiseLike({ then: () => {} }) => true
+ * isPromiseLike(() => {}) => false
+ * isPromiseLike({ then: true }) => false
+ *
+ * @category Object
+ */
+export function isPromiseLike(x: unknown): x is PromiseLike<unknown> {
+    if (isPromise(x)) {
+        return true
+    }
+
+    if (!isObj(x) && !isFn(x)) {
+        return false
+    }
+
+    const then = (x as { then?: unknown }).then
+    return isFn(then)
 }
 
 /**

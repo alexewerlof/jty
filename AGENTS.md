@@ -32,14 +32,14 @@ Specifically, when you:
 
 Source files are organized by the type category they primarily check:
 
-| File          | Category                 | Functions                                                                                                                                           |
-| ------------- | ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `array.ts`    | Array                    | `isArr`, `isArrLen`, `isArrIdx`, `inArr`                                                                                                            |
-| `number.ts`   | Number                   | `isNum`, `isInt`, `isFin`, `inRange`, `inRangeInt`, `isIdx`                                                                                         |
-| `string.ts`   | String                   | `isStr`, `isStrLen`, `isStrIdx`                                                                                                                     |
-| `object.ts`   | Object                   | `isObj`, `isPOJO`, `isInstance`, `isOwnInstance`, `hasProp`, `hasOwnProp`, `hasPath`, `hasOwnPath`, `isSet`, `isMap`, `isRegExp`, `isDate`, `isErr` |
-| `misc.ts`     | Miscellaneous primitives | `isDef`, `isNullish`, `isBool`, `isFn`, `isSym`, `isBigInt`                                                                                         |
-| `equality.ts` | Equality comparisons     | `isEqualArr`, `isEqualSet`, `isEqualMap`, `isEqualRegExp`, `isEqualDate`, `isEqualErr`, `isEqualObj`, `isDeepEqual`                                 |
+| File          | Category                 | Functions                                                                                                                                                                         |
+| ------------- | ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `array.ts`    | Array                    | `isArr`, `isArrLen`, `isArrIdx`, `inArr`                                                                                                                                          |
+| `number.ts`   | Number                   | `isNum`, `isInt`, `isFin`, `inRange`, `inRangeInt`, `isIdx`                                                                                                                       |
+| `string.ts`   | String                   | `isStr`, `isStrLen`, `isStrIdx`                                                                                                                                                   |
+| `object.ts`   | Object                   | `isObj`, `isPOJO`, `isInstance`, `isOwnInstance`, `hasProp`, `hasOwnProp`, `hasPath`, `hasOwnPath`, `isSet`, `isPromise`, `isPromiseLike`, `isMap`, `isRegExp`, `isDate`, `isErr` |
+| `misc.ts`     | Miscellaneous primitives | `isDef`, `isNullish`, `isBool`, `isFn`, `isSym`, `isBigInt`                                                                                                                       |
+| `equality.ts` | Equality comparisons     | `isEqualArr`, `isEqualSet`, `isEqualMap`, `isEqualRegExp`, `isEqualDate`, `isEqualErr`, `isEqualObj`, `isDeepEqual`                                                               |
 
 # API design
 
