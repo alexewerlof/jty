@@ -1,5 +1,5 @@
 ---
-name: defensive-programming-with-jty
+name: defensive-programming
 description: Defensive programming guidelines for TypeScript/JavaScript projects using jty for runtime type validation. Use this skill when you want to ensure your code is robust and fails gracefully with meaningful errors when it encounters unexpected input or conditions.
 license: MIT
 ---
