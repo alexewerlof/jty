@@ -26,7 +26,7 @@ JavaScript is a highly dynamic language with famous quirks around implicit type 
 
 If you don't validate the data at those boundaries, your application is vulnerable to cascading failures and extremely hard-to-debug behaviors.
 
-**This is where `jty` comes in.** `jty` enables [**Defensive Programming**](./defensive-programming.md), empowering you to validate shapes and types _at runtime_, failing early right at the boundary and generating context-rich exceptions that facilitates AI-driven debugging and maintanance.
+**This is where `jty` comes in.** `jty` enables **Defensive Programming**, empowering you to validate shapes and types _at runtime_, failing early right at the boundary and generating context-rich exceptions that facilitates AI-driven debugging and maintanance.
 
 ### How about `zod`, `chai`, etc?
 
@@ -121,7 +121,7 @@ Explore all available methods and exhaustive examples on our interactive documen
 - 🛡️ **TypeScript Type Guards:** Functions act as type guards. Once `jty` verifies a type, your IDE language server instantly recognizes the narrowed type structure. No more `any`!
 - 🗣️ **Expressive Error Messages:** When a validation fails, `jty` empowers you to throw highly expressive exceptions explicitly logging what went wrong, what was expected, and exactly what was received. This also helps AI agents identify exactly what went wrong, what was expected and what was received, accelerating debugging and reducing token usage.
 - 🧪 **Thoroughly Tested:** Fully tested against all the infamous JavaScript edge cases (like `NaN`, `null` vs `undefined`, object prototypes, inheritance, arrays, etc.).
-- 📦 **Batteries Included:** Comes with TypeScript types out of the box, eliminating the need to install and update a separate `@types/...` package to work with `jty` in TypeScript repos. Zero external runtime dependencies. The accompanying SKILLs helps your AI agent efficiently use this tiny library according to [defensive programming best practices](./defensive-programming.md).
+- 📦 **Batteries Included:** Comes with TypeScript types out of the box, eliminating the need to install and update a separate `@types/...` package to work with `jty` in TypeScript repos. Zero external runtime dependencies. The accompanying SKILLs helps your AI agent efficiently use this tiny library according to [defensive programming best practices](./skills/defensive-programming/SKILL.md).
 - 🔌 **Universal Compatibility:** Works seamlessly with both **ESM** (`import`), **CommonJS** (`require()`) and globals while natively supporting Node.js, Deno, Bun, and modern browsers.
 
 ## 🤖 An AI-First Library
