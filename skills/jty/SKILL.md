@@ -1,6 +1,7 @@
 ---
 name: jty
-description: A minimal, AI friendly, zero-dependency TypeScript type-checking library with runtime type guards and developer ergonomy
+description: Guides for how to use JTY, a minimal, AI friendly, zero-dependency TypeScript type-checking library with runtime type guards and developer ergonomy. Use this skill when you want to validate variables, function parameters, or complex data structures at runtime in a TypeScript/JavaScript project. Typically when dealing with external user input, untyped 3rd-party libraries, or when you want to fail gracefully with good errors instead of cryptic exceptions.
+license: MIT
 ---
 
 # jty — JavaScript/TypeScript Type Guards

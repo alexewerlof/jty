@@ -33,7 +33,7 @@
     },
     "files": [
         "lib",
-        "SKILL.md"
+        "skills"
     ],
     "scripts": {
         "fmt": "prettier --write .",

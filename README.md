@@ -45,7 +45,8 @@ npm install jty
 **Bonus**: install the skills:
 
 ```bash
-npx skills add alexewerlof/jty
+npx skills add alexewerlof/jty  --skill jty
+npx skills add alexewerlof/jty  --skill defensive-programming
 ```
 
 ### Basic Usage
@@ -120,7 +121,7 @@ Explore all available methods and exhaustive examples on our interactive documen
 - 🛡️ **TypeScript Type Guards:** Functions act as type guards. Once `jty` verifies a type, your IDE language server instantly recognizes the narrowed type structure. No more `any`!
 - 🗣️ **Expressive Error Messages:** When a validation fails, `jty` empowers you to throw highly expressive exceptions explicitly logging what went wrong, what was expected, and exactly what was received. This also helps AI agents identify exactly what went wrong, what was expected and what was received, accelerating debugging and reducing token usage.
 - 🧪 **Thoroughly Tested:** Fully tested against all the infamous JavaScript edge cases (like `NaN`, `null` vs `undefined`, object prototypes, inheritance, arrays, etc.).
-- 📦 **Batteries Included:** Comes with TypeScript types out of the box, eliminating the need to install and update a separate `@types/...` package to work with `jty` in TypeScript repos. Zero external runtime dependencies. The accompanying [SKILL.md](./SKILL.md) helps your AI agent efficiently use this tiny library according to [defensive programming best practices](./defensive-programming.md).
+- 📦 **Batteries Included:** Comes with TypeScript types out of the box, eliminating the need to install and update a separate `@types/...` package to work with `jty` in TypeScript repos. Zero external runtime dependencies. The accompanying SKILLs helps your AI agent efficiently use this tiny library according to [defensive programming best practices](./defensive-programming.md).
 - 🔌 **Universal Compatibility:** Works seamlessly with both **ESM** (`import`), **CommonJS** (`require()`) and globals while natively supporting Node.js, Deno, Bun, and modern browsers.
 
 ## 🤖 An AI-First Library
@@ -132,7 +133,7 @@ Plus the function names and accompanying Typedocs gives an expressive token-lang
 
 **How to use the AI SKILL:**
 
-- **From `node_modules`:** Once installed locally, your agent can read `node_modules/jty/SKILL.md` directly to understand the API standards, function signatures, and best practices. You can also drag that file manually to any chat that requires it.
+- **From `node_modules`:** Once installed locally, your agent can read `node_modules/jty/skill/*/SKILL.md` directly to understand the API standards, function signatures, and best practices. You can also drag that file manually to any chat that requires it.
 - **Using Skills.sh:** You can reference this skill in external AI tools and workflows using platforms like [skills.sh](https://skills.sh/) to seamlessly inject context into your favorite agentic tools with zero manual setup: `npx skills add alexewerlof/jty`.
 - **Using a pointer file**: Put a basic `.agent/skills/jty/SKILL.md` which references `node_modules/jty/SKILL.md`.
 
@@ -141,7 +142,7 @@ Plus the function names and accompanying Typedocs gives an expressive token-lang
 name: jty
 description: 'Defensive programming patterns to ensure runtime type safety using the jty library'
 ---
-Look up [jty SKILL.md](node_modules/jty/SKILL.md)
+Look up [jty SKILL.md](node_modules/jty/skills/jty/SKILL.md)
 ```
 
 ---
