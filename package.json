@@ -1,6 +1,6 @@
 {
     "name": "jty",
-    "version": "6.1.4",
+    "version": "6.1.5",
     "description": "A minimal, zero-dependency, AI friendly, library for runtime type checking with developer ergonomy in mind",
     "keywords": [
         "typescript",
