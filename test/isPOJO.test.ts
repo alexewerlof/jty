@@ -7,8 +7,8 @@ describe('isPOJO()', () => {
         assert.strictEqual(isPOJO({}), true)
     })
 
-    it('returns false for Object.create(null)', () => {
-        assert.strictEqual(isPOJO(Object.create(null)), false)
+    it('returns true for Object.create(null)', () => {
+        assert.strictEqual(isPOJO(Object.create(null)), true)
     })
 
     it('returns false for an array', () => {

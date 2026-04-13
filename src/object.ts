@@ -57,7 +57,9 @@ export function isObj(x: unknown): x is Exclude<object, null> {
  * @category Object
  */
 export function isPOJO(x: unknown): x is Record<PropertyKey, unknown> {
-    return isObj(x) && Object.getPrototypeOf(x) === Object.prototype
+    if (!isObj(x)) return false
+    const proto = Object.getPrototypeOf(x)
+    return proto === Object.prototype || proto === null
 }
 
 /**
