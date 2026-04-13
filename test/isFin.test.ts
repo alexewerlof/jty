@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert'
-import { isFin } from '../src/index.ts'
+import { isFin } from '../src/index.js'
 
 describe('isFin()', () => {
     it('returns true for a number', () => {

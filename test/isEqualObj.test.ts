@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert'
-import { isEqualObj } from '../src/index.ts'
+import { isEqualObj } from '../src/index.js'
 
 describe('isEqualObj()', () => {
     it('returns true for the same object instance', () => {

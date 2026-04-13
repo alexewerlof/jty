@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert'
-import { isEqualErr } from '../src/index.ts'
+import { isEqualErr } from '../src/index.js'
 
 describe('isEqualErr()', () => {
     it('returns true for the same Error object instance', () => {

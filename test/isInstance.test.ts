@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert'
-import { isInstance } from '../src/index.ts'
+import { isInstance } from '../src/index.js'
 
 describe('isInstance()', () => {
     it('returns true if an object is an instance of the provided class', () => {

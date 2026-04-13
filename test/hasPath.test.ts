@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert'
-import { hasPath } from '../src/index.ts'
+import { hasPath } from '../src/index.js'
 
 describe('hasPath()', () => {
     it('returns true if the object has that property', () => {
@@ -34,7 +34,7 @@ describe('hasPath()', () => {
     it('works correctly if the object has a key that is named "undefined"', () => {
         assert.strictEqual(hasPath({ undefined: 'one' }), false)
         // @ts-ignore
-        assert.strictEqual(hasPath({ undefined: 'thress' }, undefined), true)
+        assert.strictEqual(hasPath({ undefined: 'three' }, undefined), true)
         assert.strictEqual(hasPath({ undefined: 'two' }, 'undefined'), true)
     })
 

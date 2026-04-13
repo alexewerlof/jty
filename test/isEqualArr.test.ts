@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert'
-import { isEqualArr } from '../src/index.ts'
+import { isEqualArr } from '../src/index.js'
 
 describe('isEqualArr()', () => {
     it('returns true for the same array instance', () => {

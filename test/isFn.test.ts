@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert'
-import { isFn } from '../src/index.ts'
+import { isFn } from '../src/index.js'
 
 const noop = () => void 0
 

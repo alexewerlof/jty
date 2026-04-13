@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert'
-import { isEqualSet } from '../src/index.ts'
+import { isEqualSet } from '../src/index.js'
 
 describe('isEqualSet()', () => {
     it('returns true for the same Set instance', () => {

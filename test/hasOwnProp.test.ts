@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert'
-import { hasOwnProp } from '../src/index.ts'
+import { hasOwnProp } from '../src/index.js'
 
 describe('hasOwnProp()', () => {
     it('returns true only if the property exist on the target', () => {

@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert'
-import { isStrIdx } from '../src/index.ts'
+import { isStrIdx } from '../src/index.js'
 
 describe('isStrIdx()', () => {
     it('returns true if the index is in range', () => {

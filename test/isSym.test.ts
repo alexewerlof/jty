@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert'
-import { isSym } from '../src/index.ts'
+import { isSym } from '../src/index.js'
 
 describe('isSym()', () => {
     it('returns true for a symbol', () => {

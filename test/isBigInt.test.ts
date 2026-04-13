@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert'
-import { isBigInt } from '../src/index.ts'
+import { isBigInt } from '../src/index.js'
 
 describe('isBigInt()', () => {
     it('returns true when the value is an integer', () => {

@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert'
-import { isEqualDate } from '../src/index.ts'
+import { isEqualDate } from '../src/index.js'
 
 describe('isEqualDate()', () => {
     it('returns true for two Date objects with the same time value', () => {

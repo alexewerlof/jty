@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert'
-import { hasOwnPath } from '../src/index.ts'
+import { hasOwnPath } from '../src/index.js'
 
 describe('hasOwnPath()', () => {
     it('returns true if the object has that property', () => {

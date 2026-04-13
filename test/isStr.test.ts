@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert'
-import { isStr } from '../src/index.ts'
+import { isStr } from '../src/index.js'
 
 describe('isStr()', () => {
     it('returns true for a string', () => {

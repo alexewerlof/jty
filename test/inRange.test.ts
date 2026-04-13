@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert'
-import { inRange } from '../src/index.ts'
+import { inRange } from '../src/index.js'
 
 describe('inRange()', () => {
     it('works if only min is specified', () => {

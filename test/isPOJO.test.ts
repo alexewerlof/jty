@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert'
-import { isPOJO } from '../src/index.ts'
+import { isPOJO } from '../src/index.js'
 
 describe('isPOJO()', () => {
     it('returns true for an object literal', () => {

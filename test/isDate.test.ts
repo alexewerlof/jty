@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert'
-import { isDate } from '../src/index.ts'
+import { isDate } from '../src/index.js'
 
 describe('isDate()', () => {
     it('returns true for valid Date objects', () => {

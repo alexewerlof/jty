@@ -1,7 +1,7 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert'
 import vm from 'node:vm'
-import { isPromise } from '../src/index.ts'
+import { isPromise } from '../src/index.js'
 
 describe('isPromise()', () => {
     it('returns true for native Promise instances', async () => {

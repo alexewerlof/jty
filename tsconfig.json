@@ -11,6 +11,7 @@
         "declaration": true,
         "sourceMap": true,
         "outDir": "lib",
+        "rootDir": "src",
         "newLine": "LF"
     },
     "include": ["src"],

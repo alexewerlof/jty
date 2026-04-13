@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert'
-import { isArrLen } from '../src/index.ts'
+import { isArrLen } from '../src/index.js'
 
 describe('isArrLen()', () => {
     it('can match the length', () => {

@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert'
-import { isStrLen } from '../src/index.ts'
+import { isStrLen } from '../src/index.js'
 
 describe('isStrLen()', () => {
     it('can match the length', () => {
