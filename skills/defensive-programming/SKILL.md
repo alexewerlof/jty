@@ -129,6 +129,40 @@ function process(item: unknown, options: { id: string }) {
 }
 ```
 
+#### 2.1 Verify when setting state
+
+The only exception to "Verify Close to Usage" is when setting state (e.g. class properties). In those cases, validate the input at the point of setting the state to ensure that the internal state of the system is always valid.
+
+```typescript
+import { isStr } from 'jty'
+
+class User {
+    private _name: string
+    private readonly _age: number
+
+    constructor(name: unknown, age: unknown) {
+        this.name = name
+        if (!inRangeInt(age, 0, 150)) {
+            throw new TypeError(
+                `User.constructor(): "age" must be a number between 0 and 150. Got ${age} (${typeof age})`,
+            )
+        }
+        this._age = age
+    }
+
+    set name(name: unknown) {
+        if (!isStr(name)) {
+            throw new TypeError(`User.name(): "name" must be a string. Got ${name} (${typeof name})`)
+        }
+        this._name = name
+    }
+
+    get name() {
+        return this._name
+    }
+}
+```
+
 ### 3. Don't Double-Verify
 
 If a value is merely passed through to another function, let that function handle validation. Avoid redundant checks in pass-through layers — they hurt performance and create maintenance burden.
