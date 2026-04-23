@@ -285,6 +285,31 @@ function isValidItemCount(count: unknown, maxItems: number) {
 }
 ```
 
+### 8.1 Use classes when the state is consistent and persistent
+
+If a state doesn't change that often, use a class instead of expecting it in every invocation:
+
+```typescript
+import { isStr } from 'jty'
+
+// GOOD: class encapsulates the state and related behavior
+class ItemValidator {
+    private readonly maxItems: number
+    constructor(maxItems: unknown) {
+        if (!isNum(maxItems)) {
+            throw new TypeError(`"maxItems" must be a number. Got ${maxItems} (${typeof maxItems})`)
+        }
+        this.maxItems = maxItems
+    }
+    isValidItemCount(count: unknown) {
+        if (!isNum(count)) {
+            throw new TypeError(`"count" must be a number. Got ${count} (${typeof count})`)
+        }
+        return count >= 0 && count <= this.maxItems
+    }
+}
+```
+
 ### 9. Avoid inheritance and prefer composition
 
 Inheritance can lead to tight coupling and fragile code. Prefer composition of functions and objects to achieve the desired behavior without creating complex class hierarchies.
