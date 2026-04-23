@@ -46,7 +46,7 @@ export function isObj(x: unknown): x is Exclude<object, null> {
  *
  * @example
  * isPOJO({}) => true
- * isPOJO(Object.create(null)) => false
+ * isPOJO(Object.create(null)) => true
  * isPOJO([]) => false
  * isPOJO(new Map()) => false
  * isPOJO(new Set()) => false
