@@ -45,7 +45,7 @@ import * as jty from 'jty'
 | `isFin(x)`     | `Number.isFinite(x)`                 | `x is number`            |
 | `isBool(x)`    | `typeof x === 'boolean'`             | `x is boolean`           |
 | `isSym(x)`     | `typeof x === 'symbol'`              | `x is symbol`            |
-| `isBigInt(x)`  | `typeof x === 'bigint'`              | `x is BigInt`            |
+| `isBigInt(x)`  | `typeof x === 'bigint'`              | `x is bigint`            |
 | `isDef(x)`     | `x !== undefined`                    | `x is T` (generic)       |
 | `isNullish(x)` | `x === null \|\| x === undefined`    | `x is null \| undefined` |
 | `isFn(x)`      | `typeof x === 'function'`            | `x is T` (generic)       |
@@ -59,11 +59,11 @@ import * as jty from 'jty'
 
 ### Numbers
 
-| Function                    | Check                                                                                          |
-| --------------------------- | ---------------------------------------------------------------------------------------------- |
-| `inRange(x, min?, max?)`    | Is `x` a number in `[min, max]`? At least one bound required. Throws if bounds aren't numbers. |
-| `inRangeInt(x, min?, max?)` | Same as `inRange` but also checks `x` is an integer.                                           |
-| `isIdx(x, length)`          | Is `x` an integer in `[0, length)`? Throws if `length` isn't a non-negative integer.           |
+| Function                    | Check                                                                                                                                 |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `inRange(x, min?, max?)`    | Is `x` a number in `[min, max]`? At least one bound required. Reversed bounds auto-swap. Throws `TypeError` if bounds aren't numbers. |
+| `inRangeInt(x, min?, max?)` | Same as `inRange` but also checks `x` is an integer.                                                                                  |
+| `isIdx(x, length)`          | Is `x` an integer in `[0, length)`? Throws `TypeError` for non-integer `length`, `RangeError` for negative `length`.                  |
 
 ### Arrays
 
@@ -76,45 +76,51 @@ import * as jty from 'jty'
 
 ### Objects
 
-| Function                        | Check                                                                                                                            |
-| ------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| `isObj(x)`                      | Is `x` a non-null object? (includes arrays, maps, sets, etc.)                                                                    |
-| `isPOJO(x)`                     | Is `x` a plain object literal? (`false` for arrays, maps, `Object.create(null)`, etc.)                                           |
-| `isInstance(x, Constructor)`    | Is `x` an instance of `Constructor`? Considers inheritance. Throws if `Constructor` isn't a function.                            |
-| `isInstance(x, Promise)`        | Strict Promise-instance check via `instanceof Promise`.                                                                          |
-| `isOwnInstance(x, Constructor)` | Is `x` a **direct** instance of `Constructor`? Returns `false` for subclass instances. Throws if `Constructor` isn't a function. |
-| `isPromise(x)`                  | Is `x` literally a native `Promise` instance? Strict check; does not sniff `.then()` / `.catch()`.                               |
-| `isPromiseLike(x)`              | Is `x` awaitable (`PromiseLike`) by checking for a callable `.then` method?                                                      |
-| `hasProp(x, ...keys)`           | Does object `x` have all listed properties? (includes inherited)                                                                 |
-| `hasOwnProp(x, ...keys)`        | Same as `hasProp` but only own properties.                                                                                       |
-| `hasPath(x, ...keys)`           | Does `x` have a nested property path? (includes inherited)                                                                       |
-| `hasOwnPath(x, ...keys)`        | Same as `hasPath` but only own properties.                                                                                       |
-| `isSet(x)`                      | Is `x` a `Set`?                                                                                                                  |
-| `isMap(x)`                      | Is `x` a `Map`?                                                                                                                  |
-| `isRegExp(x)`                   | Is `x` a `RegExp`?                                                                                                               |
-| `isDate(x)`                     | Is `x` a valid `Date`? (`false` for `new Date('invalid')`)                                                                       |
-| `isErr(x)`                      | Is `x` an `Error` (or subclass)?                                                                                                 |
+| Function                        | Check                                                                                                                                     |
+| ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `isObj(x)`                      | Is `x` a non-null object? (includes arrays, maps, sets, etc.)                                                                             |
+| `isPOJO(x)`                     | Is `x` a plain object? `true` for `{}` and `Object.create(null)`; `false` for arrays, Maps, Sets, and class instances.                    |
+| `isInstance(x, Constructor)`    | Is `x` an instance of `Constructor`? Considers inheritance. Throws if `Constructor` isn't a function.                                     |
+| `isInstance(x, Promise)`        | Strict Promise-instance check via `instanceof Promise`.                                                                                   |
+| `isOwnInstance(x, Constructor)` | Is `x` a **direct** instance of `Constructor`? Returns `false` for subclass instances. Throws if `Constructor` isn't a function.          |
+| `isPromise(x)`                  | Is `x` a native `Promise` instance (`instanceof`)? `true` for Promise subclasses; `false` for thenables and cross-realm Promises.         |
+| `isPromiseLike(x)`              | Does `x` have a callable `.then`? Accepts objects **or functions** with `.then`. No `.catch` required.                                    |
+| `hasProp(x, ...keys)`           | Does `x` have all listed properties? Includes inherited (`__proto__`, `constructor`, getters/setters, etc.). Returns `true` with no keys. |
+| `hasOwnProp(x, ...keys)`        | Same as `hasProp` but own properties only. Excludes inherited and prototype-defined getter/setters. Returns `true` with no keys.          |
+| `hasPath(x, ...keys)`           | Does `x` have a nested property path? Includes inherited properties at each step. Returns `false` with no keys.                           |
+| `hasOwnPath(x, ...keys)`        | Same as `hasPath` but checks own properties only at each step. Returns `false` with no keys.                                              |
+| `isSet(x)`                      | Is `x` a `Set`?                                                                                                                           |
+| `isMap(x)`                      | Is `x` a `Map`?                                                                                                                           |
+| `isRegExp(x)`                   | Is `x` a `RegExp`?                                                                                                                        |
+| `isDate(x)`                     | Is `x` a valid `Date`? (`false` for `new Date('invalid')`)                                                                                |
+| `isErr(x)`                      | Is `x` an `Error` (or subclass)?                                                                                                          |
 
 Promise checks in jty:
 
-- Use `isPromise(x)` (or `isInstance(x, Promise)`) when you need a strict native Promise instance.
-- Use `isPromiseLike(x)` when you only care that the value is awaitable and has a callable `.then`.
+- Use `isPromise(x)` for same-realm native Promises and subclasses. Cross-realm Promises (from `vm`, iframes, etc.) return `false`.
+- Use `isPromiseLike(x)` when interoperating with third-party async primitives that expose a callable `.then` method.
 
 ### Equality Comparisons
 
 All `isEqual*` functions take `(x, ref)` where `ref` is the reference value.
 They throw `TypeError` if `ref` is not the expected type.
 
-| Function                | Comparison                                                                                   |
-| ----------------------- | -------------------------------------------------------------------------------------------- |
-| `isEqualArr(x, ref)`    | Same length, same elements at each index (strict `===`)                                      |
-| `isEqualSet(x, ref)`    | Same size, same values                                                                       |
-| `isEqualMap(x, ref)`    | Same size, same key-value pairs (strict `===`)                                               |
-| `isEqualRegExp(x, ref)` | Same `source` and `flags`                                                                    |
-| `isEqualDate(x, ref)`   | Same `getTime()` value                                                                       |
-| `isEqualErr(x, ref)`    | Same `name` and `message`                                                                    |
-| `isEqualObj(x, ref)`    | Deep equality — dispatches to the appropriate `isEqual*` for known types, recurses for POJOs |
-| `isDeepEqual(x, ref)`   | General-purpose: uses `===` for primitives, `isEqualObj` for objects                         |
+| Function                | Comparison                                                                                                                           |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `isEqualArr(x, ref)`    | Same length, same elements at each index (strict `===`)                                                                              |
+| `isEqualSet(x, ref)`    | Same size, values compared with strict `===` (object references are NOT deep-compared)                                               |
+| `isEqualMap(x, ref)`    | Same size, key-value pairs compared with strict `===` (object values are NOT deep-compared)                                          |
+| `isEqualRegExp(x, ref)` | Same `source` and `flags`                                                                                                            |
+| `isEqualDate(x, ref)`   | Same `getTime()` value                                                                                                               |
+| `isEqualErr(x, ref)`    | Same `name` and `message`                                                                                                            |
+| `isEqualObj(x, ref)`    | Deep equality — dispatches to `isEqual*` per type (Array, Set, Map, Error, Date, RegExp), recurses for POJOs. **Not circular-safe.** |
+| `isDeepEqual(x, ref)`   | General-purpose deep equality: `===` for primitives, `isEqualObj` for objects. **Not circular-safe.**                                |
+
+### Exported Types
+
+| Type               | Description                                                                                                     |
+| ------------------ | --------------------------------------------------------------------------------------------------------------- |
+| `DeepRecord<K, V>` | Recursively maps a tuple of property keys `K` to a nested object type. Return type of `hasPath` / `hasOwnPath`. |
 
 ## Usage Patterns
 
@@ -135,7 +141,7 @@ function greet(name: unknown) {
 ### Validating API responses
 
 ```typescript
-import { isArr, isPOJO, isStr } from 'jty'
+import { isArrLen, isPOJO, isStr } from 'jty'
 
 function validateUsers(data: unknown): data is { name: string }[] {
     if (!isArrLen(data, 1)) {
@@ -163,9 +169,11 @@ function validateUsers(data: unknown): data is { name: string }[] {
 You can create your own type guards by composing new functions from jty primitives:
 
 ```typescript
+import { hasProp, inArr, isArr, isStr } from 'jty'
+
 const VALID_ROLES = ['system', 'user', 'assistant']
 function isMessage(x: unknown): x is { role: string; content: string } {
-    return hasProps(x, 'role', 'content') && inArr(x.role, VALID_ROLES) && isStr(x.content)
+    return hasProp(x, 'role', 'content') && inArr(x.role, VALID_ROLES) && isStr(x.content)
 }
 function isMessagesArr(x: unknown): x is { role: string; content: string }[] {
     return isArr(x) && x.every(isMessage)
