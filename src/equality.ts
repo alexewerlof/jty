@@ -1,7 +1,7 @@
+import { isArr } from './array.js'
 import { isDate, isErr, isMap, isObj, isRegExp, isSet } from './object.js'
 
 const { hasOwnProperty } = Object
-const { isArray } = Array
 
 /**
  * Checks if two arrays are the same.
@@ -28,11 +28,11 @@ const { isArray } = Array
  * @category Array
  */
 export function isEqualArr<T>(x: unknown, ref: T[]): x is typeof ref {
-    if (!isArray(ref)) {
+    if (!isArr(ref)) {
         throw new TypeError(`isEqualArr(): "ref" must be an array. Got ${JSON.stringify(ref)} (${typeof ref})`)
     }
 
-    if (!isArray(x)) {
+    if (!isArr(x)) {
         return false
     }
 
@@ -286,7 +286,7 @@ export function isEqualObj(x: unknown, ref: object): x is typeof ref {
         return false
     }
 
-    if (isArray(ref)) {
+    if (isArr(ref)) {
         return isEqualArr(x, ref)
     }
 
