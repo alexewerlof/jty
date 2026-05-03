@@ -192,7 +192,7 @@ function innerFn(name: unknown) {
 }
 ```
 
-### 4. Use Standard Error Classes
+### 4. Use The Narrowest and Most Appropriate Error Classes
 
 Throw the appropriate standard JavaScript error subclass because they add extra context about what type of expectation we had and what type of fix applies (e.g. guide the developer or AI agent to diagnose why the received type or reference was wrong):
 
@@ -203,7 +203,7 @@ Throw the appropriate standard JavaScript error subclass because they add extra 
 | `RangeError`     | Value falls outside expected boundary                              | `!inRange(x, 0, 10)`, `!isIdx()` |
 | `SyntaxError`    | Malformed structure or failure when validating parsed strings/JSON |                                  |
 
-### 5. Emit Meaningful Errors
+### 5. Emit Meaningful Error Messages
 
 A good error message should answer these questions:
 
@@ -259,7 +259,7 @@ export function formatDate(date: Date): string {
 }
 ```
 
-### 8. Use pure stateless functions whenever possible
+### 8. Use Pure Stateless Functions Whenever Possible
 
 Pure functions do not rely on or modify external state, making them easier to test, debug, and reason about. They also work better with AI agents since they don't have side effects that can lead to unexpected behaviors.
 
@@ -285,7 +285,9 @@ function isValidItemCount(count: unknown, maxItems: number) {
 }
 ```
 
-### 8.1 Use classes when the state is consistent and persistent
+If a class method does not rely on instance state, it should be a static method or a standalone function. This makes it clear that the method does not have side effects and can be used without instantiating the class.
+
+### 8.1 Use Classes When the State is Consistent and Persistent
 
 If a state doesn't change that often, use a class instead of expecting it in every invocation:
 
